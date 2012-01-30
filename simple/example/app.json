@@ -1,0 +1,10 @@
+{
+	"name" : "simple-test",
+	"version" : "0.1.0",
+	"dependencies" : [
+		"lib/jquery-1.7.1.js",
+		"lib/underscore.js",
+		"lib/jquery.history.js",
+		"lib/global.js"
+	]
+}

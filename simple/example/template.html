@@ -1,0 +1,33 @@
+{% autoescape off %}
+<html>
+<head>
+<title>Test</title>
+<script type="text/javascript" src="../lib/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="../lib/jquery.history.js"></script>
+<script type="text/javascript" src="../lib/underscore.js"></script>
+
+<script type="text/javascript">
+$.config = {{config}};
+</script>
+
+<script type="text/javascript" src="../framework/global.js"></script>
+
+<script type="text/javascript">
+{% for view in views %}
+	jQuery.registerView("{{view.name}}", 
+	//start internal func
+	function(exports){
+		{{view.controller}}
+	}
+	//end internal func
+	, "{{view.template|escapejs}}");
+{% endfor %}
+</script>
+
+</head>
+<body>
+
+
+</body>
+</html>
+{% endautoescape %}
