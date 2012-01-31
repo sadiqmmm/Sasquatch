@@ -27,7 +27,7 @@ def write_controller_js():
     views = []
     for item in os.listdir(project_dir(append="view")):
         # make sure we don't iterate over a .DS_Store or something irrelevant
-        if item.find(".erb") > -1:
+        if item.endswith(".erb") and not item.startswith("."):
             name = item.split(".")[0]
             view = read_file(project_dir(append="view/%s.erb" % name))
             controller = read_file(project_dir(append="controller/%s.js" % name))
@@ -38,7 +38,7 @@ def write_controller_js():
             })
         
     for item in os.listdir(project_dir(append="partial")):
-        if item.find("erb") > -1:
+        if item.endswith("erb") and not item.startswith("."):
             name = item.split(".")[0]
             view = read_file(project_dir(append="partial/%s.erb" % name))
             views.append({
