@@ -83,7 +83,7 @@ def write_html():
 def write_all_sass():
     print "converting sass files to css and writing to bin"
     for filename in os.listdir(project_dir(append="style")):
-        if filename.endswith("scss"):
+        if filename.endswith("scss") and not filename.startswith("."):
             write_sass(filename)
 
 def write_sass(filename):
