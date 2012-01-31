@@ -22,35 +22,43 @@ def write_file(location, txt):
 ##############
 #  Dev 
 ##############
+
 def write_controller_js():
     print "Writing controller.js file to bin"
-    views = []
     for item in os.listdir(project_dir(append="view")):
         # make sure we don't iterate over a .DS_Store or something irrelevant
         if item.endswith(".erb") and not item.startswith("."):
             name = item.split(".")[0]
             view = read_file(project_dir(append="view/%s.erb" % name))
             controller = read_file(project_dir(append="controller/%s.js" % name))
+            views = []
             views.append({
                 "name" : name,
                 "template" : view,
                 "controller" : controller
             })
+            result = render_to_string("controller.js", {
+                "views" : views,
+            })
+            write_file(bin_dir(append="scripts/%s.js" % name), result)
+            
         
     for item in os.listdir(project_dir(append="partial")):
         if item.endswith(".erb") and not item.startswith("."):
             name = item.split(".")[0]
             view = read_file(project_dir(append="partial/%s.erb" % name))
+            views = []
             views.append({
                 "name" : name,
                 "template" : view,
                 "controller" : ""
             })
+            result = render_to_string("controller.js", {
+                "views" : views,
+            })
+            write_file(bin_dir(append="scripts/%s.js" % name), result)
         
-    result = render_to_string("controller.js", {
-        "views" : views,
-    })
-    write_file(bin_dir(append="controller.js"), result)
+    
 
 def write_config_js():
     print "writing config.js file to bin"
@@ -60,7 +68,7 @@ def write_config_js():
     except:
         raise Exception("Invalid JSON in the config.json. Please validate your configuration.")
     result = "$.config = %s" % config
-    write_file(bin_dir(append="config.js"), result)
+    write_file(bin_dir(append="scripts/config.js"), result)
 
 def write_dep_js():
     print "writing core.js file to bin"
@@ -71,12 +79,26 @@ def write_dep_js():
         source += u"\n//******************\n//  file:%s\n//******************\n" % item
         a = read_file(project_dir(append=item))
         source += a
-    write_file(bin_dir(append="core.js"), source)
+    write_file(bin_dir(append="scripts/core.js"), source)
 
 def write_html():
     print "writing index.html to bin"
+    
+    # iterate over files and subfiles in bin for css and scripts
+    scripts = ["scripts/core.js", "scripts/config.js"]
+    for item in os.listdir(bin_dir(append="scripts")):
+        loc = "scripts/%s" % item
+        if loc not in scripts:
+            scripts.append(loc)
+        
+    styles = []
+    for item in os.listdir(bin_dir(append="styles")):
+        styles.append("styles/%s" % item)
+        
+    
     result = render_to_string("template.html", {
-        "scripts" : ["core.js", "config.js", "controller.js"]
+        "scripts" : scripts,
+        "styles" : styles
     })
     write_file(bin_dir(append="index.html"), result)
 
@@ -90,7 +112,7 @@ def write_sass(filename):
     filename = filename.replace(".scss", "")
     print "writing %s.css to bin" % filename
     scss_file = project_dir(append="style/%s.scss" % filename)
-    css_file = project_dir(append="bin/%s.css" % filename)
+    css_file = bin_dir(append="styles/%s.css" % filename)
     result = subprocess.call(["sass", scss_file, css_file])
     if result > 0:
         raise Exception("Error processing SASS file >> %s -> %s" % (scss_file, css_file))
@@ -98,7 +120,7 @@ def write_sass(filename):
 def write_sprites():
     print "generating spritesheet awesomeness..."
     start_folder = project_dir(append="sprites")
-    dest_folder = bin_dir(append="sprites")
+    dest_folder = bin_dir(append="styles")
     result = subprocess.call(["glue", start_folder, dest_folder, "--simple"])
     if result > 0:
         raise Exception("Error generating spritesheet")
@@ -140,6 +162,8 @@ def _clean():
     if os.path.exists(bin_dir()):
         shutil.rmtree(bin_dir())
     os.mkdir("bin")
+    os.mkdir("bin/scripts")
+    os.mkdir("bin/styles")
 
 def clean(f):
     def inner():
