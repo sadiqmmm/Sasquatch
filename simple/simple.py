@@ -38,7 +38,7 @@ def write_controller_js():
             })
         
     for item in os.listdir(project_dir(append="partial")):
-        if item.endswith("erb") and not item.startswith("."):
+        if item.endswith(".erb") and not item.startswith("."):
             name = item.split(".")[0]
             view = read_file(project_dir(append="partial/%s.erb" % name))
             views.append({
@@ -94,6 +94,14 @@ def write_sass(filename):
     result = subprocess.call(["sass", scss_file, css_file])
     if result > 0:
         raise Exception("Error processing SASS file >> %s -> %s" % (scss_file, css_file))
+    
+def write_sprites():
+    print "generating spritesheet awesomeness..."
+    start_folder = project_dir(append="sprites")
+    dest_folder = bin_dir(append="sprites")
+    result = subprocess.call(["glue", start_folder, dest_folder, "--simple"])
+    if result > 0:
+        raise Exception("Error generating spritesheet")
     
 
 ##############
@@ -190,24 +198,28 @@ class DevEventHandler(FileSystemEventHandler):
         write_controller_js()
         write_dep_js()
         write_all_sass()
+        write_sprites()
         write_html()
     
     def partial(self, event):
-        if event.is_directory or path.basename(event.src_path).startswith("."):
+        src_path = event.src_path
+        basename = path.basename(src_path)
+        if event.is_directory or basename.startswith("."):
             return
         
-        style_path = project_dir(append="style")
-        if event.src_path.startswith(style_path):
-            filename = event.src_path.replace(style_path, "")
-            return write_sass(filename)
-        elif event.src_path == project_dir(append="template.html"):
+        if src_path.startswith(project_dir(append="style")):
+            write_sass(basename)
+        elif src_path == project_dir(append="template.html"):
             write_html()
-        elif event.src_path == project_dir(append="config.json"):
+        elif src_path == project_dir(append="config.json"):
             write_config()
-        elif event.src_path.startswith(project_dir(append="controller")) and event.src_path.endswith(".js"):
+        elif src_path.startswith(project_dir(append="controller")) and basename.endswith(".js"):
             write_controller_js()
-        elif event.src_path == project_dir(append="app.json"):
+        elif src_path == project_dir(append="app.json"):
             write_dep_js()
+        elif src_path.startswith(project_dir(append="sprites")):
+            write_sprites()
+        
         
     
     @skip_bin
