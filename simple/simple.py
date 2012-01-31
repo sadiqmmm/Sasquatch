@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys, os, shutil, json, codecs, subprocess
+from os import path
 
 import time
 from watchdog.observers import Observer
@@ -192,7 +193,7 @@ class DevEventHandler(FileSystemEventHandler):
         write_html()
     
     def partial(self, event):
-        if event.is_directory:
+        if event.is_directory or path.basename(event.src_path).startswith("."):
             return
         
         style_path = project_dir(append="style")
