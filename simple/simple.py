@@ -199,7 +199,7 @@ class DevEventHandler(FileSystemEventHandler):
         style_path = project_dir(append="style")
         if event.src_path.startswith(style_path):
             filename = event.src_path.replace(style_path, "")
-            return write_scss(filename)
+            return write_sass(filename)
         elif event.src_path == project_dir(append="template.html"):
             write_html()
         elif event.src_path == project_dir(append="config.json"):
