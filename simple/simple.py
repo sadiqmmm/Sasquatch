@@ -275,7 +275,7 @@ class DevEventHandler(FileSystemEventHandler):
             write_config()
         elif src_path.startswith(project_dir(append="controller")) and basename.endswith(".js"):
             write_controller_js()
-        elif src_path == project_dir(append="app.json"):
+        elif src_path == project_dir(append="app.json") or src_path.startswith(project_dir(append="lib")):
             write_dep_js()
         elif src_path.startswith(project_dir(append="sprites")):
             write_sprites()
@@ -335,7 +335,9 @@ def dev():
 
 @clean
 def prod():
-    pass
+    # first time around do new build
+    handler = DevEventHandler()
+    handler.all(clean_proj=False)
 
 def main():
     '''
