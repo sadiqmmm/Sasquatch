@@ -36,9 +36,6 @@ $.routes.push(r);
 
 //setup hasher
 hasher.initialized.add(function(request){
-	if(request == ""){
-		arguments[0] = "/"
-	}
 	crossroads.parse.apply(crossroads, arguments);
 }, crossroads);
 hasher.changed.add(crossroads.parse, crossroads);
