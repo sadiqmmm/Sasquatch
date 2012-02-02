@@ -24,6 +24,9 @@ var r = crossroads.addRoute("{{route.pattern}}", function(params){
 	var controller = {% if route.controller %}"{{route.controller}}"{% else %}params.controller{% endif %};
 	$.applyView(controller, params);
 });
+{% if route.controller %}
+r.controller = "{{route.controller}}";
+{% endif %}
 $.routes.push(r);
 
 //**************************************
