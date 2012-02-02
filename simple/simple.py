@@ -142,7 +142,11 @@ def write_routes():
     
     result = render_to_string("routes.js", { "routes" : r })
     write_file(bin_dir(append="scripts/routes.js"), result)
-    
+
+def copy_img():
+    start_path = project_dir(append="img")
+    end_path = bin_dir(append="img")
+    shutil.copytree(start_path, end_path)
 
 ##############
 #  File References 
@@ -259,6 +263,7 @@ class DevEventHandler(FileSystemEventHandler):
         write_dep_js()
         write_all_sass()
         write_sprites()
+        copy_img()
         write_html()
     
     def partial(self, event):
@@ -275,12 +280,16 @@ class DevEventHandler(FileSystemEventHandler):
             write_config()
         elif src_path.startswith(project_dir(append="controller")) and basename.endswith(".js"):
             write_controller_js()
+        elif src_path.startswith(project_dir(append="view")) and not basename.startswith("."):
+            write_controller_js()
         elif src_path == project_dir(append="app.json") or src_path.startswith(project_dir(append="lib")):
             write_dep_js()
         elif src_path.startswith(project_dir(append="sprites")):
             write_sprites()
         elif src_path.startswith(project_dir(append="routes.json")):
             write_routes()
+        elif src_path.startswith(project_dir(append="img")):
+            copy_img()
         
         
     
