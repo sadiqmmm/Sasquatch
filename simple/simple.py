@@ -85,7 +85,7 @@ def write_html():
     print "writing index.html to bin"
     
     # iterate over files and subfiles in bin for css and scripts
-    scripts = ["scripts/core.js", "scripts/config.js"]
+    scripts = ["scripts/core.js", "scripts/config.js", "scripts/routes.js"]
     for item in os.listdir(bin_dir(append="scripts")):
         loc = "scripts/%s" % item
         if loc not in scripts:
@@ -124,6 +124,24 @@ def write_sprites():
     result = subprocess.call(["glue", start_folder, dest_folder, "--simple"])
     if result > 0:
         raise Exception("Error generating spritesheet")
+    
+
+def write_routes():
+    print "writing routes to bin"
+    routes = read_file(project_dir("routes.json"))
+    try:
+        routes = json.loads(routes)
+    except:
+        raise Exception("Invalid JSON in the routes.json. Please validate your configuration.")
+    
+    r = []
+    for name in routes:
+        o = routes[name]
+        o["pattern"] = name
+        r.append(o)
+    
+    result = render_to_string("routes.js", { "routes" : r })
+    write_file(bin_dir(append="scripts/routes.js"), result)
     
 
 ##############
@@ -199,6 +217,23 @@ def create_project():
             print "skipped %s. already exists." % f
         
 
+def update_framework():
+    lib_dir = script_dir(append="example/lib")
+    for f in os.listdir(lib_dir):
+        end_path = project_dir(append="lib/%s" % f)
+        start_path = os.path.join(lib_dir, f)
+        if not os.path.exists(end_path):
+            print "creating file >> %s" % start_path
+        else:
+            print "overwriting %s." % f
+        
+        if os.path.isdir(start_path):
+            shutil.copytree(start_path, end_path)
+        else:
+            shutil.copy(start_path, end_path)
+        
+    
+
 def skip_bin(f):
     '''
     TODO: Make this more generic
@@ -219,6 +254,7 @@ class DevEventHandler(FileSystemEventHandler):
         if clean_proj:
             _clean()
         write_config_js()
+        write_routes()
         write_controller_js()
         write_dep_js()
         write_all_sass()
@@ -243,6 +279,8 @@ class DevEventHandler(FileSystemEventHandler):
             write_dep_js()
         elif src_path.startswith(project_dir(append="sprites")):
             write_sprites()
+        elif src_path.startswith(project_dir(append="routes.json")):
+            write_routes()
         
         
     
@@ -311,6 +349,8 @@ def main():
     
     if cmd == "create-project":
         return create_project()
+    elif cmd == "update-framework":
+        return update_framework()
     elif cmd == "clean":
         return _clean()
     elif cmd == "dev":
