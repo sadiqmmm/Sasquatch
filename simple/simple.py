@@ -7,6 +7,9 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+############################
+##  File Utilities
+############################
 
 def read_file(location):
     f = codecs.open(location, encoding='utf-8', mode="rb")
@@ -19,18 +22,20 @@ def write_file(location, txt):
     f.write(txt)
     f.close()
 
-##############
-#  Dev 
-##############
+############################
+##  Dev Build System
+############################
 
-def write_controller_js():
-    print "Writing controller.js file to bin"
-    for item in os.listdir(project_dir(append="view")):
+def __write_controller_js(folder, skip_controller=False):
+    for item in os.listdir(folder):
         # make sure we don't iterate over a .DS_Store or something irrelevant
         if item.endswith(".erb") and not item.startswith("."):
             name = item.split(".")[0]
-            view = read_file(project_dir(append="view/%s.erb" % name))
-            controller = read_file(project_dir(append="controller/%s.js" % name))
+            view = read_file("%s/%s.erb" % (folder, name))
+            if not skip_controller:
+                controller = read_file(project_dir(append="controller/%s.js" % name))
+            else:
+                controller = ""
             views = []
             views.append({
                 "name" : name,
@@ -41,24 +46,13 @@ def write_controller_js():
                 "views" : views,
             })
             write_file(bin_dir(append="scripts/%s.js" % name), result)
-            
-        
-    for item in os.listdir(project_dir(append="partial")):
-        if item.endswith(".erb") and not item.startswith("."):
-            name = item.split(".")[0]
-            view = read_file(project_dir(append="partial/%s.erb" % name))
-            views = []
-            views.append({
-                "name" : name,
-                "template" : view,
-                "controller" : ""
-            })
-            result = render_to_string("controller.js", {
-                "views" : views,
-            })
-            write_file(bin_dir(append="scripts/%s.js" % name), result)
-        
     
+
+def write_controller_js():
+    print "Writing controller.js file to bin"
+    __write_controller_js(project_dir(append="view"))
+    __write_controller_js(project_dir(append="partial"), True)
+
 
 def write_config_js():
     print "writing config.js file to bin"
@@ -74,18 +68,28 @@ def write_dep_js():
     print "writing core.js file to bin"
     app_json = read_file(project_dir(append="app.json"))
     app_conf = json.loads(app_json)
-    source = u""
     for item in app_conf["dependencies"]:
-        source += u"\n//******************\n//  file:%s\n//******************\n" % item
-        a = read_file(project_dir(append=item))
-        source += a
-    write_file(bin_dir(append="scripts/core.js"), source)
+        filename = project_dir(append=item)
+        source = read_file(filename)
+        basename = path.basename(filename)
+        write_file(bin_dir(append="scripts/%s" % basename), source)
+    
 
 def write_html():
     print "writing index.html to bin"
     
+    app_json = read_file(project_dir(append="app.json"))
+    app_conf = json.loads(app_json)
+    scripts = []
+    for item in app_conf["dependencies"]:
+        basename = path.basename(item)
+        scripts.append("scripts/%s" % basename)
+    
+    
+    
     # iterate over files and subfiles in bin for css and scripts
-    scripts = ["scripts/core.js", "scripts/config.js", "scripts/routes.js"]
+    scripts.append("scripts/config.js")
+    scripts.append("scripts/routes.js")
     for item in os.listdir(bin_dir(append="scripts")):
         loc = "scripts/%s" % item
         if loc not in scripts:
@@ -148,96 +152,6 @@ def copy_img():
     end_path = bin_dir(append="img")
     shutil.copytree(start_path, end_path)
 
-##############
-#  File References 
-##############
-
-def project_dir(append=None):
-    base = os.getcwd()
-    if append is not None:
-        return os.path.join(base, append)
-    return base
-    
-
-def bin_dir(append=None):
-    base = project_dir(append="bin")
-    if append is not None:
-        return os.path.join(base, append)
-    return base
-
-def script_dir(append=None):
-    file_location = None
-    try:
-        file_location = os.path.dirname(__file__)
-    except:
-        file_location = "./"
-    
-    if append is not None:
-        return os.path.join(file_location, append)
-    return file_location
-
-##############
-#  Utility Methods 
-##############
-
-def _clean():
-    if os.path.exists(bin_dir()):
-        shutil.rmtree(bin_dir())
-    os.mkdir("bin")
-    os.mkdir("bin/scripts")
-    os.mkdir("bin/styles")
-
-def clean(f):
-    def inner():
-        _clean()
-        f()
-    return inner
-
-##############
-#  Command Line Options
-##############
-
-def help():
-    print '''
-    You should probably mention that I need to get filled out.
-    Email todd@thoughtleadr.com and tell him to get on it!
-    '''
-
-@clean
-def create_project():
-    example_dir = script_dir("example")
-    for f in os.listdir(example_dir):
-        end_path = project_dir(append=f)
-        start_path = os.path.join(example_dir, f)
-        print f
-        if not os.path.exists(end_path):
-            print "start path: %s" % start_path
-            if os.path.isdir(start_path):
-                shutil.copytree(start_path, end_path)
-            else:
-                shutil.copy(start_path, end_path)
-            
-        else:
-            print "skipped %s. already exists." % f
-        
-
-def update_framework():
-    lib_dir = script_dir(append="example/lib")
-    for f in os.listdir(lib_dir):
-        end_path = project_dir(append="lib/%s" % f)
-        start_path = os.path.join(lib_dir, f)
-        if not os.path.exists(end_path):
-            print "creating file >> %s" % start_path
-        else:
-            print "overwriting %s." % f
-        
-        if os.path.isdir(start_path):
-            shutil.copytree(start_path, end_path)
-        else:
-            shutil.copy(start_path, end_path)
-        
-    
-
 def skip_bin(f):
     '''
     TODO: Make this more generic
@@ -280,7 +194,7 @@ class DevEventHandler(FileSystemEventHandler):
             write_config()
         elif src_path.startswith(project_dir(append="controller")) and basename.endswith(".js"):
             write_controller_js()
-        elif src_path.startswith(project_dir(append="view")) and not basename.startswith("."):
+        elif src_path.startswith(project_dir(append="view")):
             write_controller_js()
         elif src_path == project_dir(append="app.json") or src_path.startswith(project_dir(append="lib")):
             write_dep_js()
@@ -290,7 +204,6 @@ class DevEventHandler(FileSystemEventHandler):
             write_routes()
         elif src_path.startswith(project_dir(append="img")):
             copy_img()
-        
         
     
     @skip_bin
@@ -323,8 +236,96 @@ class DevEventHandler(FileSystemEventHandler):
         what = 'directory' if event.is_directory else 'file'
         print "Modified %s: %s" % (what, event.src_path)
         self.partial(event)
+    
+############################
+##  File References 
+############################
+
+def project_dir(append=None):
+    base = os.getcwd()
+    if append is not None:
+        return os.path.join(base, append)
+    return base
+    
+
+def bin_dir(append=None):
+    base = project_dir(append="bin")
+    if append is not None:
+        return os.path.join(base, append)
+    return base
+
+def script_dir(append=None):
+    file_location = None
+    try:
+        file_location = os.path.dirname(__file__)
+    except:
+        file_location = "./"
+    
+    if append is not None:
+        return os.path.join(file_location, append)
+    return file_location
+
+############################
+##  Utility Methods 
+############################
+
+def _clean():
+    if os.path.exists(bin_dir()):
+        shutil.rmtree(bin_dir())
+    os.mkdir("bin")
+    os.mkdir("bin/scripts")
+    os.mkdir("bin/styles")
+
+def clean(f):
+    def inner():
+        _clean()
+        f()
+    return inner
+
+############################
+##  Command Line Options
+############################
+
+def help():
+    print '''
+    You should probably mention that I need to get filled out.
+    Email todd@thoughtleadr.com and tell him to get on it!
+    '''
+
+@clean
+def create_project():
+    example_dir = script_dir("example")
+    for f in os.listdir(example_dir):
+        end_path = project_dir(append=f)
+        start_path = os.path.join(example_dir, f)
+        print f
+        if not os.path.exists(end_path):
+            print "start path: %s" % start_path
+            if os.path.isdir(start_path):
+                shutil.copytree(start_path, end_path)
+            else:
+                shutil.copy(start_path, end_path)
+            
+        else:
+            print "skipped %s. already exists." % f
         
+
+def update_framework():
+    lib_dir = script_dir(append="example/lib")
+    for f in os.listdir(lib_dir):
+        end_path = project_dir(append="lib/%s" % f)
+        start_path = os.path.join(lib_dir, f)
+        if not os.path.exists(end_path):
+            print "creating file >> %s" % start_path
+        else:
+            print "overwriting %s." % f
         
+        if os.path.isdir(start_path):
+            shutil.copytree(start_path, end_path)
+        else:
+            shutil.copy(start_path, end_path)
+        
+      
 
 @clean
 def dev():
