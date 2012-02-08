@@ -3,7 +3,7 @@
 import sys, os, shutil, json, codecs, subprocess
 from os import path
 
-import time
+import time, re
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -64,6 +64,9 @@ def write_config_js():
     result = "$.config = %s" % config
     write_file(bin_dir(append="scripts/config.js"), result)
 
+def flatten_name(filename):
+    return re.sub("\/", "-", filename)
+
 def write_dep_js():
     print "writing core.js file to bin"
     app_json = read_file(project_dir(append="app.json"))
@@ -71,7 +74,7 @@ def write_dep_js():
     for item in app_conf["dependencies"]:
         filename = project_dir(append=item)
         source = read_file(filename)
-        basename = path.basename(filename)
+        basename = flatten_name(item)
         write_file(bin_dir(append="scripts/%s" % basename), source)
     
 
@@ -82,10 +85,8 @@ def write_html():
     app_conf = json.loads(app_json)
     scripts = []
     for item in app_conf["dependencies"]:
-        basename = path.basename(item)
+        basename = flatten_name(item)
         scripts.append("scripts/%s" % basename)
-    
-    
     
     # iterate over files and subfiles in bin for css and scripts
     scripts.append("scripts/config.js")
