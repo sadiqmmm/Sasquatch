@@ -1,1 +1,9 @@
-README
+
+
+Installation
+
+Prerequisites:
+- Python 2.6.1+
+- SASS
+- Glue
+- Watchdog
