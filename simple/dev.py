@@ -8,9 +8,6 @@ import time, re
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-from django.conf import settings
-settings.configure(TEMPLATE_DIRS=[project_dir(), script_dir(append="templates")])
-
 from django.template.loader import render_to_string
 
 
@@ -19,9 +16,11 @@ class DevBuild(BaseBuild):
     Dev Build System
     '''
     
-    def __write_single_controller_js(self, folder, item, skip_controller=False):
-        print "FOLDER >> %s" % folder
-        print "ITEM >> %s" % item
+    ################################
+    #   Controller JS
+    ################################
+    
+    def _prep_single_controller_js(self, folder, item, skip_controller=False):
         name = item.split(".")[0]
         view = read_file("%s/%s.erb" % (folder, name))
         if not skip_controller:
@@ -38,6 +37,12 @@ class DevBuild(BaseBuild):
         result = render_to_string("controller.js", {
             "views" : views,
         })
+        return result
+        
+    
+    def __write_single_controller_js(self, folder, item, skip_controller=False):
+        name = item.split(".")[0]
+        result = self.__prep_single_controller_js(folder, item, skip_controller)
         out_filename = self.bin_dir(append="scripts/%s.js" % name)
         write_file(out_filename, result)
         
@@ -56,8 +61,10 @@ class DevBuild(BaseBuild):
         partial_dir = project_dir(append="partial")
         self.__write_controller_js(partial_dir, True)
     
-    def write_config_js(self):
-        print "writing config.js file to bin"
+    ################################
+    #   config.js
+    ################################
+    def prep_config_js(self):
         config_file = self.project_dir("config.json")
         config = read_file(config_file)
         try:
@@ -65,9 +72,17 @@ class DevBuild(BaseBuild):
         except Exception, e:
             raise Exception("Invalid JSON in the config.json. Please validate your configuration. file location => %s :: %s" % (config_file, e))
         result = "$.config = %s;" % config
+        return result
+        
+    def write_config_js(self):
+        print "writing config.js file to bin"
+        result = self.prep_config_js()
         config_filename = self.bin_dir(append="scripts/config.js")
         write_file(config_filename, result)
-
+    
+    ################################
+    #   JS Libraries
+    ################################
     def flatten_name(self, filename):
         return re.sub("\/", "-", filename)
     
@@ -78,17 +93,30 @@ class DevBuild(BaseBuild):
         script_name = self.bin_dir(append="scripts/%s" % basename)
         write_file(script_name, source)
     
-    def write_dep_js(self):
-        print "writing core.js file to bin"
+    def load_app_json(self):
         app_filename = self.project_dir(append="app.json")
         app_json = read_file(app_filename)
         app_conf = json.loads(app_json)
+        return app_conf
+    
+    def write_dep_js(self):
+        print "writing core.js file to bin"
+        app_conf = self.load_app_json()
         for item in app_conf["dependencies"]:
             self.copy_dep_js(item)
         
+    ################################
+    #   HTML Template
+    ################################
     
-    def write_html(self):
-        print "writing index.html to bin"
+    def find_style_deps(self):
+        styles = []
+        styles_dir = self.bin_dir(append="styles")
+        for item in os.listdir(styles_dir):
+            styles.append("styles/%s" % item)
+        return styles
+    
+    def find_js_deps(self):
         app_filename = self.project_dir(append="app.json")
         app_json = read_file(app_filename)
         app_conf = json.loads(app_json)
@@ -105,19 +133,26 @@ class DevBuild(BaseBuild):
             loc = "scripts/%s" % item
             if loc not in scripts:
                 scripts.append(loc)
-        
-        styles = []
-        styles_dir = self.bin_dir(append="styles")
-        for item in os.listdir(styles_dir):
-            styles.append("styles/%s" % item)
+        return scripts
     
+    def write_html(self):
+        print "writing index.html to bin"
+        scripts = self.find_js_deps()
+        styles = self.find_style_deps()
+        self.write_html_index(scripts, styles)
+    
+    def write_html_index(self, scripts, styles):
         result = render_to_string("template.html", {
             "scripts" : scripts,
             "styles" : styles
         })
         index_filename = self.bin_dir(append="index.html")
         write_file(index_filename, result)
-
+    
+    ################################
+    #   CSS & Images
+    ################################
+    
     def write_all_sass(self):
         print "converting sass files to css and writing to bin"
         style_dir = self.project_dir(append="style")
@@ -143,9 +178,16 @@ class DevBuild(BaseBuild):
         if result > 0:
             raise Exception("Error generating spritesheet")
     
-
-    def write_routes(self):
-        print "writing routes to bin"
+    def copy_img(self):
+        start_path = self.project_dir(append="img")
+        end_path = self.bin_dir(append="img")
+        shutil.copytree(start_path, end_path)
+    
+    ################################
+    #   Routes
+    ################################
+    
+    def prep_routes_js(self):
         route_filename = self.project_dir("routes.json")
         routes = read_file(route_filename)
         try:
@@ -160,13 +202,13 @@ class DevBuild(BaseBuild):
             r.append(o)
     
         result = render_to_string("routes.js", { "routes" : r })
+        return result
+    
+    def write_routes(self):
+        print "writing routes to bin"
+        result = self.prep_routes_js()
         route_filename = self.bin_dir(append="scripts/routes.js")
         write_file(route_filename, result)
-
-    def copy_img(self):
-        start_path = self.project_dir(append="img")
-        end_path = self.bin_dir(append="img")
-        shutil.copytree(start_path, end_path)
     
     ############################
     ##  Dev Event Handling

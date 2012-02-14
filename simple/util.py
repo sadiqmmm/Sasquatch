@@ -22,6 +22,7 @@ def write_file(location, txt):
 
 def project_dir(append=None):
     base = os.getcwd()
+    print "BASE >> %s " % base
     if append is not None:
         return os.path.join(base, append)
     return base

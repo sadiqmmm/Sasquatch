@@ -120,6 +120,15 @@ def main():
         return help()
     
 
+p = project_dir()
+s = script_dir(append="templates")
+template_dirs = [p, s]
+print "TEMPLATE_DIRS %s" % template_dirs
+
+from django.conf import settings
+settings.configure(TEMPLATE_DIRS=template_dirs)
+
+
 if __name__ == "__main__":
     main()
 

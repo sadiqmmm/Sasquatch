@@ -1,13 +1,13 @@
-
+from util import *
+import sys, os, shutil, json, subprocess
 from watchdog.events import FileSystemEventHandler
-
-
 
 class BaseBuild(FileSystemEventHandler):
     
     def __init__(self, project_dir, script_dir):
         self.__project = project_dir
         self.__script = script_dir
+        self.__bin = "%s/bin" % self.__project
     
     #######################
     #   File Utils
@@ -24,15 +24,15 @@ class BaseBuild(FileSystemEventHandler):
     
     def bin_dir(self, append=None):
         if append is not None:
-            return "%s/bin/%s" % (self.__project, append)
-        return self.__project
+            return "%s/%s" % (self.__bin, append)
+        return self.__bin
     
     def clean(self):
         if os.path.exists(self.bin_dir()):
             shutil.rmtree(self.bin_dir())
-        os.mkdir(self.project_dir(append="bin"))
-        os.mkdir(self.project_dir(append="bin/scripts"))
-        os.mkdir(self.project_dir(append="bin/styles"))
+        os.mkdir("bin")
+        os.mkdir("bin/scripts")
+        os.mkdir("bin/styles")
     
     def skip_bin(self, path):
         if path.find(self.bin_dir()) > -1:
