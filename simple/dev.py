@@ -42,7 +42,7 @@ class DevBuild(BaseBuild):
     
     def __write_single_controller_js(self, folder, item, skip_controller=False):
         name = item.split(".")[0]
-        result = self.__prep_single_controller_js(folder, item, skip_controller)
+        result = self._prep_single_controller_js(folder, item, skip_controller)
         out_filename = self.bin_dir(append="scripts/%s.js" % name)
         write_file(out_filename, result)
         
