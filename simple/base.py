@@ -36,8 +36,8 @@ class BaseBuild(FileSystemEventHandler):
     
     def skip_bin(self, path):
         if path.find(self.bin_dir()) > -1:
-            return False
-        return True
+            return True
+        return False
     
     
     
@@ -82,5 +82,6 @@ class BaseBuild(FileSystemEventHandler):
         print "Modified %s: %s" % (what, event.src_path)
         if not self.skip_bin(event.src_path):
             self.partial(event)
+        
         
     

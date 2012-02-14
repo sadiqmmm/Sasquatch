@@ -230,29 +230,42 @@ class DevBuild(BaseBuild):
         src_path = event.src_path
         basename = path.basename(src_path)
         if event.is_directory or basename.startswith("."):
+            print "no action"
             return
         
         if src_path.startswith(self.project_dir(append="style")):
+            print "partial sass."
             self.write_sass(basename)
         elif src_path == self.project_dir(append="template.html"):
+            print "template rewrite"
             self.write_html()
         elif src_path == self.project_dir(append="config.json"):
+            print "config rewrite"
             self.write_config_js()
         elif src_path.startswith(self.project_dir(append="controller")) and basename.endswith(".js"):
+            print "single controller rewrite"
             self.__write_single_controller_js(self.project_dir("view"), basename)
         elif src_path.startswith(self.project_dir(append="view")):
+            print "rewrite all controllers"
             self.write_controller_js()
         elif src_path == self.project_dir(append="app.json"):
+            print "rewrite all deps"
             self.write_dep_js()
         elif src_path.startswith(self.project_dir(append="lib")):
             sub_path = src_path.replace(self.project_dir()+"/", "")
+            print "copy dependency -> %s" % sub_path
             self.copy_dep_js(sub_path)
         elif src_path.startswith(self.project_dir(append="sprites")):
+            print "rewrite sprites"
             self.write_sprites()
         elif src_path.startswith(self.project_dir(append="routes.json")):
+            print "rewrite routes"
             self.write_routes()
         elif src_path.startswith(self.project_dir(append="img")):
+            print "copy images"
             self.copy_img()
+        else:
+            print "no action*"
         
     
     
