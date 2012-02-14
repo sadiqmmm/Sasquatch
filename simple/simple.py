@@ -4,7 +4,8 @@ import sys, os, shutil, json, subprocess
 from os import path
 
 from util import *
-from dev import *
+from dev import DevBuild
+from prod import ProdBuild
 
 import time, re
 from watchdog.observers import Observer
@@ -76,7 +77,7 @@ def update_framework():
 @clean
 def dev():
     # first time around do new build
-    handler = DevEventHandler()
+    handler = DevBuild(project_dir(), script_dir())
     handler.all(clean_proj=False)
     
     observer = Observer()
@@ -92,7 +93,7 @@ def dev():
 @clean
 def prod():
     # first time around do new build
-    handler = DevEventHandler()
+    handler = ProdBuild(project_dir(), script_dir())
     handler.all(clean_proj=False)
 
 def main():
