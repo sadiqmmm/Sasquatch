@@ -216,7 +216,7 @@ class DevBuild(BaseBuild):
     
     def all(self, clean_proj=True):
         if clean_proj:
-            _clean()
+            self.clean()
         self.write_config_js()
         self.write_routes()
         self.write_controller_js()
