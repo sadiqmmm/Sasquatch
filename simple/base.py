@@ -47,6 +47,16 @@ class BaseBuild(FileSystemEventHandler):
     def partial(self, event):
         pass
     
+    def wrapped_partial(self, event):
+        if not self.skip_bin(event.src_path):
+            try:
+                self.partial(event)
+            except Exception, e:
+                print "## Exception during a partial recompile ##"
+                print "Error => %s" % str(e)
+        
+        
+    
     def on_moved(self, event):
         super(BaseBuild, self).on_moved(event)
         
@@ -62,9 +72,7 @@ class BaseBuild(FileSystemEventHandler):
         what = 'directory' if event.is_directory else 'file'
         print "Created %s: %s" % (what, event.src_path)
         
-        if not self.skip_bin(event.src_path):
-            self.partial(event)
-        
+        self.wrapped_partial(event)
     
     def on_deleted(self, event):
         super(BaseBuild, self).on_deleted(event)
@@ -80,8 +88,5 @@ class BaseBuild(FileSystemEventHandler):
         super(BaseBuild, self).on_modified(event)
         what = 'directory' if event.is_directory else 'file'
         print "Modified %s: %s" % (what, event.src_path)
-        if not self.skip_bin(event.src_path):
-            self.partial(event)
-        
-        
+        self.wrapped_partial(event)
     

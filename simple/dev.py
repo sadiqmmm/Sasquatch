@@ -1,4 +1,5 @@
 import sys, os, shutil, json, subprocess
+from multiprocessing import Process, Array
 from os import path
 
 from util import *
@@ -9,6 +10,15 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 from django.template.loader import render_to_string
+
+
+def build_scss(scss_file, css_file, result):
+    try:
+        subprocess.call(["sass", scss_file, css_file])
+    except Exception, e:
+        pass#result.value = 'error'#str(e)
+        
+    
 
 
 class DevBuild(BaseBuild):
@@ -163,12 +173,20 @@ class DevBuild(BaseBuild):
     def write_sass(self, filename):
         filename = filename.replace(".scss", "")
         print "writing %s.css to bin" % filename
-        
+                
         scss_file = self.project_dir(append="style/%s.scss" % filename)
         css_file = self.bin_dir(append="styles/%s.css" % filename)
-        result = subprocess.call(["sass", scss_file, css_file])
-        if result > 0:
-            raise Exception("Error processing SASS file >> %s -> %s" % (scss_file, css_file))
+        result_value = Array('c', '')
+        
+        sass_process = Process(target=build_scss, args=(scss_file, css_file, result_value))
+        sass_process.start()
+        sass_process.join()
+        
+        if len(result_value.value) > 0:
+            print "Failed converting SCSS - %s >> %s" % (scss_file, css_file)
+            print "Error >> %s" % result_value.value.join('')
+        
+        
     
     def write_sprites(self):
         print "generating spritesheet awesomeness..."
