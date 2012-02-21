@@ -184,12 +184,16 @@ class DevBuild(BaseBuild):
         external_process("glue", start_folder, "--img=%s" % img_folder, "--css=%s" % sass_folder, "--simple", "--crop")
         
         orig = read_file(self.bin_dir("sass/_app.scss"))
-        add_on = read_file(self.bin_dir("sass/sprites.scss"))
         
-        write_file(self.bin_dir("sass/app.scss"), add_on + orig)
+        if(os.path.exists(self.bin_dir("sass/sprites.scss"))):
+            add_on = read_file(self.bin_dir("sass/sprites.scss"))
+            write_file(self.bin_dir("sass/app.scss"), add_on + orig)
+            os.remove(self.bin_dir("sass/_app.scss"))
+            os.remove(self.bin_dir("sass/sprites.scss"))
+        else:
+            write_file(self.bin_dir("sass/app.scss"), orig)
+            os.remove(self.bin_dir("sass/_app.scss"))
         
-        os.remove(self.bin_dir("sass/_app.scss"))
-        os.remove(self.bin_dir("sass/sprites.scss"))
     
     def copy_img(self):
         start_path = self.project_dir(append="img")

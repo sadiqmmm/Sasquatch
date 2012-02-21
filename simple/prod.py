@@ -99,9 +99,13 @@ class ProdBuild(DevBuild):
         
         self.write_app_js()
         self.write_dep_js()
-        self.write_all_sass()
-        self.write_sprites()
+        
+        #generate sprites
         self.copy_img()
+        self.copy_standalone_sass()
+        self.combine_app_sass()
+        self.write_sprites()
+        self.run_compass()
         self.write_html()
     
 
