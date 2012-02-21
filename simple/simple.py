@@ -13,23 +13,6 @@ from watchdog.events import FileSystemEventHandler
 
 
 ############################
-##  Utility Methods 
-############################
-
-def _clean():
-    if os.path.exists(bin_dir()):
-        shutil.rmtree(bin_dir())
-    os.mkdir("bin")
-    os.mkdir("bin/scripts")
-    os.mkdir("bin/styles")
-
-def clean(f):
-    def inner():
-        _clean()
-        f()
-    return inner
-
-############################
 ##  Command Line Options
 ############################
 
@@ -39,7 +22,6 @@ def help():
     Email todd@thoughtleadr.com and tell him to get on it!
     '''
 
-@clean
 def create_project():
     example_dir = script_dir("example")
     for f in os.listdir(example_dir):
@@ -74,11 +56,10 @@ def update_framework():
         
       
 
-@clean
 def dev():
     # first time around do new build
     handler = DevBuild(project_dir(), script_dir())
-    handler.all(clean_proj=False)
+    handler.all()
     
     observer = Observer()
     observer.schedule(handler, path=project_dir(), recursive=True)
@@ -90,7 +71,6 @@ def dev():
         observer.stop()
     observer.join()
 
-@clean
 def prod():
     # first time around do new build
     handler = ProdBuild(project_dir(), script_dir())

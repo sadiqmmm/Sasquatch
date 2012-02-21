@@ -33,13 +33,25 @@ class BaseBuild(FileSystemEventHandler):
         os.mkdir("bin")
         os.mkdir("bin/scripts")
         os.mkdir("bin/styles")
+        os.mkdir("bin/sass")
+        self.write_compass_config()
+        
+    
+    def write_compass_config(self):
+        config_rb = '''
+http_path = "/"
+css_dir = "styles"
+sass_dir = "sass"
+images_dir = "img"
+javascripts_dir = "scripts"
+        '''
+        
+        write_file(self.bin_dir("config.rb"), config_rb)
     
     def skip_bin(self, path):
         if path.find(self.bin_dir()) > -1:
             return True
         return False
-    
-    
     
     def all(self, event):
         pass

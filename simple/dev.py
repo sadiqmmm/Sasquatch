@@ -12,15 +12,6 @@ from watchdog.events import FileSystemEventHandler
 from django.template.loader import render_to_string
 
 
-def build_scss(scss_file, css_file, result):
-    try:
-        subprocess.call(["sass", scss_file, css_file])
-    except Exception, e:
-        pass#result.value = 'error'#str(e)
-        
-    
-
-
 class DevBuild(BaseBuild):
     '''
     Dev Build System
@@ -121,8 +112,7 @@ class DevBuild(BaseBuild):
     
     def find_style_deps(self):
         styles = []
-        styles_dir = self.bin_dir(append="styles")
-        for item in os.listdir(styles_dir):
+        for item in ["app.css"]:
             styles.append("styles/%s" % item)
         return styles
     
@@ -154,7 +144,9 @@ class DevBuild(BaseBuild):
     def write_html_index(self, scripts, styles):
         result = render_to_string("template.html", {
             "scripts" : scripts,
-            "styles" : styles
+            "styles" : styles,
+            "ie_styles" : ["styles/ie.css"],
+            "print_styles" : ["styles/print.css"]
         })
         index_filename = self.bin_dir(append="index.html")
         write_file(index_filename, result)
@@ -163,38 +155,41 @@ class DevBuild(BaseBuild):
     #   CSS & Images
     ################################
     
-    def write_all_sass(self):
+    def copy_standalone_sass(self):
+        copy_file(self.project_dir("style/ie.scss"), self.bin_dir("sass/ie.scss"))
+        copy_file(self.project_dir("style/print.scss"), self.bin_dir("sass/print.scss"))
+    
+    def combine_app_sass(self):
         print "converting sass files to css and writing to bin"
-        style_dir = self.project_dir(append="style")
-        for filename in os.listdir(style_dir):
-            if filename.endswith("scss") and not filename.startswith("."):
-                self.write_sass(filename)
+        app_json = self.load_app_json()
+        sass_src = ""
+        for filename in app_json["app_sass"]:
+            sass_src += "\n/*\nfile: %s\n*/\n" % filename
+            sass_src += read_file(filename)
+        write_file(self.bin_dir("sass/_app.scss"), sass_src)
 
-    def write_sass(self, filename):
-        filename = filename.replace(".scss", "")
-        print "writing %s.css to bin" % filename
-                
-        scss_file = self.project_dir(append="style/%s.scss" % filename)
-        css_file = self.bin_dir(append="styles/%s.css" % filename)
-        result_value = Array('c', '')
-        
-        sass_process = Process(target=build_scss, args=(scss_file, css_file, result_value))
-        sass_process.start()
-        sass_process.join()
-        
-        if len(result_value.value) > 0:
-            print "Failed converting SCSS - %s >> %s" % (scss_file, css_file)
-            print "Error >> %s" % result_value.value.join('')
-        
-        
+    def run_compass(self):
+        external_process("compass", "compile", self.bin_dir())
+    
+    ################################
+    #   Images
+    ################################
     
     def write_sprites(self):
         print "generating spritesheet awesomeness..."
-        start_folder = self.project_dir(append="sprites")
-        dest_folder = self.bin_dir(append="styles")
-        result = subprocess.call(["glue", start_folder, dest_folder, "--simple"])
-        if result > 0:
-            raise Exception("Error generating spritesheet")
+        start_folder = self.project_dir("sprites")
+        sass_folder = self.bin_dir("sass")
+        img_folder = self.bin_dir("img")
+        
+        external_process("glue", start_folder, "--img=%s" % img_folder, "--css=%s" % sass_folder, "--simple", "--crop")
+        
+        orig = read_file(self.bin_dir("sass/_app.scss"))
+        add_on = read_file(self.bin_dir("sass/sprites.scss"))
+        
+        write_file(self.bin_dir("sass/app.scss"), add_on + orig)
+        
+        os.remove(self.bin_dir("sass/_app.scss"))
+        os.remove(self.bin_dir("sass/sprites.scss"))
     
     def copy_img(self):
         start_path = self.project_dir(append="img")
@@ -239,9 +234,17 @@ class DevBuild(BaseBuild):
         self.write_routes()
         self.write_controller_js()
         self.write_dep_js()
-        self.write_all_sass()
-        self.write_sprites()
+        
+        #generate sprites
         self.copy_img()
+        
+        #sass compilation
+        self.copy_standalone_sass()
+        self.combine_app_sass()
+        
+        self.write_sprites()
+        
+        self.run_compass()
         self.write_html()
     
     def partial(self, event):
@@ -253,7 +256,12 @@ class DevBuild(BaseBuild):
         
         if src_path.startswith(self.project_dir(append="style")):
             print "partial sass."
-            self.write_sass(basename)
+            if src_path.endswith("ie.scss") or src_path.endswith("print.scss"):
+                self.copy_standalone_sass()
+            else:
+                self.combine_app_sass()
+                self.write_sprites()
+            self.run_compass()
         elif src_path == self.project_dir(append="template.html"):
             print "template rewrite"
             self.write_html()
@@ -275,7 +283,9 @@ class DevBuild(BaseBuild):
             self.copy_dep_js(sub_path)
         elif src_path.startswith(self.project_dir(append="sprites")):
             print "rewrite sprites"
+            self.combine_app_sass()
             self.write_sprites()
+            self.run_compass()
         elif src_path.startswith(self.project_dir(append="routes.json")):
             print "rewrite routes"
             self.write_routes()

@@ -1,4 +1,5 @@
-import codecs, os
+import codecs, os, subprocess
+from multiprocessing import Process
 
 ############################
 ##  File Utilities
@@ -15,6 +16,9 @@ def write_file(location, txt):
     f.write(txt)
     f.close()
 
+def copy_file(start, end):
+    t = read_file(start)
+    write_file(end, t)
 
 ############################
 ##  File References 
@@ -44,3 +48,17 @@ def script_dir(append=None):
     if append is not None:
         return os.path.join(file_location, append)
     return file_location
+
+############################
+##  External Process
+############################
+
+def __external_process__(*args):
+    subprocess.call(args)
+
+def external_process(*args):
+    p = Process(target=__external_process__, args=args)
+    p.start()
+    p.join()
+
+
