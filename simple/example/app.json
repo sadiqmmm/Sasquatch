@@ -4,7 +4,11 @@
 	"dependencies" : [
 		"lib/jquery-1.7.1.js",
 		"lib/underscore.js",
-		"lib/jquery.history.js",
+		"lib/signals.js",
+		"lib/crossroads.js",
+		"lib/hasher.js",
+		"lib/jquery-scrollto.js",
 		"lib/global.js"
-	]
+	],
+	"app_sass":[]
 }
