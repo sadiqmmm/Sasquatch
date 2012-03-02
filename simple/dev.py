@@ -275,7 +275,7 @@ class DevBuild(BaseBuild):
         elif src_path.startswith(self.project_dir(append="controller")) and basename.endswith(".js"):
             print "single controller rewrite"
             self.__write_single_controller_js(self.project_dir("view"), basename)
-        elif src_path.startswith(self.project_dir(append="view")):
+        elif src_path.startswith(self.project_dir(append="view")) or src_path.startswith(self.project_dir(append="partial")):
             print "rewrite all controllers"
             self.write_controller_js()
         elif src_path == self.project_dir(append="app.json"):
