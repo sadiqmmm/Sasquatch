@@ -2,7 +2,6 @@
 
 	$.graph_data = [];
 	$.currentView = null;
-$.lastState = null;
 
 // create data structure to hold views/templates
 $._views = {};
@@ -28,20 +27,23 @@ $.activeView = function(){
 
 $.applyView = function(name, data){
     console.log("apply view", name);
+	if($.currentView){
+		$.currentView.onFinished();
+	}
 	var view = $.getView(name);
-    var exports = {};
-    view.fn(exports);
+    $.currentView = {};
+    view.fn($.currentView);
 
     var renderTemplate = function(data){
       console.log("renderTemplate", data)
       var html = view.template(data);//TODO
       $($.config.rootElement).html(html);
-      exports.onReady();
-			var duration = $('body').scrollTop();
-			$.scrollTo(0, {duration: duration});
+      $.currentView.onReady();
+	  var duration = $('body').scrollTop();
+	  $.scrollTo(0, {duration: duration});
     }
     if("loadData" in exports){
-        return exports.loadData(data, renderTemplate);
+        return $.currentView.loadData(data, renderTemplate);
     }
     renderTemplate(data);
 };

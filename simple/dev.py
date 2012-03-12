@@ -87,10 +87,11 @@ class DevBuild(BaseBuild):
     def flatten_name(self, filename):
         return re.sub("\/", "-", filename)
     
-    def copy_dep_js(self, item):
+    def copy_dep_js(self, item, basename=None):
         filename = self.project_dir(append=item)
         source = read_file(filename)
-        basename = self.flatten_name(item)
+        if basename is None:
+            basename = self.flatten_name(item)
         script_name = self.bin_dir(append="scripts/%s" % basename)
         write_file(script_name, source)
     
@@ -104,7 +105,10 @@ class DevBuild(BaseBuild):
         print "writing core.js file to bin"
         app_conf = self.load_app_json()
         for item in app_conf["dependencies"]:
-            self.copy_dep_js(item)
+            if item.find("[shared]") == 0:
+                self.copy_dep_js(self.shared_dir(item[8:]))
+            else:
+                self.copy_dep_js(item)
         
     ################################
     #   HTML Template
@@ -156,14 +160,32 @@ class DevBuild(BaseBuild):
     ################################
     
     def copy_standalone_sass(self):
-        copy_file(self.project_dir("style/ie.scss"), self.bin_dir("sass/ie.scss"))
-        copy_file(self.project_dir("style/print.scss"), self.bin_dir("sass/print.scss"))
+        ie = self.project_dir("style/ie.scss")
+        if os.path.exists(ie):
+            copy_file(ie, self.bin_dir("sass/ie.scss"))
+        else:
+            try:
+                copy_file(self.shared_dir("style/ie.scss"), self.bin_dir("sass/ie.scss"))
+            except:
+                raise Exception("Missing the projects ie.scss file. It must be located in either the main project or the projects shared folder dir.")
+            
+        pri = self.project_dir("style/print.scss")
+        if os.path.exists(pri):
+            copy_file(pri, self.bin_dir("sass/print.scss"))
+        else:
+            try:
+                copy_file(self.shared_dir("style/print.scss"), self.bin_dir("sass/print.scss"))
+            except:
+                raise Exception("Missing the projects print.scss file. It must be located in either the main project or the projects shared folder dir.")
+        
     
     def combine_app_sass(self):
         print "converting sass files to css and writing to bin"
         app_json = self.load_app_json()
         sass_src = ""
         for filename in app_json["app_sass"]:
+            if filename.find("[shared]") == 0:
+                filename = self.shared_dir(filename[8:])
             sass_src += "\n/*\nfile: %s\n*/\n" % filename
             sass_src += read_file(filename)
         write_file(self.bin_dir("sass/_app.scss"), sass_src)
@@ -196,8 +218,12 @@ class DevBuild(BaseBuild):
         
     
     def copy_img(self):
-        start_path = self.project_dir(append="img")
+        start_path = self.shared_dir("img")
         end_path = self.bin_dir(append="img")
+        if os.path.exists(start_path):
+            shutil.copytree(start_path, end_path)
+        
+        start_path = self.project_dir(append="img")
         shutil.copytree(start_path, end_path)
     
     ################################
@@ -258,7 +284,7 @@ class DevBuild(BaseBuild):
             print "no action"
             return
         
-        if src_path.startswith(self.project_dir(append="style")):
+        if src_path.startswith(self.project_dir("style")) or src_path.startswith(self.shared_dir("styles")):
             print "partial sass."
             if src_path.endswith("ie.scss") or src_path.endswith("print.scss"):
                 self.copy_standalone_sass()
@@ -275,8 +301,11 @@ class DevBuild(BaseBuild):
         elif src_path.startswith(self.project_dir(append="controller")) and basename.endswith(".js"):
             print "single controller rewrite"
             self.__write_single_controller_js(self.project_dir("view"), basename)
-        elif src_path.startswith(self.project_dir(append="view")) or src_path.startswith(self.project_dir(append="partial")):
+        elif src_path.startswith(self.project_dir(append="view")):
             print "rewrite all controllers"
+            self.write_controller_js()
+        elif src_path.startswith(self.project_dir(append="partial")) or src_path.startswith(self.shared_dir(append="partial")):
+            print "rewrite all controllers - shared"
             self.write_controller_js()
         elif src_path == self.project_dir(append="app.json"):
             print "rewrite all deps"
@@ -285,6 +314,10 @@ class DevBuild(BaseBuild):
             sub_path = src_path.replace(self.project_dir()+"/", "")
             print "copy dependency -> %s" % sub_path
             self.copy_dep_js(sub_path)
+        elif src_path.startswith(self.shared_dir(append="lib")):
+            sub_path = src_path.replace(self.shared_dir()+"/", "")
+            print "copy dependency -> %s" % sub_path
+            self.copy_dep_js(src_path, sub_path)
         elif src_path.startswith(self.project_dir(append="sprites")):
             print "rewrite sprites"
             self.combine_app_sass()
@@ -293,7 +326,7 @@ class DevBuild(BaseBuild):
         elif src_path.startswith(self.project_dir(append="routes.json")):
             print "rewrite routes"
             self.write_routes()
-        elif src_path.startswith(self.project_dir(append="img")):
+        elif src_path.startswith(self.project_dir(append="img")) or src_path.startswith(self.shared_dir(append="img")):
             print "copy images"
             self.copy_img()
         else:

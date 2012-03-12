@@ -4,10 +4,16 @@ from watchdog.events import FileSystemEventHandler
 
 class BaseBuild(FileSystemEventHandler):
     
-    def __init__(self, project_dir, script_dir):
+    def __init__(self, project_dir, script_dir, shared_dir):
         self.__project = project_dir
         self.__script = script_dir
         self.__bin = "%s/bin" % self.__project
+        if shared_dir is None:
+            self.__has_shared_dir = False
+        else:
+            self.__has_shared_dir = True
+            self.__shared_dir = os.path.abspath(shared_dir)
+        
     
     #######################
     #   File Utils
@@ -26,6 +32,11 @@ class BaseBuild(FileSystemEventHandler):
         if append is not None:
             return "%s/%s" % (self.__bin, append)
         return self.__bin
+    
+    def shared_dir(self, append=None):
+        if append is not None:
+            return "%s/%s" % (self.__shared_dir, append)
+        return self.__shared_dir
     
     def clean(self):
         if os.path.exists(self.bin_dir()):

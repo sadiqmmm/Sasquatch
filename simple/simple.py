@@ -18,8 +18,15 @@ from watchdog.events import FileSystemEventHandler
 
 def help():
     print '''
-    You should probably mention that I need to get filled out.
-    Email todd@thoughtleadr.com and tell him to get on it!
+    usage simple <cmd>
+    
+    Available commands:
+    dev - provides a filewatch function to do partial compilations of simple projects
+    prod - build a production version of a simple project
+    create-project - create a new project folder structure
+    create-view - add a new view and controller file to the current project
+    
+    Author - Todd Cullen todd@thoughtleadr.com
     '''
 
 def create_project():
@@ -54,16 +61,52 @@ def update_framework():
         else:
             shutil.copy(start_path, end_path)
         
-      
+
+def create_view(name):
+    
+    if not os.path.exists(project_dir("view")):
+        print "Not a valid simple project. Missing a 'view' folder."
+        return
+    
+    if not os.path.exists(project_dir("controller")):
+        print "Not a valid simple project. Missing a 'controller' folder."
+        return
+    
+    js_src = """
+exports.loadData = function(data, callback){
+    console.log("view ready:%s");
+    callback({});
+};
+    
+exports.onReady = function(){
+    console.log("view ready:%s");
+};
+    
+exports.onFinished = function(){
+    console.log("view exiting:%s");
+};
+    """ % (name, name, name)
+    
+    write_file(project_dir("view/%s.erb" % name), "")
+    write_file(project_dir("controller/%s.js" % name), js_src)
+
+def fetch_shared_dir():
+    return None
 
 def dev():
     # first time around do new build
-    handler = DevBuild(project_dir(), script_dir())
+    shared_dir = fetch_shared_dir()
+    handler = DevBuild(project_dir(), script_dir(), shared_dir)
     handler.all()
     
     observer = Observer()
     observer.schedule(handler, path=project_dir(), recursive=True)
     observer.start()
+    
+    observer = Observer()
+    observer.schedule(handler, path=shared_dir, recursive=True)
+    observer.start()
+    
     try:
         while True:
             time.sleep(1)
@@ -73,18 +116,21 @@ def dev():
 
 def prod():
     # first time around do new build
-    handler = ProdBuild(project_dir(), script_dir())
+    handler = ProdBuild(project_dir(), script_dir(), fetch_shared_dir())
     handler.all(clean_proj=False)
 
 def main():
     '''
     This is the awesome opt parser.
     '''
-    if len(sys.argv) > 2:
+    length = len(sys.argv)
+    if length == 3:
+        arg = sys.argv[-1]
+        cmd = sys.argv[-2]
+    elif length == 2:
+        cmd = sys.argv[-1]
+    else:
         return help()
-    
-    cmd = sys.argv[-1]
-    print "CMD >> %s" % cmd
     
     if cmd == "create-project":
         return create_project()
@@ -96,6 +142,8 @@ def main():
         return dev()
     elif cmd == "prod":
         return prod()
+    elif cmd == "create-view":
+        create_view(arg)
     else:
         return help()
     
@@ -103,7 +151,6 @@ def main():
 p = project_dir()
 s = script_dir(append="templates")
 template_dirs = [p, s]
-print "TEMPLATE_DIRS %s" % template_dirs
 
 from django.conf import settings
 settings.configure(TEMPLATE_DIRS=template_dirs)
