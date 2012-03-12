@@ -33,6 +33,9 @@ class BaseBuild(FileSystemEventHandler):
             return "%s/%s" % (self.__bin, append)
         return self.__bin
     
+    def has_shared(self):
+        return self.__has_shared_dir
+    
     def shared_dir(self, append=None):
         if append is not None:
             return "%s/%s" % (self.__shared_dir, append)

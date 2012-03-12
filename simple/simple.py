@@ -91,6 +91,11 @@ exports.onFinished = function(){
     write_file(project_dir("controller/%s.js" % name), js_src)
 
 def fetch_shared_dir():
+    app_filename = project_dir(append="app.json")
+    app_json = read_file(app_filename)
+    app_conf = json.loads(app_json)
+    if "shared_dir" in app_conf:
+        return app_conf["shared_dir"]
     return None
 
 def dev():
@@ -103,9 +108,10 @@ def dev():
     observer.schedule(handler, path=project_dir(), recursive=True)
     observer.start()
     
-    observer = Observer()
-    observer.schedule(handler, path=shared_dir, recursive=True)
-    observer.start()
+    if shared_dir is not None:
+        observer = Observer()
+        observer.schedule(handler, path=shared_dir, recursive=True)
+        observer.start()
     
     try:
         while True:

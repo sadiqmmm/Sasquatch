@@ -59,8 +59,11 @@ class DevBuild(BaseBuild):
         print "Writing controller.js file to bin"
         view_dir = self.project_dir(append="view")
         self.__write_controller_js(view_dir)
-        partial_dir = project_dir(append="partial")
+        partial_dir = self.project_dir(append="partial")
         self.__write_controller_js(partial_dir, True)
+        partial_dir = self.shared_dir("partial")
+        if self.has_shared() and os.path.exists(partial_dir):
+            self.__write_controller_js(partial_dir)
     
     ################################
     #   config.js
@@ -87,11 +90,12 @@ class DevBuild(BaseBuild):
     def flatten_name(self, filename):
         return re.sub("\/", "-", filename)
     
-    def copy_dep_js(self, item, basename=None):
-        filename = self.project_dir(append=item)
+    def copy_dep_js(self, filename, basename=None):
         source = read_file(filename)
         if basename is None:
-            basename = self.flatten_name(item)
+            basename = self.flatten_name(filename)
+        else:
+            basename = self.flatten_name(basename)
         script_name = self.bin_dir(append="scripts/%s" % basename)
         write_file(script_name, source)
     
@@ -105,10 +109,14 @@ class DevBuild(BaseBuild):
         print "writing core.js file to bin"
         app_conf = self.load_app_json()
         for item in app_conf["dependencies"]:
+            print "WRITE DEP ITEM: %s" % item
             if item.find("[shared]") == 0:
-                self.copy_dep_js(self.shared_dir(item[8:]))
+                print "SHARED DIR: %s" % self.shared_dir()
+                basename = item[8:]
+                print "basename : %s" % basename
+                self.copy_dep_js(self.shared_dir(basename), basename)
             else:
-                self.copy_dep_js(item)
+                self.copy_dep_js(self.project_dir(item), item)
         
     ################################
     #   HTML Template
@@ -161,7 +169,7 @@ class DevBuild(BaseBuild):
     
     def copy_standalone_sass(self):
         ie = self.project_dir("style/ie.scss")
-        if os.path.exists(ie):
+        if os.path.exists(ie) or not self.has_shared():
             copy_file(ie, self.bin_dir("sass/ie.scss"))
         else:
             try:
@@ -170,7 +178,7 @@ class DevBuild(BaseBuild):
                 raise Exception("Missing the projects ie.scss file. It must be located in either the main project or the projects shared folder dir.")
             
         pri = self.project_dir("style/print.scss")
-        if os.path.exists(pri):
+        if os.path.exists(pri) or not self.has_shared():
             copy_file(pri, self.bin_dir("sass/print.scss"))
         else:
             try:
@@ -184,7 +192,7 @@ class DevBuild(BaseBuild):
         app_json = self.load_app_json()
         sass_src = ""
         for filename in app_json["app_sass"]:
-            if filename.find("[shared]") == 0:
+            if self.has_shared() and filename.find("[shared]") == 0:
                 filename = self.shared_dir(filename[8:])
             sass_src += "\n/*\nfile: %s\n*/\n" % filename
             sass_src += read_file(filename)
@@ -218,10 +226,11 @@ class DevBuild(BaseBuild):
         
     
     def copy_img(self):
-        start_path = self.shared_dir("img")
         end_path = self.bin_dir(append="img")
-        if os.path.exists(start_path):
-            shutil.copytree(start_path, end_path)
+        if self.has_shared():
+            start_path = self.shared_dir("img")
+            if os.path.exists(start_path):
+                shutil.copytree(start_path, end_path)
         
         start_path = self.project_dir(append="img")
         shutil.copytree(start_path, end_path)
@@ -284,7 +293,29 @@ class DevBuild(BaseBuild):
             print "no action"
             return
         
-        if src_path.startswith(self.project_dir("style")) or src_path.startswith(self.shared_dir("styles")):
+        # Shared dir actions first
+        if self.has_shared():
+            if src_path.startswith(self.shared_dir("styles")):
+                print "partial sass."
+                if src_path.endswith("ie.scss") or src_path.endswith("print.scss"):
+                    self.copy_standalone_sass()
+                else:
+                    self.combine_app_sass()
+                    self.write_sprites()
+                return self.run_compass()
+            elif src_path.startswith(self.shared_dir(append="partial")):
+                print "rewrite all controllers - shared"
+                return self.write_controller_js()
+            elif src_path.startswith(self.shared_dir(append="lib")):
+                sub_path = src_path.replace(self.shared_dir()+"/", "")
+                print "copy dependency -> %s" % sub_path
+                return self.copy_dep_js(src_path, sub_path)
+            elif src_path.startswith(self.shared_dir(append="img")):
+                print "copy images"
+                return self.copy_img()
+        
+        # Standard Simple project partial actions
+        if src_path.startswith(self.project_dir("style")):
             print "partial sass."
             if src_path.endswith("ie.scss") or src_path.endswith("print.scss"):
                 self.copy_standalone_sass()
@@ -304,7 +335,7 @@ class DevBuild(BaseBuild):
         elif src_path.startswith(self.project_dir(append="view")):
             print "rewrite all controllers"
             self.write_controller_js()
-        elif src_path.startswith(self.project_dir(append="partial")) or src_path.startswith(self.shared_dir(append="partial")):
+        elif src_path.startswith(self.project_dir(append="partial")):
             print "rewrite all controllers - shared"
             self.write_controller_js()
         elif src_path == self.project_dir(append="app.json"):
@@ -312,10 +343,6 @@ class DevBuild(BaseBuild):
             self.write_dep_js()
         elif src_path.startswith(self.project_dir(append="lib")):
             sub_path = src_path.replace(self.project_dir()+"/", "")
-            print "copy dependency -> %s" % sub_path
-            self.copy_dep_js(sub_path)
-        elif src_path.startswith(self.shared_dir(append="lib")):
-            sub_path = src_path.replace(self.shared_dir()+"/", "")
             print "copy dependency -> %s" % sub_path
             self.copy_dep_js(src_path, sub_path)
         elif src_path.startswith(self.project_dir(append="sprites")):
@@ -326,7 +353,7 @@ class DevBuild(BaseBuild):
         elif src_path.startswith(self.project_dir(append="routes.json")):
             print "rewrite routes"
             self.write_routes()
-        elif src_path.startswith(self.project_dir(append="img")) or src_path.startswith(self.shared_dir(append="img")):
+        elif src_path.startswith(self.project_dir(append="img")):
             print "copy images"
             self.copy_img()
         else:
