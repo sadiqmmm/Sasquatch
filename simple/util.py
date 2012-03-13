@@ -38,7 +38,7 @@ def copytree(src, dst):
             errors.append((srcname, dstname, str(why)))
         # catch the Error from the recursive copytree so that we can
         # continue with other files
-        except Error, err:
+        except Exception, err:
             errors.append(err.args[0])
         
     if len(errors) > 0:
