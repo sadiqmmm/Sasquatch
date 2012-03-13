@@ -39,10 +39,10 @@ def copytree(src, dst):
         # catch the Error from the recursive copytree so that we can
         # continue with other files
         except Error, err:
-            errors.extend(err.args[0])
+            errors.append(err.args[0])
         
-    if errors:
-        raise Error(errors)
+    if len(errors) > 0:
+        raise Exception(errors)
 
 ############################
 ##  File References 
