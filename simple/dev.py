@@ -134,6 +134,8 @@ class DevBuild(BaseBuild):
         app_conf = json.loads(app_json)
         scripts = []
         for item in app_conf["dependencies"]:
+            if item.find("[shared]") == 0:
+                item = item[8:]
             basename = self.flatten_name(item)
             scripts.append("scripts/%s" % basename)
     
