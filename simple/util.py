@@ -20,6 +20,30 @@ def copy_file(start, end):
     t = read_file(start)
     write_file(end, t)
 
+def copytree(src, dst):
+    names = os.listdir(src)
+    if not os.path.exists(dst):
+        os.makedirs(dst)
+    errors = []
+    for name in names:
+        srcname = os.path.join(src, name)
+        dstname = os.path.join(dst, name)
+        try:
+            if os.path.isdir(srcname):
+                copytree(srcname, dstname)
+            else:
+                copy_file(srcname, dstname)
+            # XXX What about devices, sockets etc.?
+        except (IOError, os.error), why:
+            errors.append((srcname, dstname, str(why)))
+        # catch the Error from the recursive copytree so that we can
+        # continue with other files
+        except Error, err:
+            errors.extend(err.args[0])
+        
+    if errors:
+        raise Error(errors)
+
 ############################
 ##  File References 
 ############################

@@ -232,10 +232,10 @@ class DevBuild(BaseBuild):
         if self.has_shared():
             start_path = self.shared_dir("img")
             if os.path.exists(start_path):
-                shutil.copytree(start_path, end_path)
+                copytree(start_path, end_path)
         
         start_path = self.project_dir(append="img")
-        shutil.copytree(start_path, end_path)
+        copytree(start_path, end_path)
     
     ################################
     #   Routes
