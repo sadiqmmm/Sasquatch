@@ -63,7 +63,7 @@ class DevBuild(BaseBuild):
         self.__write_controller_js(partial_dir, True)
         partial_dir = self.shared_dir("partial")
         if self.has_shared() and os.path.exists(partial_dir):
-            self.__write_controller_js(partial_dir)
+            self.__write_controller_js(partial_dir, True)
     
     ################################
     #   config.js
