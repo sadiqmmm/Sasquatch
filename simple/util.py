@@ -1,4 +1,4 @@
-import codecs, os, subprocess
+import codecs, os, subprocess, shutils
 from multiprocessing import Process
 
 ############################
@@ -32,7 +32,7 @@ def copytree(src, dst):
             if os.path.isdir(srcname):
                 copytree(srcname, dstname)
             else:
-                copy_file(srcname, dstname)
+                shutils.copy(srcname, dstname)
             # XXX What about devices, sockets etc.?
         except (IOError, os.error), why:
             errors.append((srcname, dstname, str(why)))
