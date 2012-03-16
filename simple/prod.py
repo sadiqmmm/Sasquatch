@@ -71,6 +71,9 @@ class ProdBuild(DevBuild):
         config = self.load_app_json()
         for item in config["dependencies"]:
             print "minifying: %s" % item
+            if item.find("[shared]") == 0:
+                basename = item[8:]
+                item = self.shared_dir(basename)
             src = read_file(item)
             minsrc = self.minify_js(src)
             source += "\n\n// file %s\n%s" % (item, minsrc)
