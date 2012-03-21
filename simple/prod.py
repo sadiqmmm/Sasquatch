@@ -60,9 +60,11 @@ class ProdBuild(DevBuild):
         print "Create controller string"
         view_dir = self.project_dir(append="view")
         source = self.__prep_controller_js(view_dir)
-        partial_dir = project_dir(append="partial")
+        partial_dir = self.project_dir(append="partial")
         source += self.__prep_controller_js(partial_dir, True)
-        
+        if self.has_shared():
+            spartial_dir = self.shared_dir("partial")
+            source += self.__prep_controller_js(spartial_dir, True)
         return source
     
     def write_dep_js(self):
