@@ -67,7 +67,7 @@ javascripts_dir = "scripts"
             return True
         return False
     
-    def all(self, event):
+    def all(self):
         pass
     
     def partial(self, event):
@@ -76,12 +76,15 @@ javascripts_dir = "scripts"
     def wrapped_partial(self, event):
         if not self.skip_bin(event.src_path):
             try:
-                self.partial(event)
+                with timer("partial"):
+                    self.partial(event)
             except Exception, e:
                 print "## Exception during a partial recompile ##"
                 print "Error => %s" % str(e)
         
-        
+    def wrapped_all(self):
+        with timer("all"):
+            self.all()
     
     def on_moved(self, event):
         super(BaseBuild, self).on_moved(event)
@@ -90,7 +93,7 @@ javascripts_dir = "scripts"
         print "Moved %s: from %s to %s" % (what, event.src_path, event.dest_path)
         
         if not self.skip_bin(event.src_path):
-            self.all(event)
+            self.wrapped_all()
     
     def on_created(self, event):
         super(BaseBuild, self).on_created(event)
@@ -107,7 +110,7 @@ javascripts_dir = "scripts"
         print "Deleted %s: %s" % (what, event.src_path)
         
         if not self.skip_bin(event.src_path):
-            self.all(event)
+            self.wrapped_all()
         
     
     def on_modified(self, event):

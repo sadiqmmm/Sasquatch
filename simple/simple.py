@@ -102,7 +102,7 @@ def dev():
     # first time around do new build
     shared_dir = fetch_shared_dir()
     handler = DevBuild(project_dir(), script_dir(), shared_dir)
-    handler.all()
+    handler.wrapped_all()
     
     observer = Observer()
     observer.schedule(handler, path=project_dir(), recursive=True)
@@ -119,6 +119,20 @@ def dev():
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
+
+def debug():
+    root_folders = [fetch_shared_dir(), project_dir()]
+    folders = ["controller", "lib"]
+    for root in root_folders:
+        root = os.path.abspath(root)
+        for folder in folders:
+            # get every js file in that folder or subfolders and run debug on it
+            base_folder = os.path.join(root, folder)
+            if os.path.exists(base_folder):
+                for f in os.listdir(base_folder):
+                    if f.endswith(".js"):
+                        compiler.debug(os.path.join(root, folder, f))
+
 
 def prod():
     # first time around do new build
@@ -149,7 +163,9 @@ def main():
     elif cmd == "prod":
         return prod()
     elif cmd == "create-view":
-        create_view(arg)
+        return create_view(arg)
+    elif cmd == "debug":
+        return debug()
     else:
         return help()
     
@@ -163,6 +179,7 @@ settings.configure(TEMPLATE_DIRS=template_dirs)
 
 
 if __name__ == "__main__":
-    main()
+    with timer():
+        main()
 
 

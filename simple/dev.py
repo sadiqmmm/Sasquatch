@@ -61,8 +61,8 @@ class DevBuild(BaseBuild):
         self.__write_controller_js(view_dir)
         partial_dir = self.project_dir(append="partial")
         self.__write_controller_js(partial_dir, True)
-        partial_dir = self.shared_dir("partial")
-        if self.has_shared() and os.path.exists(partial_dir):
+        if self.has_shared():
+            partial_dir = self.shared_dir("partial")
             self.__write_controller_js(partial_dir, True)
     
     ################################
@@ -109,11 +109,8 @@ class DevBuild(BaseBuild):
         print "writing core.js file to bin"
         app_conf = self.load_app_json()
         for item in app_conf["dependencies"]:
-            print "WRITE DEP ITEM: %s" % item
             if item.find("[shared]") == 0:
-                print "SHARED DIR: %s" % self.shared_dir()
                 basename = item[8:]
-                print "basename : %s" % basename
                 self.copy_dep_js(self.shared_dir(basename), basename)
             else:
                 self.copy_dep_js(self.project_dir(item), item)
@@ -208,6 +205,7 @@ class DevBuild(BaseBuild):
     ################################
     
     def write_sprites(self):
+        return
         print "generating spritesheet awesomeness..."
         start_folder = self.project_dir("sprites")
         sass_folder = self.bin_dir("sass")
@@ -271,22 +269,37 @@ class DevBuild(BaseBuild):
     def all(self, clean_proj=True):
         if clean_proj:
             self.clean()
-        self.write_config_js()
-        self.write_routes()
-        self.write_controller_js()
-        self.write_dep_js()
+        with timer("write_config_js"):
+            self.write_config_js()
+        
+        with timer("write_routes"):
+            self.write_routes()
+        
+        with timer("write_controller_js"):
+            self.write_controller_js()
+        
+        with timer("write_dep_js"):
+            self.write_dep_js()
         
         #generate sprites
-        self.copy_img()
+        with timer("copy_img"):
+            self.copy_img()
         
         #sass compilation
-        self.copy_standalone_sass()
-        self.combine_app_sass()
+        with timer("copy_standalone_sass"):
+            self.copy_standalone_sass()
         
-        self.write_sprites()
+        with timer("combine_app_sass"):
+            self.combine_app_sass()
         
-        self.run_compass()
-        self.write_html()
+        with timer("write_sprites"):
+            self.write_sprites()
+        
+        with timer("run_compass"):
+            self.run_compass()
+        
+        with timer("write_html"):
+            self.write_html()
     
     def partial(self, event):
         src_path = event.src_path
