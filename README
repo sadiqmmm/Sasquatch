@@ -8,8 +8,12 @@ Prerequisites:
 - Watchdog
 - Django
 
+Helper API
+===========
+
 $.go
 Thing to do thing
+
 ```javascript
 $.go(controller, [params])
 ```
