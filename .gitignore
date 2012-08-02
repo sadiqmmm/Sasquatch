@@ -1,7 +1,10 @@
+Sasquatch.egg-info
 Simple.egg-info
 build
 dist
 test
+sasquatch/bin/*
 
 *.DS_Store
 *.pyc
+
