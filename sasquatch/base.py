@@ -13,8 +13,7 @@ class BaseBuild(FileSystemEventHandler):
         else:
             self.__has_shared_dir = True
             self.__shared_dir = os.path.abspath(shared_dir)
-        
-    
+
     #######################
     #   File Utils
     #######################
@@ -22,25 +21,25 @@ class BaseBuild(FileSystemEventHandler):
         if append is not None:
             return "%s/%s" % (self.__project, append)
         return self.__project
-    
+
     def script_dir(self, append=None):
         if append is not None:
             return "%s/%s" % (self.__script, append)
         return self.__script
-    
+
     def bin_dir(self, append=None):
         if append is not None:
             return "%s/%s" % (self.__bin, append)
         return self.__bin
-    
+
     def has_shared(self):
         return self.__has_shared_dir
-    
+
     def shared_dir(self, append=None):
         if append is not None:
             return "%s/%s" % (self.__shared_dir, append)
         return self.__shared_dir
-    
+
     def clean(self):
         if os.path.exists(self.bin_dir()):
             shutil.rmtree(self.bin_dir())
