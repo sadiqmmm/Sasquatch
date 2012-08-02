@@ -10,6 +10,6 @@ Prerequisites:
 
 $.go
 Thing to do thing
-'''javascript
+```javascript
 $.go(controller, [params])
-'''
+```
