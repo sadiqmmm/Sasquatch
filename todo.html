@@ -9,3 +9,71 @@
 		<code>sasquatch create-project todo</code>
 	</pre>
 </section>
+<section>
+	<h3 id="file-struct">Project Structure</h3>
+	<p>
+		Entering into the newly created directory you will see your newly create project with a file structure like this:
+	</p>
+	<pre>
+		- todo
+		  - controller/
+		  - view/
+		  - partial/
+		  - lib/
+		  - img/
+		  - style/
+		  - app.json
+		  - config.json
+		  - routes.json
+		  - template.html
+	</pre>
+</section>
+<section>
+	<h3 id="create-view">Create a New View/Controller</h3>
+	<p>
+		Next we would like to create our first view and controller. The can be done by typing the following into the console.
+	</p>
+	<pre>
+		<code>sasquatch create-view todo</code>
+	</pre>
+	<p>This creates two files, one in the "view" directory called "todo.erb" and another in the controller directory called "todo.js"</p>
+</section>
+<section>
+	<h3 id="todo-cont">Your First Controller</h3>
+	<p>
+		Go ahead and go to the controller directory and open todo.js in you favorite text editor. You will also see two other file, index.js and second.js, you can delete those as they are just sample files.
+	</p>
+	<p>
+
+	</p>
+	<pre>
+		<code>
+			
+		</code>
+	</pre>
+</section>
+
+exports.loadData = function(data, callback){
+  console.log("view ready:index");
+  callback({
+		heading: "This is a sample title",
+		message: "Hey, here is a cool message"
+	});
+};
+
+exports.onReady = function(){
+  console.log("view ready:index");
+	$('a.second-page').when('click', function() {
+		$.go('second', {heading: "This is another page"});
+		return false;
+	});
+	$('a.second-page-reaplce').when('click', function() {
+		$.goReplace('second', {heading: "This is another page and replaced the previous hash"});
+		return false;
+	});
+};
+
+exports.onFinished = function(){
+  console.log("view exiting:index");
+};
+
