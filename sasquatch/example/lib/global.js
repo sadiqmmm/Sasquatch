@@ -1,7 +1,10 @@
+$.noop();//required by prod compiler!
+
 (function($){
 
-	$.graph_data = [];
+	$.ad = null;
 	$.currentView = null;
+	$.lastState = null;
 
 // create data structure to hold views/templates
 $._views = {};
@@ -19,14 +22,13 @@ $.getView = function(name){
 		throw new Error("View is not defined: '" + name + "'");
 	}
 	return view;
-}
+};
 
 $.activeView = function(){
     return $("#view");
 };
 
 $.applyView = function(name, data){
-    console.log("apply view", name);
 	if($.currentView){
 		$.currentView.onFinished();
 	}
@@ -38,9 +40,8 @@ $.applyView = function(name, data){
       console.log("renderTemplate", data)
       var html = view.template(data);//TODO
       $($.config.rootElement).html(html);
+			$(window).trigger('pageChange');
       $.currentView.onReady();
-	  var duration = $('body').scrollTop();
-	  $.scrollTo(0, {duration: duration});
     }
     if("loadData" in $.currentView){
         return $.currentView.loadData(data, renderTemplate);
@@ -52,7 +53,7 @@ $.partial = function(name, data){
 	var view = $.getView(name);
 	var html = view.template(data);
 	return html;
-}
+};
 
 $.link = function(controller, opts){
 	//_paramsIds
@@ -65,18 +66,45 @@ $.link = function(controller, opts){
 			if(opts){
 				for(var prop in opts){
 					route_url = route_url.replace("{"+prop+"}", opts[prop].toString());
+					route_url = route_url.replace(":"+prop+":", opts[prop].toString());
 				}
 			}
 			return route_url;
 		}
 	}
 	throw new Error("Cannot match controller + params to a route.")
-}
+};
 
-$.go = function(controller, opts){
-	var link = $.link(controller, opts);
-	hasher.setHash(link);
-}
+	$.go = function(controller, opts){
+		var link = $.link(controller, opts);
+		hasher.setHash(link);
+	};
 
-})(jQuery)
+	$.goReplace = function(controller, opts, isQuiet){
+		var link = $.link(controller, opts);
+		if(isQuiet == true) {
+			hasher.changed.active = false; //disable changed signal
+			hasher.replaceHash(link); //set hash without dispatching changed signal
+			hasher.changed.active = true; //re-enable signal
+			return true;
+		}
+		hasher.replaceHash(link);
+	};
+
+	var offArr = [];
+
+	$(window).on('pageChange', function() {
+		_.each(offArr, function(ele, i) {
+			$.fn.off(ele[0], ele[1], ele[2]);
+		});
+		offArr = [];
+	});
+
+	$.fn.when = function(types, selector, data, fn, one) {
+		offArr.push([types, selector, fn]);
+		$(this).on(types, selector, data, fn, one);
+	}
+
+
+})(jQuery);
 

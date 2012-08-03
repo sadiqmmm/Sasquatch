@@ -5,11 +5,9 @@ from jsmin import jsmin
 
 class ProdBuild(DevBuild):
     
-    def minify_js(self, text):
-        '''
-        http://pypi.python.org/pypi/slimit
-        '''
-        return jsmin(text)
+    def minify_js(self, input_f, output):
+        print input_f, output
+        compiler.minify_js(input_f, output)
     
     def minify_css(self, css):
         '''
@@ -76,10 +74,10 @@ class ProdBuild(DevBuild):
             if item.find("[shared]") == 0:
                 basename = item[8:]
                 item = self.shared_dir(basename)
-            src = read_file(item)
-            minsrc = self.minify_js(src)
-            source += "\n\n// file %s\n%s" % (item, minsrc)
-        write_file(self.bin_dir(append="scripts/core.js"), source)
+            source += read_file(item) + "\n\n\n"
+        core_js_file = self.bin_dir(append="scripts/core.js")
+        write_file(core_js_file+"s", source)
+        self.minify_js(core_js_file+"s", core_js_file)
     
     def write_app_js(self):
         print "writing app.js..."
@@ -87,8 +85,9 @@ class ProdBuild(DevBuild):
         app_js += self.prep_config_js()
         app_js += self.prep_routes_js()
         app_js += self.prep_controller_js()
-        minjs = self.minify_js(app_js)
-        write_file(self.bin_dir(append="scripts/app.js"), minjs)
+        app_js_file = self.bin_dir(append="scripts/app.js")
+        write_file(app_js_file+"s", app_js)
+        self.minify_js(app_js_file+"s", app_js_file)
     
     def write_html(self):
         styles = self.find_style_deps()

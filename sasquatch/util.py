@@ -1,4 +1,5 @@
 import codecs, os, subprocess, shutil
+from datetime import datetime
 from multiprocessing import Process
 
 ############################
@@ -85,4 +86,32 @@ def external_process(*args):
     p.start()
     p.join()
 
+class timer():
+    def __init__(self, tag=None):
+        self.tag = tag
+    
+    def __enter__(self):
+        self.start_time = datetime.now()
+    
+    def __exit__(self, type, value, traceback):
+        end_time = datetime.now()
+        delta = end_time - self.start_time
+        tag = ""
+        if self.tag:
+            tag = "<%s>" % self.tag
+        
+        print "%s Time elapsed: %dms" % (tag, delta.microseconds/1000)
+    
 
+class ClosureCompiler():
+    def __init__(self, path):
+        self.tool = "%s/compiler.jar" % path
+    
+    def minify_js(self, input_f, output):
+        external_process("java", "-jar", self.tool, "--js", input_f, "--js_output_file", output, "--warning_level", "QUIET")
+    
+    def debug(self, input_f):
+        external_process("java", "-jar", self.tool, "--js", input_f, "--js_output_file", "/dev/null", "--warning_level", "QUIET")
+    
+closure_compiler_path = script_dir()+'/bin'
+compiler = ClosureCompiler(closure_compiler_path)
