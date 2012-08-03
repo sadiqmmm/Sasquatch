@@ -18,17 +18,17 @@ from watchdog.events import FileSystemEventHandler
 
 def help():
     print '''
-    usage simple <cmd>
+    usage sasquatch <cmd>
 
     Available commands:
     dev - provides a filewatch function to do partial compilations of simple projects
     dev server - same as dev but also provides a simple http server
     dev once - runs the dev build and then quits (does not continue watching)
-    prod - build a production version of a simple project
+    prod - build a production version of a simple project, minified using closure compiler
     create-project - create a new project folder structure
     create-view - add a new view and controller file to the current project
 
-    Author - Todd Cullen todd@thoughtleadr.com
+    Author - Todd Cullen todd@thoughtleadr.com, Nick Daugherty nick@thoughtleadr.com
     '''
 
 def create_project():
