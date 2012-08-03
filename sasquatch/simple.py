@@ -134,6 +134,14 @@ def dev():
             observer.stop()
         observer.join()
 
+def server(httpd_old="None"):
+    PORT = 8000
+    server = SimpleHTTPServer.SimpleHTTPRequestHandler
+    httpd = SocketServer.TCPServer(("", PORT), server)
+    print "serving at port", PORT
+    httpd.serve_forever()
+    return httpd
+
 def debug():
     root_folders = [fetch_shared_dir(), project_dir()]
     folders = ["controller", "lib"]

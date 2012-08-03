@@ -27,6 +27,7 @@ except:
     sys.exit(0)
 
 try:
+    os.mkdir('%s/sasquatch/bin' % start_dir)
     compiler = open('%s/sasquatch/bin/compiler.jar' % start_dir)
     compiler.close()
 except:

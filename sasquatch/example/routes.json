@@ -1,5 +1,8 @@
 {
 	"" : {
 		"controller" : "index"
+	},
+	"second/:heading:" : {
+	  "controller" : "second"
 	}
 }
