@@ -18,24 +18,9 @@
 
 <pre>
 	var str = $.partial("login", { username: 'bob', password: 'blah' });
-	console.log(str);// <input type='text' name='username' value='bob'/><input type='password' name='password' value='blah'>
+	console.log(str);// &lt;input type='text' name='username' value='bob'/&gt;&lt;input type='password' name='password' value='blah'&gt;
 </pre>
 
-</section>
-
-<section>
-		<h3 id="$link">$.link(controller, opts)</h3>
-		<p>
-			Generates the proper URL for the controller and optional parameters. 
-			Returns a string that can be outputted into a template or manipulated programmatically.
-			Based on route metadata provided to hasher.js via the routes.json file.
-		</p>
-
-	<pre>
-		var url = $.link("user_profile", { username : "bob" });
-		console.log(url);// "#user-profile/bob"
-	</pre>
-	
 </section>
 
 <section>
@@ -86,6 +71,20 @@
 	
 </section>
 
+<section>
+		<h3 id="$link">$.link(controller, opts)</h3>
+		<p>
+			Generates the proper URL for the controller and optional parameters. 
+			Returns a string that can be outputted into a template or manipulated programmatically.
+			Based on route metadata provided to hasher.js via the routes.json file.
+		</p>
+
+	<pre>
+		var url = $.link("user_profile", { username : "bob" });
+		console.log(url);// "#user-profile/bob"
+	</pre>
+	
+</section>
 
 
 
