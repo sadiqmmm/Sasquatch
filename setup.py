@@ -20,10 +20,20 @@ except:
     print "Please install Java"
     sys.exit(0)
 
+print "Checking for Ruby"
+
 try:
     ruby = subprocess.check_output('ruby --version', shell=True, stderr=subprocess.STDOUT)
 except:
     print "Please install Ruby"
+    sys.exit(0)
+
+print "Checking for Compass"
+
+try:
+    ruby = subprocess.check_output('compass --version', shell=True, stderr=subprocess.STDOUT)
+except:
+    print "Please install Compass"
     sys.exit(0)
 
 try:
