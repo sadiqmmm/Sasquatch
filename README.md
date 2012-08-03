@@ -2,7 +2,7 @@
 
 ##Installation:
     git clone git://github.com/ThoughtLeadr/Sasquatch.git
-		sudo python setup.py develop
+    sudo python setup.py develop
 
 ##Prerequisites:
 - Python 2.6.1+
