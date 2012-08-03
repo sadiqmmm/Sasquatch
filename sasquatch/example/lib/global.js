@@ -82,7 +82,7 @@ $.link = function(controller, opts){
 
 	$.goReplace = function(controller, opts, isQuiet){
 		var link = $.link(controller, opts);
-		if(isQuiet) {
+		if(isQuiet == true) {
 			hasher.changed.active = false; //disable changed signal
 			hasher.replaceHash(link); //set hash without dispatching changed signal
 			hasher.changed.active = true; //re-enable signal

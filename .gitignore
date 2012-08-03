@@ -4,7 +4,9 @@ build
 dist
 test
 sasquatch/bin/*
+sasquatch/example/bin/*
 
 *.DS_Store
 *.pyc
+*.#*
 
