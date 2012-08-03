@@ -4,8 +4,6 @@ import sys, os, subprocess, urllib2, zipfile
 
 from setuptools import setup, find_packages
 
-#from sasquatch import version
-
 long_description = """
 long description.
 """
@@ -68,8 +66,8 @@ setup(
           'Development Status :: 5 - Production/Stable',
     ],
     install_requires=[
-          "django",
-          "watchdog",
+        "django",
+        "watchdog"
     ]
 
 )
