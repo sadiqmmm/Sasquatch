@@ -42,7 +42,7 @@ $.applyView = function(name, data){
 	  var duration = $('body').scrollTop();
 	  $.scrollTo(0, {duration: duration});
     }
-    if("loadData" in exports){
+    if("loadData" in $.currentView){
         return $.currentView.loadData(data, renderTemplate);
     }
     renderTemplate(data);
