@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, os, shutil, json, subprocess
+import sys, os, shutil, json, subprocess, SimpleHTTPServer, SocketServer
 from os import path
 
 from util import *
@@ -18,18 +18,23 @@ from watchdog.events import FileSystemEventHandler
 
 def help():
     print '''
-    usage simple <cmd>
-    
+    usage sasquatch <cmd>
+
     Available commands:
     dev - provides a filewatch function to do partial compilations of simple projects
-    prod - build a production version of a simple project
+    dev server - same as dev but also provides a simple http server
+    dev once - runs the dev build and then quits (does not continue watching)
+    prod - build a production version of a simple project, minified using closure compiler
     create-project - create a new project folder structure
     create-view - add a new view and controller file to the current project
-    
-    Author - Todd Cullen todd@thoughtleadr.com
+
+    Author - Todd Cullen todd@thoughtleadr.com, Nick Daugherty nick@thoughtleadr.com
     '''
 
 def create_project():
+    if len(sys.argv) > 2:
+        os.mkdir(sys.argv[2])
+        os.chdir(sys.argv[2])
     example_dir = script_dir("example")
     for f in os.listdir(example_dir):
         end_path = project_dir(append=f)
@@ -41,10 +46,10 @@ def create_project():
                 shutil.copytree(start_path, end_path)
             else:
                 shutil.copy(start_path, end_path)
-            
+
         else:
             print "skipped %s. already exists." % f
-        
+
 
 def update_framework():
     lib_dir = script_dir(append="example/lib")
@@ -55,38 +60,37 @@ def update_framework():
             print "creating file >> %s" % start_path
         else:
             print "overwriting %s." % f
-        
+
         if os.path.isdir(start_path):
             shutil.copytree(start_path, end_path)
         else:
             shutil.copy(start_path, end_path)
-        
 
 def create_view(name):
-    
+
     if not os.path.exists(project_dir("view")):
         print "Not a valid simple project. Missing a 'view' folder."
         return
-    
+
     if not os.path.exists(project_dir("controller")):
         print "Not a valid simple project. Missing a 'controller' folder."
         return
-    
+
     js_src = """
 exports.loadData = function(data, callback){
     console.log("view ready:%s");
     callback({});
 };
-    
+
 exports.onReady = function(){
     console.log("view ready:%s");
 };
-    
+
 exports.onFinished = function(){
     console.log("view exiting:%s");
 };
     """ % (name, name, name)
-    
+
     write_file(project_dir("view/%s.erb" % name), "")
     write_file(project_dir("controller/%s.js" % name), js_src)
 
@@ -103,22 +107,40 @@ def dev():
     shared_dir = fetch_shared_dir()
     handler = DevBuild(project_dir(), script_dir(), shared_dir)
     handler.wrapped_all()
-    
+
     observer = Observer()
     observer.schedule(handler, path=project_dir(), recursive=True)
     observer.start()
-    
+
     if shared_dir is not None:
         observer = Observer()
         observer.schedule(handler, path=shared_dir, recursive=True)
         observer.start()
-    
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
+
+    if len(sys.argv) > 2 and sys.argv[2] == 'server':
+        PORT = 8000
+        server = SimpleHTTPServer.SimpleHTTPRequestHandler
+        httpd = SocketServer.TCPServer(("", PORT), server)
+        print "serving at port", PORT
+        httpd.serve_forever()
+
+    if len(sys.argv) > 2 and sys.argv[2] == 'once':
         observer.stop()
-    observer.join()
+    else:
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            observer.stop()
+        observer.join()
+
+def server(httpd_old="None"):
+    PORT = 8000
+    server = SimpleHTTPServer.SimpleHTTPRequestHandler
+    httpd = SocketServer.TCPServer(("", PORT), server)
+    print "serving at port", PORT
+    httpd.serve_forever()
+    return httpd
 
 def debug():
     root_folders = [fetch_shared_dir(), project_dir()]
@@ -151,7 +173,7 @@ def main():
         cmd = sys.argv[-1]
     else:
         return help()
-    
+
     if cmd == "create-project":
         return create_project()
     elif cmd == "update-framework":
@@ -168,7 +190,7 @@ def main():
         return debug()
     else:
         return help()
-    
+
 
 p = project_dir()
 s = script_dir(append="templates")

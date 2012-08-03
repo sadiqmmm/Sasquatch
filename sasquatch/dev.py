@@ -195,7 +195,7 @@ class DevBuild(BaseBuild):
                 filename = self.shared_dir(filename[8:])
             sass_src += "\n/*\nfile: %s\n*/\n" % filename
             sass_src += read_file(filename)
-        write_file(self.bin_dir("sass/_app.scss"), sass_src)
+        write_file(self.bin_dir("sass/app.scss"), sass_src)
 
     def run_compass(self):
         external_process("compass", "compile", self.bin_dir())

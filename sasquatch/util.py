@@ -113,6 +113,5 @@ class ClosureCompiler():
     def debug(self, input_f):
         external_process("java", "-jar", self.tool, "--js", input_f, "--js_output_file", "/dev/null", "--warning_level", "QUIET")
     
-
-closure_compiler_path = os.environ["TLDR_CLOSURE"]
+closure_compiler_path = script_dir()+'/bin'
 compiler = ClosureCompiler(closure_compiler_path)

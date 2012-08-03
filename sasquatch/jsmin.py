@@ -155,6 +155,7 @@ class JavascriptMinify(object):
                         self._outA()
                         self.theA = self._get()
                     elif self.theA <= '\n':
+                        break
                         raise UnterminatedRegularExpression()
                     self._outA()
                 self.theB = self._next()
