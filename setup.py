@@ -4,7 +4,7 @@ import sys, os, subprocess, urllib2, zipfile
 
 from setuptools import setup, find_packages
 
-from sasquatch import version
+#from sasquatch import version
 
 long_description = """
 long description.
@@ -51,7 +51,7 @@ except:
 
 setup(
     name='Sasquatch',
-    version=version,
+    version='1.1.1',
     description='All encompassing javascript framework, develop to build',
     long_description=long_description,
     author='Todd Cullen',
