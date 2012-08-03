@@ -1,1 +1,15 @@
+Sasquatch.egg-info/*
+Sasquatch.egg-info
+Simple.egg-info
+build
+build/*
+dist
+dist/*
+test
+sasquatch/bin/*
+sasquatch/example/bin/*
+
+*.DS_Store
+*.pyc
+*.#*
 .DS_Store
