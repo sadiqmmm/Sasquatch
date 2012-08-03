@@ -48,6 +48,7 @@ setup(
     author_email='todd@thoughtleadr.com',
     url='http://www.github.com',
     packages=find_packages(),
+    include_package_data=True,
     entry_points={
         'console_scripts': [
             'sasquatch = sasquatch:main',

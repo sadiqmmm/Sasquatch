@@ -1,0 +1,2 @@
+include sasquatch/templates/*
+include sasquatch/example/*
