@@ -4,25 +4,37 @@
 	<link rel="stylesheet" href="http://www.nodejs.org/api/assets/style.css">
   <link rel="stylesheet" href="http://www.nodejs.org/api/assets/sh.css">
 </head>
-<body>
-<div id="content">
-<div id="column2"></div>
-<div id="column1">
-	<h1>Commandline Options</h1>
-	<h3>$ sasquatch create-project &lt;name&gt;</h2>
-	<p>creates new project with a couple example views and controllers</p>
-	<h3>$ sasquatch create-view &lt;name&gt;</h2>
-	<p>creates empty view and controller with name</p>
-	<h3>$ sasquatch dev</h2>
-	<p>builds files into bin directory and watches for changes</p>
-	<h3>$ sasquatch dev server</h2>
-	<p>builds files into bin directory and watches for changes, also starts a simple server to serve files from localhost:8000/bin</p>
-	<h3>$ sasquatch dev once</h2>
-	<p>runs the dev build once and quits</p>
-	<h3>$ sasquatch prod</h2>
-	<p>creates production build minifing css and js (using closure compiler)</p>
-</div>
-</div>
+<body class="alt apidoc" id="api-section-index">
+  <div id="intro" class="interior">
+    <a href="/" title="Go back to the home page">
+      <img id="logo" src="http://www.thoughtleadr.com/wp-content/themes/ThoughtLeadr/img/tldr-logo.png" alt="node.js">
+    </a>
+  </div>
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <ul>
+				<li><a href="/" class="home">Home</a></li>
+				<li><a href="commandline.html" class="npm current">Commandline</a></li>
+				<li><a href="api.html" class="docs">JS API</a></li>
+				<li><a href="gettingstarted.html" class="blog">Get Started</a></li>
+      </ul>
+    </div>
+		<div id="column1" class="interior">
+			<h1>Commandline Options</h1>
+			<h3>$ sasquatch create-project &lt;name&gt;</h3>
+			<p>creates new project with a couple example views and controllers</p>
+			<h3>$ sasquatch create-view &lt;name&gt;</h3>
+			<p>creates empty view and controller with name</p>
+			<h3>$ sasquatch dev</h3>
+			<p>builds files into bin directory and watches for changes</p>
+			<h3>$ sasquatch dev server</h3>
+			<p>builds files into bin directory and watches for changes, also starts a simple server to serve files from localhost:8000/bin</p>
+			<h3>$ sasquatch dev once</h3>
+			<p>runs the dev build once and quits</p>
+			<h3>$ sasquatch prod</h3>
+			<p>creates production build minifing css and js (using closure compiler)</p>
+		</div>
+	</div>
   <script src="http://www.nodejs.org/sh_main.js"></script>
   <script src="http://www.nodejs.org/sh_javascript.min.js"></script>
   <script>highlight(undefined, undefined, 'pre');</script>
