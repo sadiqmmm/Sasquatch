@@ -122,7 +122,12 @@ def dev():
         server = SimpleHTTPServer.SimpleHTTPRequestHandler
         httpd = SocketServer.TCPServer(("", PORT), server)
         print "serving at port", PORT
-        httpd.serve_forever()
+        try:
+            while True:
+                httpd.serve_forever(poll_interval=0.1)
+        except KeyboardInterrupt:
+            httpd.shutdown()
+            observer.stop()
 
     if len(sys.argv) > 2 and sys.argv[2] == 'once':
         observer.stop()
