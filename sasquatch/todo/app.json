@@ -1,0 +1,15 @@
+{
+	"name" : "todo",
+	"version" : "0.1.0",
+	"dependencies" : [
+		"lib/jquery-1.7.1.js",
+		"lib/underscore.js",
+		"lib/signals.js",
+		"lib/crossroads.js",
+		"lib/hasher.js",
+		"lib/jquery-scrollto.js",
+		"lib/global.js",
+		"lib/services.js"
+	],
+	"app_sass":[]
+}

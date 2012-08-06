@@ -1,0 +1,13 @@
+<h1><%= name %></h1>
+<ul class="task_list">
+<% _.each(tasks, function(task) { %>
+	 <li><%= task %></li>
+<% }); %>
+</ul>
+
+<form id="new_task">
+  <label for="task">Add Task</label>
+	<input type="text" name="task" class="task"></input>
+	<input type="hidden" value="<%= name %>" name="todo_name" class="todo_name"></input>
+	<button class="add_task" type="submit">Add Task</submit>
+</form>
