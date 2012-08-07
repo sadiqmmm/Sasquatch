@@ -301,9 +301,16 @@ pre {
 	border: none;
 }
 .sidebar {
+	position: relative;
 	float: left;
 	width: 300px;
 	margin: 0 10px;
+}
+.sidebar img.blink {
+	position: absolute;
+	top: 45px;
+	left: 94px;
+
 }
 .content-column {
 	float: left;
