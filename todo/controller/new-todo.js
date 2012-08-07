@@ -1,19 +1,17 @@
 
 exports.loadData = function(data, callback){
-    console.log("view ready:todo-new");
     callback({
 			heading: "Create a New Todo List"
 		});
 };
 
 exports.onReady = function(){
-  console.log("view ready:todo-new");
-	$('#new_todo').when('submit', function(e) {
+	$('#new_todo').when('submit', function(e) { //create event to make new todo list
 		e.preventDefault();
 		var todo_name = $('.todo_name').val()
-		Services.addTodo(todo_name, function(result) {
+		Services.addTodo(todo_name, function(result) { //call services layer to add new todo list
 			console.log(result);
-			$.goReplace('todo', {name:todo_name});
+			$.goReplace('todo', {name:todo_name}); // go to new todo list and replace current hash (back button will go back to page before this one)
 		});
 	});
 };

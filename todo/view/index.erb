@@ -1,2 +1,8 @@
 <h2><%= heading %></h2>
 <a href="#/todo/new">Create new Todo</a>
+<ul>
+	<h3>Todos:</h3>
+	<% _.each(todos, function(v, k) { %>
+	  <li><a href="#/todo/<%= k %>"><%= k %></a></li>
+  <% }); %>
+</ul>

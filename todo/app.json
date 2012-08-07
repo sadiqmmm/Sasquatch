@@ -11,5 +11,7 @@
 		"lib/global.js",
 		"lib/services.js"
 	],
-	"app_sass":[]
+	"app_sass":[
+	  "style/style.scss"
+	]
 }

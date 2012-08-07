@@ -1,6 +1,9 @@
 exports.loadData = function(data, callback){
-  callback({
-		heading: "My Simple Todo App"
+	Services.listTodos(function(todos) {
+		callback({
+			heading: "My Simple Todo App",
+			todos: todos
+		});
 	});
 };
 

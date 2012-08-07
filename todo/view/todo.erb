@@ -1,7 +1,8 @@
-<h1><%= name %></h1>
-<ul class="task_list">
-<% _.each(tasks, function(task) { %>
-	 <li><%= task %></li>
+<%= $.partial('nav', {}) %>
+<h1>Todo: <%= name %></h1>
+<ul class="task_list" todo="<%= name %>">
+<% _.each(tasks, function(task, i) { %>
+	 <%= $.partial('task', {task:task, pos:i}) %>
 <% }); %>
 </ul>
 
