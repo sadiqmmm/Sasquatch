@@ -3,6 +3,8 @@
 	<title>Sasquatch :: Commandline Options</title>
 	<link rel="stylesheet" href="http://www.nodejs.org/api/assets/style.css">
   <link rel="stylesheet" href="http://www.nodejs.org/api/assets/sh.css">
+  <link rel="stylesheet" href="http://thoughtleadr.github.com/Sasquatch/css/highlight.css">
+  <script src=""></script>
 </head>
 <body class="alt apidoc" id="api-section-index">
   <div id="intro" class="interior">
@@ -26,7 +28,7 @@
 				<p>
 					First thing we want to do is create a new project. we can do this by typing into the console:
 				</p>
-<pre><code>sasquatch create-project todo</code></pre>
+<pre>sasquatch create-project todo</pre>
 			</section>
 			<section>
 				<h3 id="file-struct">Project Structure</h3>
@@ -60,7 +62,7 @@
 				<p>
 					Next we would like to create our first view and controller. The can be done by typing the following into the console, in the root of your project.
 				</p>
-<pre><code>sasquatch create-view todo</code></pre>
+<pre>sasquatch create-view todo</pre>
 				<p>This creates two files, one in the "view" directory called "todo.erb" and another in the controller directory called "todo.js"</p>
 			</section>
 			<section>
@@ -74,7 +76,7 @@
 			</section>
 			<section>
 				<p>Next in the root of the project open routes.json. You will see some sample routes already there.
-<pre><code>sasquatch dev server</code></pre>
+<pre>sasquatch dev server</pre>
 				<p>
 					Opening the todo.erb file it will be blank, type some html into the file and save it. Now run this is the root of your project;
 				</p>
@@ -91,20 +93,20 @@
 					function where you return an object of local variables used in the corresponding view (todo.erb)
 				</p>
 				<p>Go ahead and add a key and value to the callback like so:</p>
-<pre><code>
+<pre>
 exports.loadData = function(data, callback){
   console.log("view ready:todo");
   callback({
     title: "My first todo app"
   });
 };
-</code></pre>
+</pre>
 			</section>
 		</div>
 	</div>
 
-  <script src="http://www.nodejs.org/sh_main.js"></script>
-  <script src="http://www.nodejs.org/sh_javascript.min.js"></script>
-  <script>highlight(undefined, undefined, 'pre');</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
+  <script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
 </body>
 </html>
