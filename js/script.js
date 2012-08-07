@@ -1,3 +1,3 @@
 $(document).ready(function() {
-	$('pre').snippet('javascript');
+	$('pre.javascript').snippet('javascript');
 });
