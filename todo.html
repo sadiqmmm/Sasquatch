@@ -151,6 +151,26 @@ exports.onFinished = function(){
 	&lt;button type="submit" name="create_todo" class="create_todo"&gt;Create Todo&lt;/button&gt;
 &lt;/form&gt;
 </code></pre>
+      <p>
+				You may have noticed in the controller code the weird "Services.addTodo" function call. With Sasquatch we like to move all our database/data calls to a "services" layer, similar to a model.
+				These files a kept in the /lib directory. Lets create a services.js file in the /lib directory and put some logic in there for creating a todo list/
+			</p>
+<pre class="javascript"><code>
+Services = {
+	todos: {},
+	addTodo: function(todo_name, callback) {
+		var todo = Services.createNewTodo(todo_name); //create new todo list and add to todo object
+		callback(todo); // return newly created todo
+	},
+	createNewTodo: function(name) {
+		Services.todos[name] = {
+			tasks: []
+		};
+		return Services.todos[name];
+	}
+}
+</code></pre>
+        <p>We create a new object called Services and add a new function to it called addTodo that takes the todo_name and a callback function. We also call another services function that actually creates the todo object and stores in in Services.todos</p>
 			</section>
 		</div>
 	</div>
