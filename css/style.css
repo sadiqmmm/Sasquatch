@@ -319,14 +319,24 @@ h2 {
 }
 
 .snippet-wrap pre.sh_sourcecode {
-	border-radius: none;
-	-webkit-border-radius: none;
-	-moz-border-radius: none;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
+	border: 1px solid #ccc
 }
 
 .sh_emacs .sh_sourcecode {
 	background: #f5f5f5;
+}
+
+.snippet-wrap .snippet-num {
+	margin: 0;
+	padding: 0;
+}
+
+pre {
+	border: none;
 }
