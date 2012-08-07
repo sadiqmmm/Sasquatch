@@ -1,3 +1,3 @@
 $(document).ready(function() {
-	$('pre.javascript').snippet('javascript');
+	$('pre.javascript').snippet('javascript', {style:"emacs"});
 });
