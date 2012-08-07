@@ -159,8 +159,8 @@ exports.onFinished = function(){
 Services = {
 	todos: {},
 	addTodo: function(todo_name, callback) {
-		var todo = Services.createNewTodo(todo_name); //create new todo list and add to todo object
-		callback(todo); // return newly created todo
+		var todo = Services.createNewTodo(todo_name);
+		callback(todo);
 	},
 	createNewTodo: function(name) {
 		Services.todos[name] = {
@@ -170,7 +170,57 @@ Services = {
 	}
 }
 </code></pre>
-        <p>We create a new object called Services and add a new function to it called addTodo that takes the todo_name and a callback function. We also call another services function that actually creates the todo object and stores in in Services.todos</p>
+        <p>We create a new object called Services and add a new function to it called addTodo that takes the todo_name and a callback function. We also call another services function that actually creates the todo object and stores it in Services.todos</p>
+				<p>Also in the todo-new.js controller there was another weird function used call $.goReplace. This function is used to make the webapp go to a new hash/route, while replacing the current hash in the history stack.
+				It takes two params, the first is the controller it should reroute to, and the second is the data it should pass along with that call. This currently does not work beacuse we need to to create the new view and controller that displays our newly created todo list</p>
+			</section>
+			<section>
+				<h3 id="todo">Create the todo view</h3>
+				<p>The last controller and view we are going to make is the todo view where we can add tasks to our todo list</p>
+				<pre>sasquatch create-view todo</pre>
+				<p>Adding the logic to the newly created todo.js</p>
+<pre class="javascript"><code>
+exports.loadData = function(data, callback){
+	Services.getTodo(data.name, function(tasks) {
+		callback({
+			name: data.name,
+			tasks: tasks
+		});
+	});
+};
+
+exports.onReady = function(){
+	$('#new_task').when('submit', function(e) {
+		e.preventDefault();
+		var todo = $('.todo_name').val();
+		var task = $('.task').val();
+
+		Services.addTask(todo, task, function(result) {
+			console.log(result)
+			var partial = $.partial('task', {task:task, pos:result.pos});
+			$('.task_list').append(partial);
+		});
+		$('#new_task input.task').val('');
+		return false;
+	});
+
+	$('.task_list').when('click', 'li', function() {
+		var self = this;
+		var task = $(this).attr('index');
+		var todo = $(this).closest('ul').attr('todo');
+		Services.completeTask(todo, task, function(result) {
+			$(self).remove();
+			$('.task_list li').each(function(i, v) {
+				$(this).attr('index', i);
+			});
+		});
+	});
+};
+
+exports.onFinished = function(){
+    console.log("view exiting:todo");
+};
+</code></pre>
 			</section>
 		</div>
 	</div>
