@@ -325,8 +325,9 @@ h2 {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
-	border: 1px solid #ccc
+	border: 1px solid #ccc;
 	border-left: 40px solid #2a2a3d;
+	overflow: visible;
 }
 
 .sh_emacs .sh_sourcecode {
@@ -334,10 +335,12 @@ h2 {
 }
 
 .snippet-wrap .snippet-num {
-	margin: 0 0 0 -20px;
+	margin: 0 0 0 -2px;
 	padding: 0;
 }
-
+.snippet-wrap .snippet-num li {
+	border-bottom: 1px dotted #ccc;
+}
 pre {
 	border: none;
 	border-left: 40px solid #2a2a3d;
