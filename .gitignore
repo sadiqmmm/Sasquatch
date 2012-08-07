@@ -8,7 +8,7 @@ dist/*
 test
 sasquatch/bin/*
 sasquatch/example/bin/*
-sasquatch/todo/bin/*
+todo/bin/*
 
 *.DS_Store
 *.pyc
