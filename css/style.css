@@ -243,6 +243,156 @@ td { vertical-align: top; }
   /* Style adjustments for viewports that meet the condition */
 }
 
+/* ==|== sasquatch styles =======================================================
+   Sasquatch.
+   ========================================================================== */
+body {
+	background: #f4f4f4 url('../img/body-bg.png') no-repeat center top;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: #aaaaaa;
+	line-height: 150%;
+}
+h2 {
+	font-family: 'Oswald', sans-serif;
+	color: #585776;
+	font-size: 36px;
+	font-weight: 300;
+	line-height: 37px;
+	margin-bottom: 0px;
+}
+.topbar {
+	background: #585776;
+	height: 5px;
+	widows: 100%;
+	display: block;
+}
+.wrap {
+	width: 960px;
+	margin: 0 auto;
+	padding-top: 53px;
+}
+.snippet-wrap pre.sh_sourcecode {
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	border: 1px solid #ccc;
+	border-left: 40px solid #2a2a3d;
+	overflow: visible;
+}
+
+.sh_emacs pre.sh_sourcecode {
+	background: #f5f5f5 !important;
+}
+
+.snippet-wrap .snippet-num {
+	margin: 0 0 0 -2px;
+	padding: 0;
+	color: #f5f5f5;
+}
+.snippet-wrap .snippet-num li {
+	border-bottom: 1px dotted #ccc;
+	padding-left: 0;
+	color: #000;
+}
+pre {
+	border: none;
+}
+.sidebar {
+	float: left;
+	width: 300px;
+	margin: 0 10px;
+}
+.content-column {
+	float: left;
+	width: 620px;
+	margin: 0 10px;
+}
+.content-column .menu {
+	margin: 13px 37px 21px 0;
+	/*margin-bottom: 59px;*/
+	float: right;
+}
+.content-column .menu ul {
+	list-style: none;
+}
+.content-column .menu ul li {
+	float: left;
+	margin-right: 20px;
+	color: #e0334a;
+	font-family: 'Oswald', sans-serif;
+	font-weight: 300;
+}
+.content-column .menu ul li:last-child {
+	margin-right: 0px;
+}
+.content-column .menu ul li a {
+	text-decoration:  none;
+	color: #35344c;
+	font-size: 16px;
+}
+.content-column .menu ul li a:hover {
+	text-decoration: underline;
+}
+.content-column .menu ul li a.active {
+	font-weight: 400;
+}
+.content-column .content hr{
+	border: 0px;
+	border-bottom: 1px dashed #ccc;
+	margin: 34px 0;
+}
+.content-column .content a {
+	color: #e0334a;
+	text-decoration: none;
+}
+.content-column .content a:hover {
+	text-decoration: underline;
+}
+.footer {
+	border-top: 1px solid #ccc;
+	margin-top: 44px;
+	padding: 20px 0 20px 10px;
+	margin-bottom: 34px;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+	font-size: 12px;
+}
+.footer a {
+	color: #67658a;
+	text-decoration: none;
+}
+.footer a:hover {
+	text-decoration: underline;
+}
+.footer ul {
+	float: right;
+	list-style: none;
+	padding: 0px;
+}
+.footer ul li {
+	float: left;
+	margin-right: 12px;
+	padding: 0 10px 0 0;
+	border-right: 1px solid #ddd;
+}
+.footer ul li a {
+	color: #aaa;
+	text-decoration: none;
+}
+.footer ul li a:hover {
+	color: #67658a;
+	text-decoration: none;
+}
+.footer ul li:last-child {
+	border-right: 0px;
+}
+.footer p {
+	color: #aaa;
+	float: left;
+}
+
 
 
 /* ==|== non-semantic helper classes ========================================
@@ -290,60 +440,4 @@ td { vertical-align: top; }
   @page { margin: 0.5cm; }
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3 { page-break-after: avoid; }
-}
-
-
-/* ==|== sasquatch styles =======================================================
-   Sasquatch.
-   ========================================================================== */
-body {
-    background: #f4f4f4 url('../img/body-bg.png') no-repeat center top;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    color: #aaaaaa;
-}
-h2 {
-    font-family: 'Oswald', sans-serif;
-    color: #585776;
-    font-size: 36px;
-    font-weight: 300;
-}
-.topbar {
-    background: #585776;
-    height: 5px;
-    widows: 100%;
-    display: block;
-}
-.wrap {
-    width: 960px;
-    margin: 0 auto;
-}
-
-.snippet-wrap pre.sh_sourcecode {
-	border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	border: 1px solid #ccc;
-	border-left: 40px solid #2a2a3d;
-	overflow: visible;
-}
-
-.sh_emacs pre.sh_sourcecode {
-	background: #f5f5f5 !important;
-}
-
-.snippet-wrap .snippet-num {
-	margin: 0 0 0 -2px;
-	padding: 0;
-	color: #f5f5f5;
-}
-.snippet-wrap .snippet-num li {
-	border-bottom: 1px dotted #ccc;
-	padding-left: 0;
-	color: #000;
-}
-pre {
-	border: none;
 }
