@@ -330,16 +330,18 @@ h2 {
 	overflow: visible;
 }
 
-.sh_emacs .sh_sourcecode {
-	background: #f5f5f5;
+.sh_emacs .sh_sourceCode {
+	background: #f5f5f5 !important;
 }
 
 .snippet-wrap .snippet-num {
 	margin: 0 0 0 -2px;
 	padding: 0;
+	color: #f5f5f5;
 }
 .snippet-wrap .snippet-num li {
 	border-bottom: 1px dotted #ccc;
+	padding-left: 0;
 }
 pre {
 	border: none;
