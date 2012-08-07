@@ -326,6 +326,7 @@ h2 {
 	-moz-box-shadow: none;
 	box-shadow: none;
 	border: 1px solid #ccc
+	border-left: 40px solid #2a2a3d;
 }
 
 .sh_emacs .sh_sourcecode {
@@ -339,5 +340,5 @@ h2 {
 
 pre {
 	border: none;
-	border-left: 20px solid #2a2a3d;
+	border-left: 40px solid #2a2a3d;
 }
