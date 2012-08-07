@@ -74,7 +74,7 @@
 				</p>
 			</section>
 			<section>
-				<p>Next in the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the controller index, and the second maps the route second/ with an optional tag ":heading:" to the controller second. You can delete the second route as it is an example and we will not be using it.</p>
+				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the controller index, and the second maps the route second/ with an optional tag ":heading:" to the controller second. You can delete the second route as it is an example and we will not be using it.</p>
 				<p>Next run:</p>
 				<pre>sasquatch dev server</pre>
 				<p>This commands does a dev build, puts an observer on your project folder for file changes, and starts up a server running you app at localhost:8000/bin/. Navigating there will show the html you put into index.erb</p>
@@ -91,19 +91,66 @@
 					function where you return an object of local variables used in the corresponding view (index.erb)
 				</p>
 				<p>Go ahead and add a key and value to the callback like so:</p>
-<pre class="javascript">
+<pre class="javascript"><code>
 exports.loadData = function(data, callback){
   console.log("view ready:todo");
   callback({
     heading: "My first todo app"
   });
 };
-</pre>
+</code></pre>
         <p>Now switch back to index.erb in your views directory and add:</p>
 <pre>
 &lt;h2&gt;&lt;%= heading %&gt;&lt;/h2&gt;
 </pre>
         <p>Reload your browser and you should now see "My first todo app" as a heading on your view (remember to have "sasquatch dev server" running)</p>
+			</section>
+			<section>
+				<h3 id="new-todo">Create a view to make a todo list</h3>
+				<p>Create another view and controller called "new-todo"</p>
+				<pre>sasquatch create-view new-todo</pre>
+				<p>First thing we need to do is hook up our new view and controller to the routes. Open routes.json and add a new route. Your routes should now look something like this"</p>
+<pre class="javascript"><code>
+{
+	"" : {
+		"controller" : "index"
+	},
+	"todo/new" : {
+	  "controller" : "new-todo"
+	}
+}
+</code></pre>
+        <p>Lets also add some logic to the new-todo.js controller we just created:</p>
+<pre class="javascript"><code>
+exports.loadData = function(data, callback){
+    callback({
+			heading: "Create a New Todo List"
+		});
+};
+
+exports.onReady = function(){
+	$('#new_todo').when('submit', function(e) {
+		e.preventDefault();
+		var todo_name = $('.todo_name').val()
+		Services.addTodo(todo_name, function(result) {
+			$.goReplace('todo', {name:todo_name});
+		});
+	});
+};
+
+exports.onFinished = function(){
+    console.log("view exiting:todo-new");
+};
+</code></pre>
+      <p>We also need to add some logic to our view new-todo.erb:</p>
+<pre><code>
+&lt;h1&gt;&lt;%= heading %&gt;&lt;/h1&gt;
+&lt;form id="new_todo"&gt;
+  &lt;label for="todo_name"&gt;Todo List Name&lt;/label&gt;
+	&lt;input type="text" name="todo_name" class="todo_name"&gt;&lt;/input&gt;
+	&lt;button type="submit" name="create_todo" class="create_todo"&gt;Create Todo&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
 			</section>
 		</div>
 	</div>
