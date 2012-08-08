@@ -1,0 +1,14 @@
+{
+	"" : {
+		"controller" : "index"
+	},
+	"todo/new" : {
+	  "controller" : "new-todo"
+	},
+	"todo/edit/{id}" : {
+	  "controller" : "edit-todo"
+	},
+	"todo/{name}" : {
+		"controller" : "todo"
+	}
+}

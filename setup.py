@@ -4,8 +4,6 @@ import sys, os, subprocess, urllib2, zipfile
 
 from setuptools import setup, find_packages
 
-from sasquatch import version
-
 long_description = """
 long description.
 """
@@ -20,10 +18,20 @@ except:
     print "Please install Java"
     sys.exit(0)
 
+print "Checking for Ruby"
+
 try:
     ruby = subprocess.check_output('ruby --version', shell=True, stderr=subprocess.STDOUT)
 except:
     print "Please install Ruby"
+    sys.exit(0)
+
+print "Checking for Compass"
+
+try:
+    ruby = subprocess.check_output('compass --version', shell=True, stderr=subprocess.STDOUT)
+except:
+    print "Please install Compass"
     sys.exit(0)
 
 try:
@@ -41,13 +49,14 @@ except:
 
 setup(
     name='Sasquatch',
-    version=version,
+    version='1.1.1',
     description='All encompassing javascript framework, develop to build',
     long_description=long_description,
     author='Todd Cullen',
     author_email='todd@thoughtleadr.com',
     url='http://www.github.com',
     packages=find_packages(),
+    include_package_data=True,
     entry_points={
         'console_scripts': [
             'sasquatch = sasquatch:main',
@@ -57,8 +66,8 @@ setup(
           'Development Status :: 5 - Production/Stable',
     ],
     install_requires=[
-          "django",
-          "watchdog",
+        "django",
+        "watchdog"
     ]
 
 )

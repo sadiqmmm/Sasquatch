@@ -1,0 +1,11 @@
+include sasquatch/templates/*
+include sasquatch/example/*
+include sasquatch/example/view/*
+include sasquatch/example/controller/*
+include sasquatch/example/lib/*
+include sasquatch/example/style/*
+include sasquatch/example/img/*
+include sasquatch/example/partial/*
+
+include sasquatch/bin/compiler.jar
+recursive-include sasquatch/examples *.js *.erb

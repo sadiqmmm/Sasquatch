@@ -8,8 +8,13 @@ exports.loadData = function(data, callback){
 
 exports.onReady = function(){
   console.log("view ready:index");
-	$('h2').when('click', function() {
+	$('a.second-page').when('click', function() {
 		$.go('second', {heading: "This is another page"});
+		return false;
+	});
+	$('a.second-page-reaplce').when('click', function() {
+		$.goReplace('second', {heading: "This is another page and replaced the previous hash"});
+		return false;
 	});
 };
 
