@@ -272,7 +272,36 @@ completeTask: function(todo, task, callback) {
 	&lt;button class="add_task" type="submit"&gt;Add Task&lt;/submit&gt;
 &lt;/form&gt;
 </code></pre>
+        <p>The great thing about sasquatch views is you can use any javascript you have in the lib folder</p>
+				<p>You may also see we used a new function you have never seen, the "$.partial" function. This allows you to call and render a partial in the /partial folder in the root of the project.
+					It takes two parameters, the first is the name of the partial and the second is a data object of local variables.
+					Create a new file called task.erb in the partial folder that looks like this.
+				</p>
+<pre class="html"><code>
+&lt;li index="&lt;%= pos %&gt;">&lt;%= task %&gt;&lt;/li&gt;
+</code></pre>
 			</section>
+			<section>
+				<h3 id="back-index">Showing All Todo Lists</h3>
+				<p>Lastly lets go back to index.erb and add some logic in to list all the todo lists made:</p>
+<pre class="javascript"><code>
+exports.loadData = function(data, callback){
+	Services.listTodos(function(todos) {
+		callback({
+			heading: "My Simple Todo App",
+			todos: todos
+		});
+	});
+};
+</code></pre>
+       <p>We simply added a services call with a callback that returns all the todos, then added this to the local variables so we can get them in our view. Now add another function to Services.</p>
+<pre class="javascript"><code>
+listTodos: function(callback) {
+  callback(Services.todos);
+}
+</code></pre>
+      <p>We now have a function todo list, go back to localhost:8000/bin and see for yourself!</p>
+    </section>
 		</div>
 	</div>
 

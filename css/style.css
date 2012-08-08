@@ -295,7 +295,9 @@ h2 {
 .snippet-wrap .snippet-num li {
 	border-bottom: 1px dotted #ccc;
 	padding-left: 0;
-	color: #000;
+}
+.snippet-wrap .snippet-num li code {
+	color:#000;
 }
 pre {
 	border: none;
