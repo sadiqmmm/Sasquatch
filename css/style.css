@@ -249,16 +249,23 @@ td { vertical-align: top; }
 body {
 	background: #f4f4f4 url('../img/body-bg.png') no-repeat center top;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	color: #aaaaaa;
+	color: #777;
 	line-height: 150%;
 }
-h2 {
+h1, h2, h3 {
 	font-family: 'Oswald', sans-serif;
 	color: #585776;
 	font-size: 36px;
 	font-weight: 300;
 	line-height: 37px;
 	margin-bottom: 0px;
+}
+h1 {
+	font-size: 40px;
+	font-weight: bold;
+}
+h3 {
+	font-size: 30px;
 }
 .topbar {
 	background: #585776;
@@ -284,13 +291,13 @@ h2 {
 }
 
 .sh_emacs pre.sh_sourcecode {
-	background: #f5f5f5 !important;
+	background: #fff !important;
 }
 
 .snippet-wrap .snippet-num {
-	margin: 0 0 0 -2px;
+	margin: 0 0 0 -5px;
 	padding: 0;
-	color: #f5f5f5;
+	color: #fff;
 }
 .snippet-wrap .snippet-num li {
 	border-bottom: 1px dotted #ccc;
@@ -301,6 +308,7 @@ h2 {
 }
 pre {
 	border: none;
+	font-size: 14px;
 }
 .sidebar {
 	position: relative;
