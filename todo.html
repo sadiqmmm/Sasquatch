@@ -228,18 +228,49 @@ exports.onFinished = function(){
 					The only difference is it automatically unbinds the event with jQuery's "off" method when the page changes.
 					In those two events we call the Services layer again, on to add a task to the todo list and another to remove a task from the todo list. To finish this code, lets add the three new Services.</p>
 <pre class="javascript"><code>
-	getTodo: function(todo_name, callback) {
-		var todo = Services.todos[todo_name];
-		callback(todo ? todo.tasks : []);
+getTodo: function(todo_name, callback) {
+  var todo = Services.todos[todo_name];
+  callback(todo ? todo.tasks : []);
+},
+addTask: function(todo, task, callback) {
+  Services.todos[todo].tasks.push(task);
+  callback({success:true, pos:Services.todos[todo].tasks.length - 1});
+},
+completeTask: function(todo, task, callback) {
+  Services.todos[todo].tasks.splice(task, 1);
+  callback({success:true});
+}
+</code></pre>
+        <p>We also need to setup our new route, open routes.json and add a new route. This time we are going to use a special pattern that will add a required parameter to the route, which then can be used in the loadData function of the controller, (which we already setup the logic for)</p>
+<pre class="javascript"><code>
+{
+	"" : {
+		"controller" : "index"
 	},
-	addTask: function(todo, task, callback) {
-		Services.todos[todo].tasks.push(task);
-		callback({success:true, pos:Services.todos[todo].tasks.length - 1});
+	"todo/new" : {
+	  "controller" : "new-todo"
 	},
-	completeTask: function(todo, task, callback) {
-		Services.todos[todo].tasks.splice(task, 1);
-		callback({success:true});
+	"todo/{name}" : {
+		"controller" : "todo"
 	}
+}
+</code></pre>
+        <p>Adding the {name} makes the route need a parameter after the todo/ and it is stored in the data object of loadData in our controller.</p>
+				<p>To round things off we need to add the HTML to the view todo.erb</p>
+<pre class="html"><code>
+&lt;h1&gt;Todo: &lt;%= name %&gt;&lt;/h1&gt;
+&lt;ul class="task_list" todo="&lt;%= name %&gt;"&gt;
+&lt;% _.each(tasks, function(task, i) { %&gt;
+	 &lt;%= $.partial('task', {task:task, pos:i}) %&gt;
+&lt;% }); %&gt;
+&lt;/ul&gt;
+
+&lt;form id="new_task"&gt;
+  &lt;label for="task"&gt;Add Task&lt;/label&gt;
+	&lt;input type="text" name="task" class="task"&gt;&lt;/input&gt;
+	&lt;input type="hidden" value="&lt;%= name %&gt;" name="todo_name" class="todo_name"&gt;&lt;/input&gt;
+	&lt;button class="add_task" type="submit"&gt;Add Task&lt;/submit&gt;
+&lt;/form&gt;
 </code></pre>
 			</section>
 		</div>
