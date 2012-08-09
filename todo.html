@@ -14,7 +14,7 @@
 	<div class="topbar"></div>
 	<div class="wrap">
 		<div class="sidebar">
-			<a href="/" id="logo">
+			<a href="index.html" id="logo">
 				<img src="img/blinking-eyes.gif" alt="" class="blink">
 				<img src="img/sasquatch.png" alt="Sasquatch JS">
 			</a>
@@ -33,7 +33,7 @@
 		<div class="content-column">
 			<div class="menu">
 				<ul>
-					<li><a href="/">Home</a></li>
+					<li><a href="index.html">Home</a></li>
 					<li>/</li>
 					<li><a href="commandline.html">Commandline</a></li>
 					<li>/</li>
@@ -108,7 +108,7 @@
 				<pre class="no-num"><code> &lt;h1&gt; Hello Sasquatch! &lt;/h1&gt; </code></pre>
 			</section>
 			<section>
-				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the index controller. The second route maps "second/:heading:" to the second controller. The ":heading:" part is an optional route parameter. Required route parameters look like "{heading}". The parameters get injected into your controller so you can use them at runtime. 
+				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the index controller. The second route maps "second/:heading:" to the second controller. The ":heading:" part is an optional route parameter. Required route parameters look like "{heading}". The parameters get injected into your controller so you can use them at runtime.
 				</p>
 				<p>For now, you can delete the second route. Your routes.json file should now look like this:</p>
 				<pre class="no-num"><code>{
@@ -152,8 +152,8 @@ exports.loadData = function(data, callback){
 				<h2 id="create-view">Create a view to make a todo list</h2>
 				<p>Create another view and controller called "new-todo"</p>
 				<pre class="no-num"><code>sasquatch create-view new-todo</code></pre>
-				<p>First thing we need to do is hook up our new view and controller to the routes. 
-					Open routes.json and add a new route. 
+				<p>First thing we need to do is hook up our new view and controller to the routes.
+					Open routes.json and add a new route.
 					Your routes should now look something like this:</p>
 <pre class="javascript"><code>
 {
@@ -187,10 +187,10 @@ exports.onFinished = function(){
     console.log("view exiting:todo-new");
 };
 </code></pre>
-      <p>The templating system for Sasquatch is underscore's template method. 
+      <p>The templating system for Sasquatch is underscore's template method.
 		  You can interpolate any javascript you'd like into the template including strings or numbers passed into the loadData callback.
 	  </p>
-	  
+
 	  <p>We need to add some logic to our view new-todo.erb, toss this in there:</p>
 <pre class="html"><code>
 &lt;h1&gt;&lt;%= heading %&gt;&lt;/h1&gt;
