@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Sasquatch :: Commandline Options</title>
+	<title>Sasquatch :: Todo Application Tutorial</title>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="css/highlight.css">
@@ -44,18 +44,25 @@
 			</div>
 			<div class="clearfix"></div>
 			<div class="content">
-			<h1>Sample Todo App</h1>
+			<h1>Todo App Tutorial</h1>
+			
+			<p>In this tutorial, you will learn how to use Sasquatch to build a simple todo tracking application. 
+				In the process of building the application, you will be exposed to all the major components of the Sasquatch framework.</p>
+				
 			<section>
 				<h3 id="create-project">Create the project</h3>
 				<p>
-					First thing we want to do is create a new project. we can do this by typing into the console:
+					First thing we want to do is create a new project. We can do this by typing into the console:
 				</p>
 				<pre class="no-num"><code>sasquatch create-project todo</code></pre>
+				<p>
+					A directory called todo will be created containing a skeleton project.
+				</p>
 			</section>
 			<section>
 				<h3 id="file-struct">Project Structure</h3>
 				<p>
-					Entering into the newly created directory you will see your newly create project with a file structure like this:
+					Entering into the newly created directory, you will see your project with a file structure like this:
 				</p>
 				<pre class="no-num"><code>
 - todo
@@ -74,16 +81,16 @@
 			<section>
 				<h3 id="template">template.html</h3>
 				<p>
-					Go ahead and open the template.html file in your favorite text editor. You will see your basic template file with a few for loops that place your css and js files into the webpage. Also some basic html with a body tage that has one div in it with a class content.
+					Go ahead and open the template.html file in your favorite text editor. You will see your django template file with a few for loops that output css and javascript tags into the webpage. In addition, there is a basic webpage structure with a HEAD, BODY, and DIV with a class of <em>content</em>. The DIV with a class of <em>content</em> is important, its the location on this basic webpage that will hold all the of views rendered by the Sasquatch MVC framework. For now, don't worry too much about it. Just understand that Sasquatch renders all its HTML views and outputs them into that DIV.
 				</p>
 				<p>
-					If you also open the config.json file you can see a simple json file with two keys, "rootElement" and "defaultView", rootElement is the selector for where you want to insert your views into the template file. The second is the defaultView it will use when loading the root of the project. Change this to "todo".
+					If you also open the config.json file you can see a json file with two keys, "rootElement" and "defaultView". "rootElement" is the jQuery selector for where you want to insert your views into the template file. Note that it is set to ".content" which matches the DIV from the template.html file. The second property is "defaultView", which refers to what controller/view combination should be loaded up and rendered when a user first visits the webapp. For now, change this to "todo".
 				</p>
 			</section>
 			<section>
 				<h3 id="create-view">Create a New View/Controller</h3>
 				<p>
-					Next we would like to create our first view and controller. The can be done by typing the following into the console, in the root of your project.
+					Views and controllers are the heart of Sasquatch. They implement the business logic of the application and render changes to the HTML Document. We would like to create our first view and controller. This can be done by typing the following into the console from the root of your project.
 				</p>
 <pre class="no-num"><code>sasquatch create-view index</code></pre>
 				<p>This creates two files, one in the "view" directory called "index.erb" and another in the controller directory called "index.js"</p>
@@ -94,7 +101,7 @@
 					Go to the view directory and you will see your newly created index.erb file. You will also see another file, second.erb, you can delete it is just a sample file.
 				</p>
 				<p>
-					Opening the todo.erb file it will be blank, type some html into the file and save it.
+					Upon opening the todo.erb file, you notice its blank. Sasquatch isn't that good. You will need to provide some html of your own to render on the page.
 				</p>
 			</section>
 			<section>
