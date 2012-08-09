@@ -42,8 +42,8 @@ body { margin: 0; font-size: 1em; line-height: 1.4; }
  * Also: hot pink! (or customize the background color to match your design)
  */
 
-::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
-::selection { background: #fe57a1; color: #fff; text-shadow: none; }
+::-moz-selection { background: #e0334a; color: #fff; text-shadow: none; }
+::selection { background: #e0334a; color: #fff; text-shadow: none; }
 
 
 /* =============================================================================
@@ -249,7 +249,7 @@ td { vertical-align: top; }
 body {
 	background: #f4f4f4 url('../img/body-bg.png') no-repeat center top;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	color: #777;
+	color: #909090;
 	line-height: 150%;
 }
 h1, h2, h3 {
@@ -321,6 +321,38 @@ pre {
 	top: 45px;
 	left: 94px;
 
+}
+.sidebar #logo {
+    display: block;
+    margin-bottom: 37px;
+}
+.sidebar ul.submenu {
+    margin-top: 10px;
+    font-family: 'Oswald', sans-serif;
+    list-style: none;
+    font-weight: 300;
+    padding: 0px;
+}
+.sidebar ul.fixed {
+    position: fixed;
+    top: 0;
+}
+.sidebar ul.submenu li {
+    background: url('../img/sub-menu-bg2.png') no-repeat;
+    height: 29px;
+    /*color: #585776;*/
+    /*color: #909090;*/
+    color: #888;
+    width: 251px;
+    cursor: pointer;
+    font-size: 19px;
+    margin-bottom: 10px;
+    padding: 6px 0 0 9px;
+}
+.sidebar ul.submenu li:hover {
+    color: #f4f4f4;
+    background-position: 0 -35px;
+    /*background-position: 0 -70px;*/
 }
 .content-column {
 	float: left;

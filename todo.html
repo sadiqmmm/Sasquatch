@@ -1,21 +1,34 @@
 <html>
 <head>
 	<title>Sasquatch :: Commandline Options</title>
-  <link rel="stylesheet" href="css/highlight.css">
-  <link rel="stylesheet" href="css/style.css">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/highlight.css">
+	<link rel="stylesheet" href="css/style.css">
 
 	<!-- Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic' rel='stylesheet' type='text/css'>
 </head>
-<body class="alt apidoc" id="api-section-index">
+<body>
 	<div class="topbar"></div>
 	<div class="wrap">
 		<div class="sidebar">
-			<a href="/">
+			<a href="/" id="logo">
 				<img src="img/blinking-eyes.gif" alt="" class="blink">
 				<img src="img/sasquatch.png" alt="Sasquatch JS">
 			</a>
+			<ul class="submenu">
+				<li>Create Project</li>
+				<li>Project Structure</li>
+				<li>template.html</li>
+				<li>Create a New View/Controller</li>
+				<li>Your First View</li>
+				<li>Your First Controller</li>
+				<li>Create a view to make a todo list</li>
+				<li>Create the todo view</li>
+				<li>Showing All Todo Lists</li>
+			</ul>
 		</div>
 		<div class="content-column">
 			<div class="menu">
@@ -37,7 +50,7 @@
 				<p>
 					First thing we want to do is create a new project. we can do this by typing into the console:
 				</p>
-<pre class="no-num"><code>sasquatch create-project todo</code></pre>
+				<pre class="no-num"><code>sasquatch create-project todo</code></pre>
 			</section>
 			<section>
 				<h3 id="file-struct">Project Structure</h3>
@@ -328,7 +341,8 @@ listTodos: function(callback) {
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
 	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
+	<script src="js/submenu.js"></script>
 </body>
 </html>
