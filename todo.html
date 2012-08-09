@@ -19,15 +19,15 @@
 				<img src="img/sasquatch.png" alt="Sasquatch JS">
 			</a>
 			<ul class="submenu">
-				<li>Create Project</li>
-				<li>Project Structure</li>
-				<li>template.html</li>
-				<li>Create a New View/Controller</li>
-				<li>Your First View</li>
-				<li>Your First Controller</li>
-				<li>Create a view to make a todo list</li>
-				<li>Create the todo view</li>
-				<li>Showing All Todo Lists</li>
+				<li><a href="#create-project">Create Project</a></li>
+				<li><a href="#project-structure">Project Structure</a></li>
+				<li><a href="#template">template.html</a></li>
+				<li><a href="#create-view-controller">Create a New View/Controller</a></li>
+				<li><a href="#your-first-view">Your First View</a></li>
+				<li><a href="#your-first-controller">Your First Controller</a></li>
+				<li><a href="#create-view">Create a view to make a todo list</a></li>
+				<li><a href="#create-todo-view">Create the todo view</a></li>
+				<li><a href="#show-all-todo-lists">Showing All Todo Lists</a></li>
 			</ul>
 		</div>
 		<div class="content-column">
@@ -45,12 +45,12 @@
 			<div class="clearfix"></div>
 			<div class="content">
 			<h1>Todo App Tutorial</h1>
-			
-			<p>In this tutorial, you will learn how to use Sasquatch to build a simple todo tracking application. 
+
+			<p>In this tutorial, you will learn how to use Sasquatch to build a simple todo tracking application.
 				In the process of building the application, you will be exposed to all the major components of the Sasquatch framework.</p>
-				
+
 			<section>
-				<h3 id="create-project">Create the project</h3>
+				<h2 id="create-project">Create the project</h2>
 				<p>
 					First thing we want to do is create a new project. We can do this by typing into the console:
 				</p>
@@ -60,7 +60,7 @@
 				</p>
 			</section>
 			<section>
-				<h3 id="file-struct">Project Structure</h3>
+				<h2 id="project-structure">Project Structure</h2>
 				<p>
 					Entering into the newly created directory, you will see your project with a file structure like this:
 				</p>
@@ -79,16 +79,16 @@
 </code></pre>
 			</section>
 			<section>
-				<h3 id="template">template.html</h3>
+				<h2 id="template">template.html</h2>
 				<p>
 					Go ahead and open the template.html file in your favorite text editor. You will see your django template file with a few for loops that output css and javascript tags into the webpage. In addition, there is a basic webpage structure with a HEAD, BODY, and DIV with a class of <em>content</em>. The DIV with a class of <em>content</em> is important, its the location on this basic webpage that will hold all the of views rendered by the Sasquatch MVC framework. For now, don't worry too much about it. Just understand that Sasquatch renders all its HTML views and outputs them into that DIV.
 				</p>
 				<p>
 					If you also open the config.json file you can see a json file with two keys, "rootElement" and "defaultView". "rootElement" is the jQuery selector for where you want to insert your views into the template file. Note that it is set to ".content" which matches the DIV from the template.html file. The second property is "defaultView", which refers to what controller/view combination should be loaded up and rendered when a user first visits the webapp. For now, change this to "todo".
 				</p>
-			</section>  
+			</section>
 			<section>
-				<h3 id="create-view">Create a New View/Controller</h3>
+				<h2 id="create-view-controller">Create a New View/Controller</h2>
 				<p>
 					Views and controllers are the heart of Sasquatch. They implement the business logic of the application and render changes to the HTML Document. We would like to create our first view and controller. This can be done by typing the following into the console from the root of your project.
 				</p>
@@ -96,7 +96,7 @@
 				<p>This creates two files, one in the "view" directory called "todo.erb" and another in the controller directory called "todo.js"</p>
 			</section>
 			<section>
-				<h3 id="todo-view">Your First View</h3>
+				<h2 id="your-first-view">Your First View</h2>
 				<p>
 					Go to the view directory and you will see your newly created todo.erb file. You will also see another file, second.erb, you can delete it is just a sample file.
 				</p>
@@ -117,16 +117,16 @@
 				<p>This commands does three useful things. First, it creates a development build of the application that is easy to debug (easy to debug). Second, a file watcher is added the project files that will automatically recompile the application when you make changes. Third, it boots up a local development server at localhost:8000/bin/ so you can test your application. Navigating there to see the Hello Sasquatch heading.</p>
 			</section>
 			<section>
-				<h3 id="todo-cont">Your First Controller</h3>
+				<h2 id="your-first-controller">Your First Controller</h2>
 				<p>
 					The "create-view" command also creates a controller by the same name as the view. You can find your controller in the appropriately named "controller" directory. Open controller/todo.js in you favorite text editor. You will also see one other file, second.js, you can delete that as it is just sample a file.
 				</p>
 				<p>
-					Controllers are written using the CommonJS module pattern. 
+					Controllers are written using the CommonJS module pattern.
 					Controller modules are expected to "export" three specific functions for Sasquatch.
-					The first function is the "loadData". 
-					In this function, you get all the parameters you defined in the routes.json file which is often used to load remote data. 
-					"loadData" recieves two arguments, the first is an object with the named parameters you defined in your routes.json file. 
+					The first function is the "loadData".
+					In this function, you get all the parameters you defined in the routes.json file which is often used to load remote data.
+					"loadData" recieves two arguments, the first is an object with the named parameters you defined in your routes.json file.
 					The second argument is a callback function where you provide a data object used to power the view templating (todo.erb)
 				</p>
 				<p>Go ahead and add a key and value to the callback like so:</p>
@@ -145,7 +145,7 @@ exports.loadData = function(data, callback){
         <p>Reload your browser and you should now see "My first todo app" as a heading on your view (remember to have "sasquatch dev server" running)</p>
 			</section>
 			<section>
-				<h3 id="new-todo">Create a view to make a todo list</h3>
+				<h2 id="create-view">Create a view to make a todo list</h2>
 				<p>Create another view and controller called "new-todo"</p>
 				<pre class="no-num"><code>sasquatch create-view new-todo</code></pre>
 				<p>First thing we need to do is hook up our new view and controller to the routes. Open routes.json and add a new route. Your routes should now look something like this"</p>
@@ -214,7 +214,7 @@ Services = {
 				It takes two params, the first is the controller it should reroute to, and the second is the data it should pass along with that call. This currently does not work beacuse we need to to create the new view and controller that displays our newly created todo list</p>
 			</section>
 			<section>
-				<h3 id="todo">Create the todo view</h3>
+				<h2 id="create-todo-view">Create the todo view</h2>
 				<p>The last controller and view we are going to make is the todo view where we can add tasks to our todo list</p>
 				<pre class="no-num"><code>sasquatch create-view todo</code></pre>
 				<p>Adding the logic to the newly created todo.js</p>
@@ -321,7 +321,7 @@ completeTask: function(todo, task, callback) {
 </code></pre>
 			</section>
 			<section>
-				<h3 id="back-index">Showing All Todo Lists</h3>
+				<h2 id="show-all-todo-lists">Showing All Todo Lists</h2>
 				<p>Lastly lets go back to index.erb and add some logic in to list all the todo lists made:</p>
 <pre class="javascript"><code>
 exports.loadData = function(data, callback){

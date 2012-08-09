@@ -11,43 +11,87 @@
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<h1>Getting Started</h1>
-	
-	<h2>Prerequisites</h2>
-	<ol>
-		<li><a href="http://java.com/en/download/manual.jsp">Java</a>: 
-			Required for the Google Closure Compiler, used to minify CSS and Javascript in production builds.</li>
-			
-		<li><a href="http://www.ruby-lang.org/en/downloads/">Ruby</a>: 
-			Required for Compass Styling Framework.</li>
-		
-		<li><a href="http://compass-style.org/install/">Compass</a>: 
-			Required to support SCSS and advanced styling functionality.</li>
-	</ol>
-	
-	<h2>Install</h2>
-	<p>Run the following commands from your terminal in a location where you'd like the Sasquatch Open Source project to reside on your system.</p>
-	<ol>
-		<li><pre class="no-num"><code>git clone git@github.com:ThoughtLeadr/Sasquatch.git</code></pre></li>
-		<li><pre class="no-num"><code>cd Sasquatch</code></pre></li>
-		<li><pre class="no-num"><code>sudo python setup.py install</code></pre></li>
-	</ol>
-	<p>Sasquatch is setup and ready to go!</p>
-	
-	<h2>Create an app</h2>
-	<p>To create your first Sasquatch application, open up a terminal in a directory you'd like the project in.</p>
-	<ol>
-		<li><pre class="no-num"><code>sasquatch create-project myproject</code></pre></li>
-		<li><pre class="no-num"><code>cd myproject</code></pre></li>
-		<li><pre class="no-num"><code>sasquatch dev server</code></pre></li>
-	</ol>
-	<p>Open up your browser to localhost:8000/bin and you'll have see your very first Sasquatch Application.
-		To learn how to use all the functionality available in Sasquatch, you should check out our <a href="todo.html">Todo application</a>.</p>
-	
-	
+	<div class="topbar"></div>
+	<div class="wrap">
+		<div class="sidebar">
+			<a href="/" id="logo">
+				<img src="img/blinking-eyes.gif" alt="" class="blink">
+				<img src="img/sasquatch.png" alt="Sasquatch JS">
+			</a>
+			<ul class="submenu">
+				<li><a href="#prerequisites">Prerequisites</a></li>
+				<li><a href="#installation">Installation</a></li>
+				<li><a href="#create-an-app">Create an App</a></li>
+			</ul>
+		</div>
+		<div class="content-column">
+			<div class="menu">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li>/</li>
+					<li><a href="commandline.html">Commandline</a></li>
+					<li>/</li>
+					<li><a href="api.html">JS API</a></li>
+					<li>/</li>
+					<li><a href="gettingstarted.html" class="active">Get Started</a></li>
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+			<div class="content">
+				<h1>Getting Started</h1>
+
+				<h2 id="prerequisites">Prerequisites</h2>
+				<ol>
+					<li><a href="http://java.com/en/download/manual.jsp">Java</a>:
+						Required for the Google Closure Compiler, used to minify CSS and Javascript in production builds.</li>
+
+					<li><a href="http://www.ruby-lang.org/en/downloads/">Ruby</a>:
+						Required for Compass Styling Framework.</li>
+
+					<li><a href="http://compass-style.org/install/">Compass</a>:
+						Required to support SCSS and advanced styling functionality.</li>
+				</ol>
+				<hr>
+				<h2 id="install">Install</h2>
+				<p>Run the following commands from your terminal in a location where you'd like the Sasquatch Open Source project to reside on your system.</p>
+				<ol>
+					<li><pre class="no-num"><code>git clone git@github.com:ThoughtLeadr/Sasquatch.git</code></pre></li>
+					<li><pre class="no-num"><code>cd Sasquatch</code></pre></li>
+					<li><pre class="no-num"><code>sudo python setup.py install</code></pre></li>
+				</ol>
+				<p>Sasquatch is setup and ready to go!</p>
+				<hr>
+				<h2 id="create-an-app">Create an app</h2>
+				<p>To create your first Sasquatch application, open up a terminal in a directory you'd like the project in.</p>
+				<ol>
+					<li><pre class="no-num"><code>sasquatch create-project myproject</code></pre></li>
+					<li><pre class="no-num"><code>cd myproject</code></pre></li>
+					<li><pre class="no-num"><code>sasquatch dev server</code></pre></li>
+				</ol>
+				<p>
+					Open up your browser to localhost:8000/bin and you'll have see your very first Sasquatch Application.
+					To learn how to use all the functionality available in Sasquatch, you should check out our <a href="todo.html">Todo application</a>.
+				</p>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="footer">
+			<p>
+				Copyright <a href="http://thoughtleadr.com/">ThoughtLeadr, Inc</a>, Sasquatch is a <a href="/trademark-policy.pdf">trademark</a> of ThoughtLeadr, Inc.
+			</p>
+			 <ul>
+				<li><a href="/" class="home">Home</a></li>
+				<li><a href="commandline.html" class="npm current">Commandline</a></li>
+				<li><a href="api.html" class="docs">JS API</a></li>
+				<li><a href="gettingstarted.html" class="blog">Get Started</a></li>
+			</ul>
+		</div>
+	</div>
+
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
 	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
-	
+
 </body>
 </html>

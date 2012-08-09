@@ -18,13 +18,21 @@
 				<img src="img/blinking-eyes.gif" alt="" class="blink">
 				<img src="img/sasquatch.png" alt="Sasquatch JS">
 			</a>
+			<ul class="submenu">
+				<li><a href="#create-new-project">Create New Project</a></li>
+				<li><a href="#create-view-controller">Create View / Controller</a></li>
+				<li><a href="#build-watch">Build Files and Watch for Changes</a></li>
+				<li><a href="#build-watch-server">Build + Watch + Start Server</a></li>
+				<li><a href="#build-files-once">Build Once</a></li>
+				<li><a href="#build-minified">Build Minified (CSS/JS)</a></li>
+			</ul>
 		</div>
 		<div class="content-column">
 			<div class="menu">
 				<ul>
-					<li><a href="/" class="active">Home</a></li>
+					<li><a href="/">Home</a></li>
 					<li>/</li>
-					<li><a href="commandline.html">Commandline</a></li>
+					<li><a href="commandline.html" class="active">Commandline</a></li>
 					<li>/</li>
 					<li><a href="api.html">JS API</a></li>
 					<li>/</li>
@@ -35,37 +43,37 @@
 			<div class="content">
 				<h1>Commandline Options</h1>
 
-				<h3>Create New Project</h3>
+				<h2 id="create-new-project">Create New Project</h2>
 				<pre class="no-num"><code>$ sasquatch create-project &lt;name&gt;</code></pre>
 				<p>Creates new project with a couple example views and controllers.</p>
 
 				<hr>
 
-				<h3>Create View / Controller</h3>
+				<h2 id="create-view-controller">Create View / Controller</h2>
 				<pre class="no-num"><code>$ sasquatch create-view &lt;name&gt;</code></pre>
 				<p>Creates empty view and controller with name.</p>
 
 				<hr>
 
-				<h3>Build Files and Watch for Changes</h3>
+				<h2 id="build-watch">Build Files and Watch for Changes</h2>
 				<pre class="no-num"><code>$ sasquatch dev</code></pre>
 				<p>Builds files into bin directory and watches for changes.</p>
 
 				<hr>
 
-				<h3>Build Files, Watch for Changes and Starts Server</h3>
+				<h2 id="build-watch-server">Build Files, Watch for Changes and Starts Server</h2>
 				<pre class="no-num"><code>$ sasquatch dev server</code></pre>
 				<p>Builds files into bin directory and watches for changes, also starts a simple server to serve files from localhost:8000/bin .</p>
 
 				<hr>
 
-				<h3>Build Files Once</h3>
+				<h2 id="build-files-once">Build Files Once</h2>
 				<pre class="no-num"><code>$ sasquatch dev once</code></pre>
 				<p>Runs the dev build once and quits.</p>
 
 				<hr>
 
-				<h3>Build Minified CSS/JS</h3>
+				<h2 id="build-minified">Build Minified CSS/JS</h2>
 				<pre class="no-num"><code>$ sasquatch prod</code></pre>
 				<p>Creates production build minifing css and js (using closure compiler).</p>
 			</div>

@@ -18,15 +18,19 @@
 				<img src="img/blinking-eyes.gif" alt="" class="blink">
 				<img src="img/sasquatch.png" alt="Sasquatch JS">
 			</a>
+			<ul class="submenu">
+				<li><a href="#view-mode">View Methods</a></li>
+				<li><a href="#url-methods">URL Methods</a></li>
+			</ul>
 		</div>
 		<div class="content-column">
 			<div class="menu">
 				<ul>
-					<li><a href="/" class="active">Home</a></li>
+					<li><a href="/">Home</a></li>
 					<li>/</li>
 					<li><a href="commandline.html">Commandline</a></li>
 					<li>/</li>
-					<li><a href="api.html">JS API</a></li>
+					<li><a href="api.html" class="active">JS API</a></li>
 					<li>/</li>
 					<li><a href="gettingstarted.html">Get Started</a></li>
 				</ul>
@@ -34,6 +38,63 @@
 			<div class="clearfix"></div>
 			<div class="content">
 				<h1>Javascript API Docs</h1>
+				<h2 id="view-mode">View Methods</h2>
+				<section>
+					<h3>$.partial(name, data)</h3>
+					<pre class="javascript"><code>var str = $.partial("login", { username: 'bob', password: 'blah' });
+
+console.log(str);// &lt;input type='text' name='username' value='bob'/&gt;&lt;input type='password' name='password' value='blah'&gt;</code></pre>
+					<p>
+						Returns a string based on the partial template 'partial/<name>.erb' with <data> inserted.
+						Default templating engine is underscore's builtin templates.
+					</p>
+				</section>
+				<section>
+					<h3>$.when(event, callback)</h3>
+					<pre class="javascript"><code>$("#submit").when("click", function(){
+	alert('You submitted the form! Exciting!')
+});</code></pre>
+					<p>
+						$.when() automatically registers/unregisters your event handlers on DOM elements.
+						It is a proxy function for $.on() in jQuery.
+						As long as you use $.when(), you don't have to worry about leaving event handlers attached when a view changes.
+						DOM elements will never get held in memory by event handlers (an easy way to create memory leaks) or get double registered if a view loads twice.
+					</p>
+				</section>
+				<hr>
+				<h2 id="url-methods">URL Methods</h2>
+				<a href="#url-methods"></a>
+
+				<section>
+						<h3 id="$go">$.go(controller, opts)</h3>
+						<pre class="javascript"><code>$.go("user_profile", { username : "bob" });</code></pre>
+						<p>
+							Switch pages to the new controller and optional parameters.
+							This will change the current page hash, destroy the current view, and render the new view/controller.
+						</p>
+				</section>
+
+				<section>
+						<h3 id="$go">$.goReplace(controller, opts, isQuiet)</h3>
+						<pre class="javascript"><code>$.goReplace("user_profile", { username : "bob" });</code></pre>
+						<p>
+							Occasionally you will have a page that updated its state but the view hasn't changed.
+							You will still want to change the url to reflect the change to browser state (in case they reload the page).
+							$.goReplace() provide the functionality to update the hash with the current view being destroy/rebuilt.
+							The isQuiet parameter lets you decide if you want to add the new URL the browsers history.
+						</p>
+				</section>
+
+				<section>
+						<h3 id="$link">$.link(controller, opts)</h3>
+						<pre class="javascript"><code>var url = $.link("user_profile", { username : "bob" });
+console.log(url);// "#user-profile/bob"</code></pre>
+						<p>
+							Generates the proper URL for the controller and optional parameters.
+							Returns a string that can be outputted into a template or manipulated programmatically.
+							Based on route metadata provided to hasher.js via the routes.json file.
+						</p>
+				</section>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -51,86 +112,10 @@
 	</div>
 
 
-<h2>View Methods</h2>
-<a href="#view-methods"></a>
 
-<section>
-	<h3 id="$partial">$.partial(name, data)</h3>
-	<p>
-		Returns a string based on the partial template 'partial/<name>.erb' with <data> inserted.
-		Default templating engine is underscore's builtin templates.
-	</p>
-
-<pre>
-	var str = $.partial("login", { username: 'bob', password: 'blah' });
-	console.log(str);// &lt;input type='text' name='username' value='bob'/&gt;&lt;input type='password' name='password' value='blah'&gt;
-</pre>
-
-</section>
-
-<section>
-		<h3 id="$when">$.when(event, callback)</h3>
-		<p>
-			$.when() automatically registers/unregisters your event handlers on DOM elements.
-			It is a proxy function for $.on() in jQuery.
-			As long as you use $.when(), you don't have to worry about leaving event handlers attached when a view changes.
-			DOM elements will never get held in memory by event handlers (an easy way to create memory leaks) or get double registered if a view loads twice.
-		</p>
-
-	<pre>
-		$("#submit").when("click", function(){
-			alert('You submitted the form! Exciting!')
-		});
-	</pre>
-
-</section>
-
-<h2>URL Methods</h2>
-<a href="#url-methods"></a>
-
-<section>
-		<h3 id="$go">$.go(controller, opts)</h3>
-		<p>
-			Switch pages to the new controller and optional parameters.
-			This will change the current page hash, destroy the current view, and render the new view/controller.
-		</p>
-
-	<pre>
-		$.go("user_profile", { username : "bob" });
-	</pre>
-
-</section>
-
-<section>
-		<h3 id="$go">$.goReplace(controller, opts, isQuiet)</h3>
-		<p>
-			Occasionally you will have a page that updated its state but the view hasn't changed.
-			You will still want to change the url to reflect the change to browser state (in case they reload the page).
-			$.goReplace() provide the functionality to update the hash with the current view being destroy/rebuilt.
-			The isQuiet parameter lets you decide if you want to add the new URL the browsers history.
-		</p>
-
-	<pre>
-		$.goReplace("user_profile", { username : "bob" });
-	</pre>
-
-</section>
-
-<section>
-		<h3 id="$link">$.link(controller, opts)</h3>
-		<p>
-			Generates the proper URL for the controller and optional parameters.
-			Returns a string that can be outputted into a template or manipulated programmatically.
-			Based on route metadata provided to hasher.js via the routes.json file.
-		</p>
-
-	<pre>
-		var url = $.link("user_profile", { username : "bob" });
-		console.log(url);// "#user-profile/bob"
-	</pre>
-
-</section>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
 
 
 
