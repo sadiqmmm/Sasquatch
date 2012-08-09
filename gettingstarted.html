@@ -4,17 +4,37 @@
 </head>
 <body>
 	<h1>Getting Started</h1>
+	
 	<h2>Prerequisites</h2>
-	<p><a href="http://java.com/en/download/manual.jsp">Java (for closure compiler)</a></p>
-	<p><a href="http://www.ruby-lang.org/en/downloads/">Ruby (for compass)</a></p>
-	<p><a href="http://compass-style.org/install/">Compass</a></p>
+	<ol>
+		<li><a href="http://java.com/en/download/manual.jsp">Java</a>: 
+			Required for the Google Closure Compiler, used to minify CSS and Javascript in production builds.</li>
+			
+		<li><a href="http://www.ruby-lang.org/en/downloads/">Ruby</a>: 
+			Required for Compass Styling Framework.</li>
+		
+		<li><a href="http://compass-style.org/install/">Compass</a>: 
+			Required to support SCSS and advanced styling functionality.</li>
+	</ol>
+	
 	<h2>Install</h2>
-	<p>git clone https://github.com/ThoughtLeadr/Sasquatch.git</p>
-	<p>Go into the sasquatch directory and run "sudo python setup.py install"</p>
-
+	<p>Run the following commands from your terminal in a location where you'd like the Sasquatch Open Source project to reside on your system.</p>
+	<ol>
+		<li>git clone git@github.com:ThoughtLeadr/Sasquatch.git</li>
+		<li>cd Sasquatch</li>
+		<li>sudo python setup.py install</li>
+	</ol>
+	<p>Sasquatch is setup and ready to go!</p>
+	
 	<h2>Create an app</h2>
-	<p>"sasquatch create-project &lt;name&gt;"</p>
-	<p>Go into the project folder that was just created and run "sasquatch dev server"</p>
-	<p>Point your borwser at localhost:8000/bin</p>
+	<p>To create your first Sasquatch application, open up a terminal in a directory you'd like the project in.</p>
+	<ol>
+		<li>sasquatch create-project myproject</li>
+		<li>cd myproject</li>
+		<li>sasquatch dev server</li>
+	</ol>
+	<p>Open up your browser to localhost:8000/bin and you'll have see your very first Sasquatch Application.
+		To learn how to use all the functionality available in Sasquatch, you should check out our <a href="todo.html">Todo application</a>.</p>
+	
 </body>
 </html>
