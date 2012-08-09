@@ -1,18 +1,63 @@
 <html>
 <head>
-	<title>Sasquatch :: JS API</title>
+	<title>Sasquatch: Working like a beast without being seen</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/highlight.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<h1>Javascript API Docs</h1>
-	
+	<div class="topbar"></div>
+	<div class="wrap">
+		<div class="sidebar">
+			<a href="/" id="logo">
+				<img src="img/blinking-eyes.gif" alt="" class="blink">
+				<img src="img/sasquatch.png" alt="Sasquatch JS">
+			</a>
+		</div>
+		<div class="content-column">
+			<div class="menu">
+				<ul>
+					<li><a href="/" class="active">Home</a></li>
+					<li>/</li>
+					<li><a href="commandline.html">Commandline</a></li>
+					<li>/</li>
+					<li><a href="api.html">JS API</a></li>
+					<li>/</li>
+					<li><a href="gettingstarted.html">Get Started</a></li>
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+			<div class="content">
+				<h1>Javascript API Docs</h1>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="footer">
+			<p>
+				Copyright <a href="http://thoughtleadr.com/">ThoughtLeadr, Inc</a>, Sasquatch is a <a href="/trademark-policy.pdf">trademark</a> of ThoughtLeadr, Inc.
+			</p>
+			 <ul>
+				<li><a href="/" class="home">Home</a></li>
+				<li><a href="commandline.html" class="npm current">Commandline</a></li>
+				<li><a href="api.html" class="docs">JS API</a></li>
+				<li><a href="gettingstarted.html" class="blog">Get Started</a></li>
+			</ul>
+		</div>
+	</div>
+
 
 <h2>View Methods</h2>
 <a href="#view-methods"></a>
-	
+
 <section>
 	<h3 id="$partial">$.partial(name, data)</h3>
 	<p>
-		Returns a string based on the partial template 'partial/<name>.erb' with <data> inserted. 
+		Returns a string based on the partial template 'partial/<name>.erb' with <data> inserted.
 		Default templating engine is underscore's builtin templates.
 	</p>
 
@@ -33,11 +78,11 @@
 		</p>
 
 	<pre>
-		$("#submit").when("click", function(){ 
+		$("#submit").when("click", function(){
 			alert('You submitted the form! Exciting!')
 		});
 	</pre>
-	
+
 </section>
 
 <h2>URL Methods</h2>
@@ -53,7 +98,7 @@
 	<pre>
 		$.go("user_profile", { username : "bob" });
 	</pre>
-	
+
 </section>
 
 <section>
@@ -68,13 +113,13 @@
 	<pre>
 		$.goReplace("user_profile", { username : "bob" });
 	</pre>
-	
+
 </section>
 
 <section>
 		<h3 id="$link">$.link(controller, opts)</h3>
 		<p>
-			Generates the proper URL for the controller and optional parameters. 
+			Generates the proper URL for the controller and optional parameters.
 			Returns a string that can be outputted into a template or manipulated programmatically.
 			Based on route metadata provided to hasher.js via the routes.json file.
 		</p>
@@ -83,7 +128,7 @@
 		var url = $.link("user_profile", { username : "bob" });
 		console.log(url);// "#user-profile/bob"
 	</pre>
-	
+
 </section>
 
 

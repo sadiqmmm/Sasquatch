@@ -1,25 +1,90 @@
 <html>
 <head>
-	<title>Sasquatch :: Commandline Options</title>
-	<link rel="stylesheet" href="http://www.nodejs.org/api/assets/style.css">
-  <link rel="stylesheet" href="http://www.nodejs.org/api/assets/sh.css">
+	<title>Sasquatch: Working like a beast without being seen</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/highlight.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<h1>Commandline Options</h1>
-	<h3>$ sasquatch create-project &lt;name&gt;</h2>
-	<p>creates new project with a couple example views and controllers</p>
-	<h3>$ sasquatch create-view &lt;name&gt;</h2>
-	<p>creates empty view and controller with name</p>
-	<h3>$ sasquatch dev</h2>
-	<p>builds files into bin directory and watches for changes</p>
-	<h3>$ sasquatch dev server</h2>
-	<p>builds files into bin directory and watches for changes, also starts a simple server to serve files from localhost:8000/bin</p>
-	<h3>$ sasquatch dev once</h2>
-	<p>runs the dev build once and quits</p>
-	<h3>$ sasquatch prod</h2>
-	<p>creates production build minifing css and js (using closure compiler)</p>
-  <script src="http://www.nodejs.org/sh_main.js"></script>
-  <script src="http://www.nodejs.org/sh_javascript.min.js"></script>
-  <script>highlight(undefined, undefined, 'pre');</script>
+	<div class="topbar"></div>
+	<div class="wrap">
+		<div class="sidebar">
+			<a href="/" id="logo">
+				<img src="img/blinking-eyes.gif" alt="" class="blink">
+				<img src="img/sasquatch.png" alt="Sasquatch JS">
+			</a>
+		</div>
+		<div class="content-column">
+			<div class="menu">
+				<ul>
+					<li><a href="/" class="active">Home</a></li>
+					<li>/</li>
+					<li><a href="commandline.html">Commandline</a></li>
+					<li>/</li>
+					<li><a href="api.html">JS API</a></li>
+					<li>/</li>
+					<li><a href="gettingstarted.html">Get Started</a></li>
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+			<div class="content">
+				<h1>Commandline Options</h1>
+
+				<h3>Create New Project</h3>
+				<pre class="no-num"><code>$ sasquatch create-project &lt;name&gt;</code></pre>
+				<p>Creates new project with a couple example views and controllers.</p>
+
+				<hr>
+
+				<h3>Create View / Controller</h3>
+				<pre class="no-num"><code>$ sasquatch create-view &lt;name&gt;</code></pre>
+				<p>Creates empty view and controller with name.</p>
+
+				<hr>
+
+				<h3>Build Files and Watch for Changes</h3>
+				<pre class="no-num"><code>$ sasquatch dev</code></pre>
+				<p>Builds files into bin directory and watches for changes.</p>
+
+				<hr>
+
+				<h3>Build Files, Watch for Changes and Starts Server</h3>
+				<pre class="no-num"><code>$ sasquatch dev server</code></pre>
+				<p>Builds files into bin directory and watches for changes, also starts a simple server to serve files from localhost:8000/bin .</p>
+
+				<hr>
+
+				<h3>Build Files Once</h3>
+				<pre class="no-num"><code>$ sasquatch dev once</code></pre>
+				<p>Runs the dev build once and quits.</p>
+
+				<hr>
+
+				<h3>Build Minified CSS/JS</h3>
+				<pre class="no-num"><code>$ sasquatch prod</code></pre>
+				<p>Creates production build minifing css and js (using closure compiler).</p>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="footer">
+			<p>
+				Copyright <a href="http://thoughtleadr.com/">ThoughtLeadr, Inc</a>, Sasquatch is a <a href="/trademark-policy.pdf">trademark</a> of ThoughtLeadr, Inc.
+			</p>
+			 <ul>
+				<li><a href="/" class="home">Home</a></li>
+				<li><a href="commandline.html" class="npm current">Commandline</a></li>
+				<li><a href="api.html" class="docs">JS API</a></li>
+				<li><a href="gettingstarted.html" class="blog">Get Started</a></li>
+			</ul>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
 </body>
 </html>

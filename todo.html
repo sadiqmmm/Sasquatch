@@ -1,95 +1,348 @@
 <html>
 <head>
 	<title>Sasquatch :: Commandline Options</title>
-	<link rel="stylesheet" href="http://www.nodejs.org/api/assets/style.css">
-  <link rel="stylesheet" href="http://www.nodejs.org/api/assets/sh.css">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/highlight.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<h1>Sample Todo App</h1>
-<section>
-	<h3 id="create-project">Create the project</h3>
-	<p>
-		First thing we want to do is create a new project. we can do this by typing into the console:
-	</p>
+	<div class="topbar"></div>
+	<div class="wrap">
+		<div class="sidebar">
+			<a href="/" id="logo">
+				<img src="img/blinking-eyes.gif" alt="" class="blink">
+				<img src="img/sasquatch.png" alt="Sasquatch JS">
+			</a>
+			<ul class="submenu">
+				<li>Create Project</li>
+				<li>Project Structure</li>
+				<li>template.html</li>
+				<li>Create a New View/Controller</li>
+				<li>Your First View</li>
+				<li>Your First Controller</li>
+				<li>Create a view to make a todo list</li>
+				<li>Create the todo view</li>
+				<li>Showing All Todo Lists</li>
+			</ul>
+		</div>
+		<div class="content-column">
+			<div class="menu">
+				<ul>
+					<li><a href="/" class="active">Home</a></li>
+					<li>/</li>
+					<li><a href="commandline.html">Commandline</a></li>
+					<li>/</li>
+					<li><a href="api.html">JS API</a></li>
+					<li>/</li>
+					<li><a href="gettingstarted.html">Get Started</a></li>
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+			<div class="content">
+			<h1>Sample Todo App</h1>
+			<section>
+				<h3 id="create-project">Create the project</h3>
+				<p>
+					First thing we want to do is create a new project. we can do this by typing into the console:
+				</p>
+				<pre class="no-num"><code>sasquatch create-project todo</code></pre>
+			</section>
+			<section>
+				<h3 id="file-struct">Project Structure</h3>
+				<p>
+					Entering into the newly created directory you will see your newly create project with a file structure like this:
+				</p>
+				<pre class="no-num"><code>
+- todo
+  - controller/
+  - view/
+  - partial/
+  - lib/
+  - img/
+  - style/
+  - app.json
+  - config.json
+  - routes.json
+  - template.html
+</code></pre>
+			</section>
+			<section>
+				<h3 id="template">template.html</h3>
+				<p>
+					Go ahead and open the template.html file in your favorite text editor. You will see your basic template file with a few for loops that place your css and js files into the webpage. Also some basic html with a body tage that has one div in it with a class content.
+				</p>
+				<p>
+					If you also open the config.json file you can see a simple json file with two keys, "rootElement" and "defaultView", rootElement is the selector for where you want to insert your views into the template file. The second is the defaultView it will use when loading the root of the project. Change this to "todo".
+				</p>
+			</section>
+			<section>
+				<h3 id="create-view">Create a New View/Controller</h3>
+				<p>
+					Next we would like to create our first view and controller. The can be done by typing the following into the console, in the root of your project.
+				</p>
+<pre class="no-num"><code>sasquatch create-view index</code></pre>
+				<p>This creates two files, one in the "view" directory called "index.erb" and another in the controller directory called "index.js"</p>
+			</section>
+			<section>
+				<h3 id="todo-view">Your First View</h3>
+				<p>
+					Go to the view directory and you will see your newly created index.erb file. You will also see another file, second.erb, you can delete it is just a sample file.
+				</p>
+				<p>
+					Opening the todo.erb file it will be blank, type some html into the file and save it.
+				</p>
+			</section>
+			<section>
+				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the controller index, and the second maps the route second/ with an optional tag ":heading:" to the controller second. You can delete the second route as it is an example and we will not be using it.</p>
+				<p>Next run:</p>
+				<pre class="no-num"><code>sasquatch dev server</code></pre>
+				<p>This commands does a dev build, puts an observer on your project folder for file changes, and starts up a server running you app at localhost:8000/bin/. Navigating there will show the html you put into index.erb</p>
+			</section>
+			<section>
+				<h3 id="todo-cont">Your First Controller</h3>
+				<p>
+					The "create-view" command also creates a new controller, you can find your new controller in the controller directory. It is the same name as the view, open index.js in you favorite text editor. You will also see one other file, second.js, you can delete that as it is just sample a file.
+				</p>
+				<p>
+					Controllers have three main function. The first is the loadData, function. This is where you can get all the parameters you
+					defined in routes and where you assign local variables that your view can use. loadData has two paramters,
+					the first is an object with the named parameters you defined in your routes and the second is a callback
+					function where you return an object of local variables used in the corresponding view (index.erb)
+				</p>
+				<p>Go ahead and add a key and value to the callback like so:</p>
+<pre class="javascript"><code>
+exports.loadData = function(data, callback){
+  console.log("view ready:todo");
+  callback({
+    heading: "My first todo app"
+  });
+};
+</code></pre>
+        <p>Now switch back to index.erb in your views directory and add:</p>
+<pre class="html"><code>
+&lt;h2&gt;&lt;%= heading %&gt;&lt;/h2&gt;
+</code></pre>
+        <p>Reload your browser and you should now see "My first todo app" as a heading on your view (remember to have "sasquatch dev server" running)</p>
+			</section>
+			<section>
+				<h3 id="new-todo">Create a view to make a todo list</h3>
+				<p>Create another view and controller called "new-todo"</p>
+				<pre class="no-num"><code>sasquatch create-view new-todo</code></pre>
+				<p>First thing we need to do is hook up our new view and controller to the routes. Open routes.json and add a new route. Your routes should now look something like this"</p>
+<pre class="javascript"><code>
+{
+	"" : {
+		"controller" : "index"
+	},
+	"todo/new" : {
+	  "controller" : "new-todo"
+	}
+}
+</code></pre>
+        <p>Lets also add some logic to the new-todo.js controller we just created:</p>
+<pre class="javascript"><code>
+exports.loadData = function(data, callback){
+    callback({
+			heading: "Create a New Todo List"
+		});
+};
 
-	<pre>
-		<code>sasquatch create-project todo</code>
-	</pre>
-</section>
-<section>
-	<h3 id="file-struct">Project Structure</h3>
-	<p>
-		Entering into the newly created directory you will see your newly create project with a file structure like this:
-	</p>
-	<pre>
-		- todo
-		  - controller/
-		  - view/
-		  - partial/
-		  - lib/
-		  - img/
-		  - style/
-		  - app.json
-		  - config.json
-		  - routes.json
-		  - template.html
-	</pre>
-</section>
-<section>
-	<h3 id="template">template.html</h3>
-	<p>
-		Go ahead and open the template.html file in your favorite text editor. You will see your basic template file with a few for loops that place your css and js files into the webpage. Also some basic html with a body tage that has one div in it with a class content.
-	</p>
-	<p>
-		If you also open the config.json file you can see a simple json file with two keys, "rootElement" and "defaultView", rootElement is the selector for where you want to insert your views into the template file. The second is the defaultView it will use when loading the root of the project. Change this to "todo".
-	</p>
-</section>
-<section>
-	<h3 id="create-view">Create a New View/Controller</h3>
-	<p>
-		Next we would like to create our first view and controller. The can be done by typing the following into the console, in the root of your project.
-	</p>
-	<pre>
-		<code>sasquatch create-view todo</code>
-	</pre>
-	<p>This creates two files, one in the "view" directory called "todo.erb" and another in the controller directory called "todo.js"</p>
-</section>
-<section>
-	<h3 id="todo-view">Your First View</h3>
-	<p>
-		Go to the view directory and you will see your newly created todo.erb file. You will also see two other files, index.erb and second.erb, you can delete those as they are just sample files.
-	</p>
-	<p>
-		Opening the todo.erb file it will be blank, type some html into the file and save it.
-	</p>
-</section>
-<section>
-	<p>Next in the root of the project open routes.json. You will see some sample routes already there. 
-	<pre>
-		<code>
-			sasquatch dev server
-		</code>
-	</pre>
-	<p>
-		Opening the todo.erb file it will be blank, type some html into the file and save it. Now run this is the root of your project;
-	</p>
-</section>
-<section>
-	<h3 id="todo-cont">Your First Controller</h3>
-	<p>
-		Go ahead and go to the controller directory and open todo.js in you favorite text editor. You will also see two other file, index.js and second.js, you can delete those as they are just sample files.
-	</p>
-	<p>
+exports.onReady = function(){
+	$('#new_todo').when('submit', function(e) {
+		e.preventDefault();
+		var todo_name = $('.todo_name').val()
+		Services.addTodo(todo_name, function(result) {
+			$.goReplace('todo', {name:todo_name});
+		});
+	});
+};
 
-	</p>
-	<pre>
-		<code>
-			
-		</code>
-	</pre>
-</section>
-  <script src="http://www.nodejs.org/sh_main.js"></script>
-  <script src="http://www.nodejs.org/sh_javascript.min.js"></script>
-  <script>highlight(undefined, undefined, 'pre');</script>
+exports.onFinished = function(){
+    console.log("view exiting:todo-new");
+};
+</code></pre>
+      <p>We also need to add some logic to our view new-todo.erb:</p>
+<pre class="html"><code>
+&lt;h1&gt;&lt;%= heading %&gt;&lt;/h1&gt;
+&lt;form id="new_todo"&gt;
+  &lt;label for="todo_name"&gt;Todo List Name&lt;/label&gt;
+	&lt;input type="text" name="todo_name" class="todo_name"&gt;&lt;/input&gt;
+	&lt;button type="submit" name="create_todo" class="create_todo"&gt;Create Todo&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+      <p>
+				You may have noticed in the controller code the weird "Services.addTodo" function call. With Sasquatch we like to move all our database/data calls to a "services" layer, similar to a model.
+				These files a kept in the /lib directory. Lets create a services.js file in the /lib directory and put some logic in there for creating a todo list/
+			</p>
+<pre class="javascript"><code>
+Services = {
+	todos: {},
+	addTodo: function(todo_name, callback) {
+		var todo = Services.createNewTodo(todo_name);
+		callback(todo);
+	},
+	createNewTodo: function(name) {
+		Services.todos[name] = {
+			tasks: []
+		};
+		return Services.todos[name];
+	}
+}
+</code></pre>
+        <p>We create a new object called Services and add a new function to it called addTodo that takes the todo_name and a callback function. We also call another services function that actually creates the todo object and stores it in Services.todos</p>
+				<p>Also in the todo-new.js controller there was another weird function used call $.goReplace. This function is used to make the webapp go to a new hash/route, while replacing the current hash in the history stack.
+				It takes two params, the first is the controller it should reroute to, and the second is the data it should pass along with that call. This currently does not work beacuse we need to to create the new view and controller that displays our newly created todo list</p>
+			</section>
+			<section>
+				<h3 id="todo">Create the todo view</h3>
+				<p>The last controller and view we are going to make is the todo view where we can add tasks to our todo list</p>
+				<pre class="no-num"><code>sasquatch create-view todo</code></pre>
+				<p>Adding the logic to the newly created todo.js</p>
+<pre class="javascript"><code>
+exports.loadData = function(data, callback){
+	Services.getTodo(data.name, function(tasks) {
+		callback({
+			name: data.name,
+			tasks: tasks
+		});
+	});
+};
+
+exports.onReady = function(){
+	$('#new_task').when('submit', function(e) {
+		e.preventDefault();
+		var todo = $('.todo_name').val();
+		var task = $('.task').val();
+
+		Services.addTask(todo, task, function(result) {
+			console.log(result)
+			var partial = $.partial('task', {task:task, pos:result.pos});
+			$('.task_list').append(partial);
+		});
+		$('#new_task input.task').val('');
+		return false;
+	});
+
+	$('.task_list').when('click', 'li', function() {
+		var self = this;
+		var task = $(this).attr('index');
+		var todo = $(this).closest('ul').attr('todo');
+		Services.completeTask(todo, task, function(result) {
+			$(self).remove();
+			$('.task_list li').each(function(i, v) {
+				$(this).attr('index', i);
+			});
+		});
+	});
+};
+
+exports.onFinished = function(){
+    console.log("view exiting:todo");
+};
+</code></pre>
+        <p>Wooo, you say, thats alot of stuff. First we have a new Services function that we call in the loadData phase,
+					this makes a call with the todo list name, fetching it and returning it in the callback function we passed.
+					This in turn calls the callback function to the loadData function letting the framework know we are done loading data and it can go ahead and render the template.</p>
+				<p>The code in the onLoad function is fairly straight forward, we create two events that use the "when" method that is almost exactly the same as jQuery's "on" method.
+					The only difference is it automatically unbinds the event with jQuery's "off" method when the page changes.
+					In those two events we call the Services layer again, on to add a task to the todo list and another to remove a task from the todo list. To finish this code, lets add the three new Services.</p>
+<pre class="javascript"><code>
+getTodo: function(todo_name, callback) {
+  var todo = Services.todos[todo_name];
+  callback(todo ? todo.tasks : []);
+},
+addTask: function(todo, task, callback) {
+  Services.todos[todo].tasks.push(task);
+  callback({success:true, pos:Services.todos[todo].tasks.length - 1});
+},
+completeTask: function(todo, task, callback) {
+  Services.todos[todo].tasks.splice(task, 1);
+  callback({success:true});
+}
+</code></pre>
+        <p>We also need to setup our new route, open routes.json and add a new route. This time we are going to use a special pattern that will add a required parameter to the route, which then can be used in the loadData function of the controller, (which we already setup the logic for)</p>
+<pre class="javascript"><code>
+{
+	"" : {
+		"controller" : "index"
+	},
+	"todo/new" : {
+	  "controller" : "new-todo"
+	},
+	"todo/{name}" : {
+		"controller" : "todo"
+	}
+}
+</code></pre>
+        <p>Adding the {name} makes the route need a parameter after the todo/ and it is stored in the data object of loadData in our controller.</p>
+				<p>To round things off we need to add the HTML to the view todo.erb</p>
+<pre class="html"><code>
+&lt;h1&gt;Todo: &lt;%= name %&gt;&lt;/h1&gt;
+&lt;ul class="task_list" todo="&lt;%= name %&gt;"&gt;
+&lt;% _.each(tasks, function(task, i) { %&gt;
+	 &lt;%= $.partial('task', {task:task, pos:i}) %&gt;
+&lt;% }); %&gt;
+&lt;/ul&gt;
+
+&lt;form id="new_task"&gt;
+  &lt;label for="task"&gt;Add Task&lt;/label&gt;
+	&lt;input type="text" name="task" class="task"&gt;&lt;/input&gt;
+	&lt;input type="hidden" value="&lt;%= name %&gt;" name="todo_name" class="todo_name"&gt;&lt;/input&gt;
+	&lt;button class="add_task" type="submit"&gt;Add Task&lt;/submit&gt;
+&lt;/form&gt;
+</code></pre>
+        <p>The great thing about sasquatch views is you can use any javascript you have in the lib folder</p>
+				<p>You may also see we used a new function you have never seen, the "$.partial" function. This allows you to call and render a partial in the /partial folder in the root of the project.
+					It takes two parameters, the first is the name of the partial and the second is a data object of local variables.
+					Create a new file called task.erb in the partial folder that looks like this.
+				</p>
+<pre class="html"><code>
+&lt;li index="&lt;%= pos %&gt;">&lt;%= task %&gt;&lt;/li&gt;
+</code></pre>
+			</section>
+			<section>
+				<h3 id="back-index">Showing All Todo Lists</h3>
+				<p>Lastly lets go back to index.erb and add some logic in to list all the todo lists made:</p>
+<pre class="javascript"><code>
+exports.loadData = function(data, callback){
+	Services.listTodos(function(todos) {
+		callback({
+			heading: "My Simple Todo App",
+			todos: todos
+		});
+	});
+};
+</code></pre>
+       <p>We simply added a services call with a callback that returns all the todos, then added this to the local variables so we can get them in our view. Now add another function to Services.</p>
+<pre class="javascript"><code>
+listTodos: function(callback) {
+  callback(Services.todos);
+}
+</code></pre>
+      <p>And the new edit view should look like:</p>
+<pre class="html"><code>
+&lt;h2&gt;&lt;%= heading %&gt;&lt;/h2&gt;
+&lt;a href="#/todo/new"&gt;Create new Todo&lt;/a&gt;
+&lt;ul&gt;
+	&lt;h3&gt;Todos:&lt;/h3&gt;
+	&lt;% _.each(todos, function(v, k) { %&gt;
+	  &lt;li&gt;&lt;a href="#/todo/&lt;%= k %&gt;"&gt;&lt;%= k %&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;% }); %&gt;
+&lt;/ul&gt;
+</code></pre>
+      <p>We now have a functioning todo list, go back to localhost:8000/bin and see for yourself!</p>
+    </section>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
+	<script src="js/submenu.js"></script>
 </body>
 </html>
