@@ -121,7 +121,7 @@ def dev():
         PORT = 8000
         server = SimpleHTTPServer.SimpleHTTPRequestHandler
         httpd = SocketServer.TCPServer(("", PORT), server)
-        print "serving at port", PORT
+        print "serving at http://localhost:%d/bin" % PORT
         try:
             while True:
                 httpd.serve_forever(poll_interval=0.1)
