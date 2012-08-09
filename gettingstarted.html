@@ -1,6 +1,14 @@
 <html>
 <head>
 	<title>Sasquatch :: Getting Started</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/highlight.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
 	<h1>Getting Started</h1>
@@ -20,21 +28,26 @@
 	<h2>Install</h2>
 	<p>Run the following commands from your terminal in a location where you'd like the Sasquatch Open Source project to reside on your system.</p>
 	<ol>
-		<li>git clone git@github.com:ThoughtLeadr/Sasquatch.git</li>
-		<li>cd Sasquatch</li>
-		<li>sudo python setup.py install</li>
+		<li><pre class="no-num"><code>git clone git@github.com:ThoughtLeadr/Sasquatch.git</code></pre></li>
+		<li><pre class="no-num"><code>cd Sasquatch</code></pre></li>
+		<li><pre class="no-num"><code>sudo python setup.py install</code></pre></li>
 	</ol>
 	<p>Sasquatch is setup and ready to go!</p>
 	
 	<h2>Create an app</h2>
 	<p>To create your first Sasquatch application, open up a terminal in a directory you'd like the project in.</p>
 	<ol>
-		<li>sasquatch create-project myproject</li>
-		<li>cd myproject</li>
-		<li>sasquatch dev server</li>
+		<li><pre class="no-num"><code>sasquatch create-project myproject</code></pre></li>
+		<li><pre class="no-num"><code>cd myproject</code></pre></li>
+		<li><pre class="no-num"><code>sasquatch dev server</code></pre></li>
 	</ol>
 	<p>Open up your browser to localhost:8000/bin and you'll have see your very first Sasquatch Application.
 		To learn how to use all the functionality available in Sasquatch, you should check out our <a href="todo.html">Todo application</a>.</p>
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
 	
 </body>
 </html>
