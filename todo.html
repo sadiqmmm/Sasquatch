@@ -86,40 +86,48 @@
 				<p>
 					If you also open the config.json file you can see a json file with two keys, "rootElement" and "defaultView". "rootElement" is the jQuery selector for where you want to insert your views into the template file. Note that it is set to ".content" which matches the DIV from the template.html file. The second property is "defaultView", which refers to what controller/view combination should be loaded up and rendered when a user first visits the webapp. For now, change this to "todo".
 				</p>
-			</section>
+			</section>  
 			<section>
 				<h3 id="create-view">Create a New View/Controller</h3>
 				<p>
 					Views and controllers are the heart of Sasquatch. They implement the business logic of the application and render changes to the HTML Document. We would like to create our first view and controller. This can be done by typing the following into the console from the root of your project.
 				</p>
-<pre class="no-num"><code>sasquatch create-view index</code></pre>
-				<p>This creates two files, one in the "view" directory called "index.erb" and another in the controller directory called "index.js"</p>
+<pre class="no-num"><code>sasquatch create-view todo</code></pre>
+				<p>This creates two files, one in the "view" directory called "todo.erb" and another in the controller directory called "todo.js"</p>
 			</section>
 			<section>
 				<h3 id="todo-view">Your First View</h3>
 				<p>
-					Go to the view directory and you will see your newly created index.erb file. You will also see another file, second.erb, you can delete it is just a sample file.
+					Go to the view directory and you will see your newly created todo.erb file. You will also see another file, second.erb, you can delete it is just a sample file.
 				</p>
 				<p>
-					Upon opening the todo.erb file, you notice its blank. Sasquatch isn't that good. You will need to provide some html of your own to render on the page.
+					Upon opening the todo.erb file, you notice its blank. Sasquatch isn't that good. You will need to provide some html of your own to render on the page. Toss this into todo.erb:
 				</p>
+				<pre class="no-num"><code> &lt;h1&gt; Hello Sasquatch! &lt;/h1&gt; </code></pre>
 			</section>
 			<section>
-				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the controller index, and the second maps the route second/ with an optional tag ":heading:" to the controller second. You can delete the second route as it is an example and we will not be using it.</p>
-				<p>Next run:</p>
+				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the index controller. The second route maps "second/:heading:" to the second controller. The ":heading:" part is an optional route parameter. Required route parameters look like "{heading}". The parameters get injected into your controller so you can use them at runtime. For now, you can delete the second route and change teh controller on the first route to "todo". Your routes.json file should now look like this:</p>
+				<pre class="no-num"><code>{
+	"" : {
+		"controller" : "todo"
+	}
+}</code></pre>
+				<p>You are now set to preview your first Sasquatch view. Run the following from the root of your project:</p>
 				<pre class="no-num"><code>sasquatch dev server</code></pre>
-				<p>This commands does a dev build, puts an observer on your project folder for file changes, and starts up a server running you app at localhost:8000/bin/. Navigating there will show the html you put into index.erb</p>
+				<p>This commands does three useful things. First, it creates a development build of the application that is easy to debug (easy to debug). Second, a file watcher is added the project files that will automatically recompile the application when you make changes. Third, it boots up a local development server at localhost:8000/bin/ so you can test your application. Navigating there to see the Hello Sasquatch heading.</p>
 			</section>
 			<section>
 				<h3 id="todo-cont">Your First Controller</h3>
 				<p>
-					The "create-view" command also creates a new controller, you can find your new controller in the controller directory. It is the same name as the view, open index.js in you favorite text editor. You will also see one other file, second.js, you can delete that as it is just sample a file.
+					The "create-view" command also creates a controller by the same name as the view. You can find your controller in the appropriately named "controller" directory. Open controller/todo.js in you favorite text editor. You will also see one other file, second.js, you can delete that as it is just sample a file.
 				</p>
 				<p>
-					Controllers have three main function. The first is the loadData, function. This is where you can get all the parameters you
-					defined in routes and where you assign local variables that your view can use. loadData has two paramters,
-					the first is an object with the named parameters you defined in your routes and the second is a callback
-					function where you return an object of local variables used in the corresponding view (index.erb)
+					Controllers are written using the CommonJS module pattern. 
+					Controller modules are expected to "export" three specific functions for Sasquatch.
+					The first function is the "loadData". 
+					In this function, you get all the parameters you defined in the routes.json file which is often used to load remote data. 
+					"loadData" recieves two arguments, the first is an object with the named parameters you defined in your routes.json file. 
+					The second argument is a callback function where you provide a data object used to power the view templating (todo.erb)
 				</p>
 				<p>Go ahead and add a key and value to the callback like so:</p>
 <pre class="javascript"><code>
@@ -130,7 +138,7 @@ exports.loadData = function(data, callback){
   });
 };
 </code></pre>
-        <p>Now switch back to index.erb in your views directory and add:</p>
+        <p>Now switch back to todo.erb in your view directory and replace the previous HTML with this text:</p>
 <pre class="html"><code>
 &lt;h2&gt;&lt;%= heading %&gt;&lt;/h2&gt;
 </code></pre>
