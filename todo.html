@@ -94,24 +94,26 @@
 				<p>
 					Views and controllers are the heart of Sasquatch. They implement the business logic of the application and render changes to the HTML Document. We would like to create our first view and controller. This can be done by typing the following into the console from the root of your project.
 				</p>
-<pre class="no-num"><code>sasquatch create-view todo</code></pre>
-				<p>This creates two files, one in the "view" directory called "todo.erb" and another in the controller directory called "todo.js"</p>
+<pre class="no-num"><code>sasquatch create-view index</code></pre>
+				<p>This creates two files, one in the "view" directory called "index.erb" and another in the controller directory called "index.js"</p>
 			</section>
 			<section>
 				<h2 id="your-first-view">Your First View</h2>
 				<p>
-					Go to the view directory and you will see your newly created todo.erb file. You will also see another file, second.erb, you can delete it is just a sample file.
+					Go to the view directory and you will see your newly created index.erb file. You will also see another file, second.erb, you can delete it is just a sample file.
 				</p>
 				<p>
-					Upon opening the todo.erb file, you notice its blank. Sasquatch isn't that good. You will need to provide some html of your own to render on the page. Toss this into todo.erb:
+					Upon opening the index.erb file, you notice its blank. Sasquatch isn't that good. You will need to provide some html of your own to render on the page. Toss this into index.erb:
 				</p>
 				<pre class="no-num"><code> &lt;h1&gt; Hello Sasquatch! &lt;/h1&gt; </code></pre>
 			</section>
 			<section>
-				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the index controller. The second route maps "second/:heading:" to the second controller. The ":heading:" part is an optional route parameter. Required route parameters look like "{heading}". The parameters get injected into your controller so you can use them at runtime. For now, you can delete the second route and change teh controller on the first route to "todo". Your routes.json file should now look like this:</p>
+				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the index controller. The second route maps "second/:heading:" to the second controller. The ":heading:" part is an optional route parameter. Required route parameters look like "{heading}". The parameters get injected into your controller so you can use them at runtime. 
+				</p>
+				<p>For now, you can delete the second route. Your routes.json file should now look like this:</p>
 				<pre class="no-num"><code>{
 	"" : {
-		"controller" : "todo"
+		"controller" : "index"
 	}
 }</code></pre>
 				<p>You are now set to preview your first Sasquatch view. Run the following from the root of your project:</p>
@@ -121,7 +123,7 @@
 			<section>
 				<h2 id="your-first-controller">Your First Controller</h2>
 				<p>
-					The "create-view" command also creates a controller by the same name as the view. You can find your controller in the appropriately named "controller" directory. Open controller/todo.js in you favorite text editor. You will also see one other file, second.js, you can delete that as it is just sample a file.
+					The "create-view" command also creates a controller by the same name as the view. You can find your controller in the appropriately named "controller" directory. Open controller/index.js in you favorite text editor. You will also see one other file, second.js, you can delete that as it is just sample a file.
 				</p>
 				<p>
 					Controllers are written using the CommonJS module pattern.
@@ -140,7 +142,7 @@ exports.loadData = function(data, callback){
   });
 };
 </code></pre>
-        <p>Now switch back to todo.erb in your view directory and replace the previous HTML with this text:</p>
+        <p>Now switch back to index.erb in your view directory and replace the previous HTML with this text:</p>
 <pre class="html"><code>
 &lt;h2&gt;&lt;%= heading %&gt;&lt;/h2&gt;
 </code></pre>
@@ -150,7 +152,9 @@ exports.loadData = function(data, callback){
 				<h2 id="create-view">Create a view to make a todo list</h2>
 				<p>Create another view and controller called "new-todo"</p>
 				<pre class="no-num"><code>sasquatch create-view new-todo</code></pre>
-				<p>First thing we need to do is hook up our new view and controller to the routes. Open routes.json and add a new route. Your routes should now look something like this"</p>
+				<p>First thing we need to do is hook up our new view and controller to the routes. 
+					Open routes.json and add a new route. 
+					Your routes should now look something like this:</p>
 <pre class="javascript"><code>
 {
 	"" : {
@@ -183,7 +187,11 @@ exports.onFinished = function(){
     console.log("view exiting:todo-new");
 };
 </code></pre>
-      <p>We also need to add some logic to our view new-todo.erb:</p>
+      <p>The templating system for Sasquatch is underscore's template method. 
+		  You can interpolate any javascript you'd like into the template including strings or numbers passed into the loadData callback.
+	  </p>
+	  
+	  <p>We need to add some logic to our view new-todo.erb, toss this in there:</p>
 <pre class="html"><code>
 &lt;h1&gt;&lt;%= heading %&gt;&lt;/h1&gt;
 &lt;form id="new_todo"&gt;
@@ -193,9 +201,15 @@ exports.onFinished = function(){
 &lt;/form&gt;
 </code></pre>
       <p>
-				You may have noticed in the controller code the weird "Services.addTodo" function call. With Sasquatch we like to move all our database/data calls to a "services" layer, similar to a model.
-				These files a kept in the /lib directory. Lets create a services.js file in the /lib directory and put some logic in there for creating a todo list/
-			</p>
+		You may have noticed in the controller code we had a call to a function called "Services.addTodo".
+		Sasquatch is backend agnostic, meaning you can structure your webservice calls anway you'd like.
+		Whether you are using jQuery's builtin ajax methods or Socket.IO, Sasquatch tries to let you do things anyway you'd like.
+	</p>
+	<p>
+		For this example, we're using a simple service interface available under the "Services" namespace.
+		Lets create the library file for this inside the "lib" directory.
+		Name the file "services.js" and add the following logic to manage the Todo model:
+	 </p>
 <pre class="javascript"><code>
 Services = {
 	todos: {},
@@ -211,8 +225,7 @@ Services = {
 	}
 }
 </code></pre>
-        <p>We create a new object called Services and add a new function to it called addTodo that takes the todo_name and a callback function. We also call another services function that actually creates the todo object and stores it in Services.todos</p>
-				<p>Also in the todo-new.js controller there was another weird function used call $.goReplace. This function is used to make the webapp go to a new hash/route, while replacing the current hash in the history stack.
+        <p>Also in the new-todo.js controller there was another function used call $.goReplace. This function is used to make the webapp go to a new hash/route, while replacing the current hash in the history stack.
 				It takes two params, the first is the controller it should reroute to, and the second is the data it should pass along with that call. This currently does not work beacuse we need to to create the new view and controller that displays our newly created todo list</p>
 			</section>
 			<section>
@@ -265,9 +278,9 @@ exports.onFinished = function(){
         <p>Wooo, you say, thats alot of stuff. First we have a new Services function that we call in the loadData phase,
 					this makes a call with the todo list name, fetching it and returning it in the callback function we passed.
 					This in turn calls the callback function to the loadData function letting the framework know we are done loading data and it can go ahead and render the template.</p>
-				<p>The code in the onLoad function is fairly straight forward, we create two events that use the "when" method that is almost exactly the same as jQuery's "on" method.
+				<p>The code in the onLoad function is fairly straight forward, we create two events that use the "$.when" method which is exactly the same as jQuery's "$.on" method.
 					The only difference is it automatically unbinds the event with jQuery's "off" method when the page changes.
-					In those two events we call the Services layer again, on to add a task to the todo list and another to remove a task from the todo list. To finish this code, lets add the three new Services.</p>
+					In those two events we call the Services layer again, one to add a task to the todo list and another to remove a task from the todo list. To finish this code, lets add the three new Services.</p>
 <pre class="javascript"><code>
 getTodo: function(todo_name, callback) {
   var todo = Services.todos[todo_name];
@@ -353,6 +366,7 @@ listTodos: function(callback) {
 &lt;/ul&gt;
 </code></pre>
       <p>We now have a functioning todo list, go back to localhost:8000/bin and see for yourself!</p>
+	  <p>If you'd like a completed version of the project you can find it on <a href="https://github.com/ThoughtLeadr/Sasquatch">Github</a>.</p>
     </section>
 		</div>
 	</div>
