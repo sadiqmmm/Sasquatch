@@ -885,7 +885,7 @@ td { vertical-align: top; }
 		display: block;
 		margin-bottom: 37px;
 	}
-	.sidebar ul.submenu {
+	.sidebar ul.submenu. .sidebar ul.submenu-top {
 		display: none;
 	}
 	.content-column {
@@ -986,13 +986,6 @@ td { vertical-align: top; }
 		color: #aaa;
 		text-align: center;
 		width: 100%;
-	}
-}
-
-/* iPhone 4 ----------- */
-@media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {
-	.wrap {
-		background: red;
 	}
 }
 
