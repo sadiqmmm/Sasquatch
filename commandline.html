@@ -23,10 +23,10 @@
 			<ul class="submenu">
 				<li><a href="#create-new-project">Create New Project</a></li>
 				<li><a href="#create-view-controller">Create View / Controller</a></li>
-				<li><a href="#build-watch">Build Files + Watch for Changes</a></li>
-				<li><a href="#build-watch-server">Build + Watch + Start Server</a></li>
-				<li><a href="#build-files-once">Build Once</a></li>
-				<li><a href="#build-minified">Build Minified (CSS/JS)</a></li>
+				<li><a href="#build-watch">Automatic Development Build</a></li>
+				<li><a href="#build-watch-server">Automatic Development Build + Server</a></li>
+				<li><a href="#build-files-once">Development Build</a></li>
+				<li><a href="#build-minified">Production Build</a></li>
 			</ul>
 		</div>
 		<div class="content-column">
@@ -67,25 +67,25 @@
 
 				<hr>
 
-				<h2 id="build-watch">Build Files and Watch for Changes</h2>
+				<h2 id="build-watch">Automatic Development Build</h2>
 				<pre class="no-num"><code>$ sasquatch dev</code></pre>
 				<p>Builds files into bin directory and watches for changes.</p>
 
 				<hr>
 
-				<h2 id="build-watch-server">Build Files, Watch for Changes and Starts Server</h2>
+				<h2 id="build-watch-server">Automatic Development Build + HTTP Server</h2>
 				<pre class="no-num"><code>$ sasquatch dev server</code></pre>
 				<p>Builds files into bin directory and watches for changes, also starts a simple server to serve files from localhost:8000/bin .</p>
 
 				<hr>
 
-				<h2 id="build-files-once">Build Files Once</h2>
+				<h2 id="build-files-once">Development Build</h2>
 				<pre class="no-num"><code>$ sasquatch dev once</code></pre>
 				<p>Runs the dev build once and quits.</p>
 
 				<hr>
 
-				<h2 id="build-minified">Build Minified CSS/JS</h2>
+				<h2 id="build-minified">Production Build</h2>
 				<pre class="no-num"><code>$ sasquatch prod</code></pre>
 				<p>Creates production build minifing css and js (using closure compiler).</p>
 			</div>
