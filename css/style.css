@@ -834,7 +834,7 @@ td { vertical-align: top; }
 }
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
-@media only screen and (max-width: 479px), only screen and (-webkit-min-device-pixel-ratio: 2) {
+@media only screen and (max-width: 479px) {
 	h1 {
 		color: #35344c;
 		font-size: 24px;
