@@ -1,5 +1,5 @@
 $(function() {
-	var top = $('.submenu').offset().top - parseFloat($('.submenu').css('margin-top').replace(/auto/, 0));
+	var top = $('.submenu, .submenu-top').offset().top - parseFloat($('.submenu, .submenu-top').css('margin-top').replace(/auto/, 0));
 	$(window).scroll(function (event) {
 	  // what the y position of the scroll is
 	  var y = $(this).scrollTop();
@@ -7,10 +7,10 @@ $(function() {
 	  // whether that's below
 	  if (y >= top) {
 		// if so, ad the fixed class
-		$('.submenu').addClass('fixed');
+		$('.submenu, .submenu-top').addClass('fixed');
 	  } else {
 		// otherwise remove it
-		$('.submenu').removeClass('fixed');
+		$('.submenu, .submenu-top').removeClass('fixed');
 	  }
 	});
 });

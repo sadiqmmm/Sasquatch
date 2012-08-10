@@ -20,9 +20,22 @@
 				<img src="img/blinking-eyes.gif" alt="" class="blink">
 				<img src="img/sasquatch.png" alt="Sasquatch JS">
 			</a>
-			<ul class="submenu">
-				<li><a href="#view-mode">View Methods</a></li>
-				<li><a href="#url-methods">URL Methods</a></li>
+			<ul class="submenu-top">
+				<li>
+					<a href="#view-mode">View Methods</a>
+					<ul>
+						<li><a href="#partial" title="$.partial( )">$.partial( )</a></li>
+						<li><a href="#when" title="$.when( )">$.when( )</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#url-methods">URL Methods</a>
+					<ul>
+						<li><a href="#go" title="$.go( )">$.go( )</a></li>
+						<li><a href="#go-replace" title="$.goReplace( )">$.goReplace( )</a></li>
+						<li><a href="#link" title="$.link( )">$.link( )</a></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 		<div class="content-column">
@@ -52,7 +65,7 @@
 				<h1>Javascript API Docs</h1>
 				<h2 id="view-mode">View Methods</h2>
 				<section>
-					<h3>$.partial(name, data)</h3>
+					<h3 id="partial">$.partial(name, data)</h3>
 					<pre class="javascript"><code>var str = $.partial("login", { username: 'bob', password: 'blah' });
 
 console.log(str);// &lt;input type='text' name='username' value='bob'/&gt;&lt;input type='password' name='password' value='blah'&gt;</code></pre>
@@ -62,7 +75,7 @@ console.log(str);// &lt;input type='text' name='username' value='bob'/&gt;&lt;in
 					</p>
 				</section>
 				<section>
-					<h3>$.when(event, callback)</h3>
+					<h3 id="when">$.when(event, callback)</h3>
 					<pre class="javascript"><code>$("#submit").when("click", function(){
 	alert('You submitted the form! Exciting!')
 });</code></pre>
@@ -78,7 +91,7 @@ console.log(str);// &lt;input type='text' name='username' value='bob'/&gt;&lt;in
 				<a href="#url-methods"></a>
 
 				<section>
-						<h3 id="$go">$.go(controller, opts)</h3>
+						<h3 id="go">$.go(controller, opts)</h3>
 						<pre class="javascript"><code>$.go("user_profile", { username : "bob" });</code></pre>
 						<p>
 							Switch pages to the new controller and optional parameters.
@@ -87,7 +100,7 @@ console.log(str);// &lt;input type='text' name='username' value='bob'/&gt;&lt;in
 				</section>
 
 				<section>
-						<h3 id="$go">$.goReplace(controller, opts, isQuiet)</h3>
+						<h3 id="go-replace">$.goReplace(controller, opts, isQuiet)</h3>
 						<pre class="javascript"><code>$.goReplace("user_profile", { username : "bob" });</code></pre>
 						<p>
 							Occasionally you will have a page that updated its state but the view hasn't changed.
@@ -98,7 +111,7 @@ console.log(str);// &lt;input type='text' name='username' value='bob'/&gt;&lt;in
 				</section>
 
 				<section>
-						<h3 id="$link">$.link(controller, opts)</h3>
+						<h3 id="link">$.link(controller, opts)</h3>
 						<pre class="javascript"><code>var url = $.link("user_profile", { username : "bob" });
 console.log(url);// "#user-profile/bob"</code></pre>
 						<p>
@@ -129,6 +142,7 @@ console.log(url);// "#user-profile/bob"</code></pre>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
 	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
+	<script src="js/submenu.js"></script>
 	<script src="js/mobile-nav.js"></script>
 </body>
 </html>

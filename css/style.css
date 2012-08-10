@@ -236,7 +236,7 @@ td { vertical-align: top; }
 /* #Media Queries
 ================================================== */
 
-  /* Biggest */
+/* Computers, Big Monitors. Anything above 960px */
 @media only screen and (min-width: 960px) {
 	h1 {
 		color: #35344c;
@@ -288,7 +288,11 @@ td { vertical-align: top; }
 		display: block;
 		margin-bottom: 37px;
 	}
-	.sidebar ul.submenu {
+	.sidebar ul.fixed {
+		position: fixed;
+		top: 0;
+	}
+	.sidebar ul.submenu-top {
 		margin-top: 10px;
 		font-family: 'Oswald', sans-serif;
 		list-style: none;
@@ -296,9 +300,55 @@ td { vertical-align: top; }
 		width: 300px;
 		padding: 0px;
 	}
-	.sidebar ul.fixed {
-		position: fixed;
-		top: 0;
+	.sidebar ul.submenu-top li {
+		background: url('../img/sub-menu-bg2.png') no-repeat;
+		background-position: 0 -70px;
+		width: 86.666666667%; /* 260px / 300  */
+		color: #888;
+		cursor: pointer;
+		font-size: 19px;
+		margin-bottom: 10px;
+	}
+	.sidebar ul.submenu-top li a {
+		height: 29px;
+		display: block;
+		width: 100%; /* 251px / 300 */
+		color: #f4f4f4;
+		padding: 6px 0 0 3.585657371%; /* 6px 0 0 9px || 9 / 251 */
+		text-decoration: none;
+	}
+	.sidebar ul.submenu-top a:hover {
+		color: #f4f4f4;
+	}
+	.sidebar ul.submenu-top li:hover {
+		color: #f4f4f4;
+		/*background-position: 0 -70px;*/
+	}
+	.sidebar ul.submenu-top li ul {
+		list-style: none;
+	}
+	.sidebar ul.submenu-top li ul li {
+		background: url(../img/sub-menu-sub-menu-bg.png) no-repeat;
+		width: 100%;
+		height: 34px;
+		background-position: 0 0;
+	}
+	.sidebar ul.submenu-top li ul li a {
+		padding-top: 5px;
+		color: #888;
+	}
+	.sidebar ul.submenu-top li ul li:hover {
+		background-position: 0 -34px;
+	}
+
+
+	.sidebar ul.submenu {
+		margin-top: 10px;
+		font-family: 'Oswald', sans-serif;
+		list-style: none;
+		font-weight: 300;
+		width: 300px;
+		padding: 0px;
 	}
 	.sidebar ul.submenu li {
 		background: url('../img/sub-menu-bg2.png') no-repeat;
@@ -465,16 +515,17 @@ td { vertical-align: top; }
 		display: block;
 		margin-bottom: 37px;
 	}
+	.sidebar ul.fixed {
+		position: fixed;
+		width: 213px;
+		top: 0;
+	}
 	.sidebar ul.submenu {
 		margin-top: 10px;
 		font-family: 'Oswald', sans-serif;
 		list-style: none;
 		font-weight: 300;
 		padding: 0px;
-	}
-	.sidebar ul.fixed {
-		position: fixed;
-		top: 0;
 	}
 	.sidebar ul.submenu li {
 		width: 100%; /* 260px / 300  */
@@ -503,6 +554,52 @@ td { vertical-align: top; }
 		background-position: 0 -35px;
 		/*background-position: 0 -70px;*/
 	}
+
+	.sidebar ul.submenu-top {
+		widows: 223px;
+		margin-top: 10px;
+		font-family: 'Oswald', sans-serif;
+		list-style: none;
+		font-weight: 300;
+		padding: 0px;
+	}
+	.sidebar ul.submenu-top li {
+		width: 100%; /* 260px / 300  */
+		color: #888;
+		cursor: pointer;
+		font-size: 18px; /* 77% */
+		margin-bottom: 10px;
+	}
+	.sidebar ul.submenu-top li a {
+		/*height: 29px;*/
+		display: block;
+		background: #fff url('../img/sub-menu-bg.png') no-repeat;
+		background-position: 0 -66px;
+		border: 1px solid #e5e5e5;
+		width: 100%;
+		color: #f4f4f4;
+		padding: 5px 0 3px 3.585657371%; /* 6px 0 0 9px || 9 / 251 */
+		text-decoration: none;
+	}
+	.sidebar ul.submenu-top li ul {
+		list-style-type: none;
+	}
+	.sidebar ul.submenu-top li ul li a{
+		background-position: 0 0px;
+		padding-top: 4px;
+		color: #888;
+	}
+	.sidebar ul.submenu-top li ul li a:hover {
+		color: #f4f4f4;
+		background: #e0334a url('../img/sub-menu-bg.png') no-repeat 0 -33px;
+		border: 1px solid #e0334a;
+	}
+	.sidebar ul.submenu-top li ul li:hover {
+		color: #f4f4f4;
+		background-position: 0 -35px;
+		/*background-position: 0 -70px;*/
+	}
+
 	.content-column {
 		float: left;
 		width: 64.583333333%; /* 620px */
@@ -632,7 +729,7 @@ td { vertical-align: top; }
 		display: block;
 		margin-bottom: 37px;
 	}
-	.sidebar ul.submenu {
+	.sidebar ul.submenu, .sidebar ul.submenu-top {
 		display: none;
 	}
 	.content-column {
@@ -737,7 +834,7 @@ td { vertical-align: top; }
 }
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
-@media only screen and (max-width: 479px) {
+@media only screen and (max-width: 479px), only screen and (-webkit-min-device-pixel-ratio: 2) {
 	h1 {
 		color: #35344c;
 		font-size: 24px;
