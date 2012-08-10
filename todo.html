@@ -68,7 +68,7 @@
 				<p>
 					First thing we want to do is create a new project. We can do this by typing into the console:
 				</p>
-				<pre class="no-num"><code>sasquatch create-project todo</code></pre>
+				<pre class="command"><code>$ sasquatch create-project todo</code></pre>
 				<p>
 					A directory called todo will be created containing a skeleton project.
 				</p>
@@ -95,10 +95,10 @@
 			<section>
 				<h2 id="template">template.html</h2>
 				<p>
-					Go ahead and open the template.html file in your favorite text editor. You will see your django template file with a few for loops that output css and javascript tags into the webpage. In addition, there is a basic webpage structure with a HEAD, BODY, and DIV with a class of <em>content</em>. The DIV with a class of <em>content</em> is important, its the location on this basic webpage that will hold all the of views rendered by the Sasquatch MVC framework. For now, don't worry too much about it. Just understand that Sasquatch renders all its HTML views and outputs them into that DIV.
+					Go ahead and open the <span class="mono">template.html</span> file in your favorite text editor. You will see your django template file with a few for loops that output CSS and JavaScript tags into the webpage. In addition, there is a basic webpage structure with a <span class="mono">HEAD</span>, <span class="mono">BODY</span>, and <span class="mono">DIV</span> with a class of <em>content</em>. The <span class="mono">DIV</span> with a class of <em>content</em> is important, it's the location on this basic webpage that will hold all the of views rendered by the Sasquatch MVC framework. For now, don't worry too much about it. Just understand that Sasquatch renders all its HTML views and outputs them into that <span class="mono">DIV</span>.
 				</p>
 				<p>
-					If you also open the config.json file you can see a json file with two keys, "rootElement" and "defaultView". "rootElement" is the jQuery selector for where you want to insert your views into the template file. Note that it is set to ".content" which matches the DIV from the template.html file. The second property is "defaultView", which refers to what controller/view combination should be loaded up and rendered when a user first visits the webapp. For now, change this to "todo".
+					If you also open the config.json file you can see a json file with two keys, <span class="mono">rootElement</span> and <span class="mono">defaultView</span>. The <span class="mono">rootElement</span> jQuery selector is used where you want to insert your views into the template file. Note that it is set to <span class="mono">.content</span> which matches the <span class="mono">DIV</span> from the <span class="mono">template.html</span> file. The second property is <span class="mono">defaultView</span>, which refers to what controller/view combination should be loaded up and rendered when a user first visits the webapp. For now, change this to "todo".
 				</p>
 			</section>
 			<section>
@@ -106,8 +106,8 @@
 				<p>
 					Views and controllers are the heart of Sasquatch. They implement the business logic of the application and render changes to the HTML Document. We would like to create our first view and controller. This can be done by typing the following into the console from the root of your project.
 				</p>
-<pre class="no-num"><code>sasquatch create-view index</code></pre>
-				<p>This creates two files, one in the "view" directory called "index.erb" and another in the controller directory called "index.js"</p>
+<pre class="command"><code>$ sasquatch create-view index</code></pre>
+				<p>This creates two files, one in the <span class="mono">view/</span> directory called <span class="mono">index.erb</span> and another in the controller directory called <span class="mono">index.js</span></p>
 			</section>
 			<section>
 				<h2 id="your-first-view">Your First View</h2>
@@ -115,35 +115,35 @@
 					Go to the view directory and you will see your newly created index.erb file. You will also see another file, second.erb, you can delete it is just a sample file.
 				</p>
 				<p>
-					Upon opening the index.erb file, you notice its blank. Sasquatch isn't that good. You will need to provide some html of your own to render on the page. Toss this into index.erb:
+					Upon opening the <span class="mono">index.erb</span> file, you notice it's blank. Sasquatch isn't that good. You will need to provide some HTML of your own to render on the page. Toss this into <span class="mono">index.erb</span>:
 				</p>
 				<pre class="no-num"><code> &lt;h1&gt; Hello Sasquatch! &lt;/h1&gt; </code></pre>
 			</section>
 			<section>
-				<p>In the root of the project open routes.json. You will see some sample routes already there. The first one maps the base route to the index controller. The second route maps "second/:heading:" to the second controller. The ":heading:" part is an optional route parameter. Required route parameters look like "{heading}". The parameters get injected into your controller so you can use them at runtime.
+				<p>In the root of the project open <span class="mono">routes.json</span>. You will see some sample routes already there. The first one maps the base route to the index controller. The second route maps <span class="mono">second/:heading:</span> to the second controller. The <span class="mono">:heading:</span> part is an optional route parameter. Required route parameters look like <span class="mono">{heading}</spann>. The parameters get injected into your controller so you can use them at runtime.
 				</p>
-				<p>For now, you can delete the second route. Your routes.json file should now look like this:</p>
+				<p>For now, you can delete the second route. Your <span class="mono">routes.json</span> file should now look like this:</p>
 				<pre class="no-num"><code>{
 	"" : {
 		"controller" : "index"
 	}
 }</code></pre>
 				<p>You are now set to preview your first Sasquatch view. Run the following from the root of your project:</p>
-				<pre class="no-num"><code>sasquatch dev server</code></pre>
-				<p>This commands does three useful things. First, it creates a development build of the application that is easy to debug (easy to debug). Second, a file watcher is added the project files that will automatically recompile the application when you make changes. Third, it boots up a local development server at <span class="mono">localhost:8000/bin/</span> so you can test your application. Navigating there to see the Hello Sasquatch heading.</p>
+				<pre class="command"><code>$ sasquatch dev server</code></pre>
+				<p>This commands does three useful things. First, it creates a development build of the application that is easy to debug (easy to debug). Second, a file watcher is added the project files that will automatically recompile the application when you make changes. Third, it boots up a local development server at <span class="mono">localhost:8000/bin/</span> so you can test your application. Navigate there to see the Hello Sasquatch heading.</p>
 			</section>
 			<section>
 				<h2 id="your-first-controller">Your First Controller</h2>
 				<p>
-					The "create-view" command also creates a controller by the same name as the view. You can find your controller in the appropriately named "controller" directory. Open controller/index.js in you favorite text editor. You will also see one other file, second.js, you can delete that as it is just sample a file.
+					The <span class="mono">create-view</span> command also creates a controller by the same name as the view. You can find your controller in the appropriately named <span class="mono">controller</span> directory. Open <span class="mono">controller/index.js</span> in you favorite text editor. You will also see one other file, <span class="mono">second.js</span>, you can delete that as it is just sample a file.
 				</p>
 				<p>
 					Controllers are written using the CommonJS module pattern.
 					Controller modules are expected to "export" three specific functions for Sasquatch.
-					The first function is the "loadData".
-					In this function, you get all the parameters you defined in the routes.json file which is often used to load remote data.
-					"loadData" recieves two arguments, the first is an object with the named parameters you defined in your routes.json file.
-					The second argument is a callback function where you provide a data object used to power the view templating (todo.erb)
+					The first function is the <span class="mono">loadData</span>.
+					In this function, you get all the parameters you defined in the <span class="mono">routes.json</span> file which is often used to load remote data.
+					<span class="mono">loadData</span> recieves two arguments, the first is an object with the named parameters you defined in your <span class="mono">routes.json</span> file.
+					The second argument is a callback function where you provide a data object used to power the view templating (<span class="mono">todo.erb</span>)
 				</p>
 				<p>Go ahead and add a key and value to the callback like so:</p>
 <pre class="javascript"><code>
@@ -154,18 +154,18 @@ exports.loadData = function(data, callback){
   });
 };
 </code></pre>
-        <p>Now switch back to index.erb in your view directory and replace the previous HTML with this text:</p>
+        <p>Now switch back to <span class="mono">index.erb</span> in your view directory and replace the previous HTML with this text:</p>
 <pre class="html"><code>
 &lt;h2&gt;&lt;%= heading %&gt;&lt;/h2&gt;
 </code></pre>
-        <p>Reload your browser and you should now see "My first todo app" as a heading on your view (remember to have "sasquatch dev server" running)</p>
+        <p>Reload your browser and you should now see "My first todo app" as a heading on your view (remember to have <span class="mono">sasquatch dev server</span> running)</p>
 			</section>
 			<section>
 				<h2 id="create-view">Create a view to make a todo list</h2>
-				<p>Create another view and controller called "new-todo"</p>
-				<pre class="no-num"><code>sasquatch create-view new-todo</code></pre>
+				<p>Create another view and controller called <span class="mono">new-todo</span></p>
+				<pre class="command"><code>$ sasquatch create-view new-todo</code></pre>
 				<p>First thing we need to do is hook up our new view and controller to the routes.
-					Open routes.json and add a new route.
+					Open <span class="mono">routes.json</span> and add a new route.
 					Your routes should now look something like this:</p>
 <pre class="javascript"><code>
 {
@@ -177,7 +177,7 @@ exports.loadData = function(data, callback){
 	}
 }
 </code></pre>
-        <p>Lets also add some logic to the new-todo.js controller we just created:</p>
+        <p>Let's also add some logic to the <span class="mono">new-todo.js</span> controller we just created:</p>
 <pre class="javascript"><code>
 exports.loadData = function(data, callback){
     callback({
@@ -200,10 +200,10 @@ exports.onFinished = function(){
 };
 </code></pre>
       <p>The templating system for Sasquatch is underscore's template method.
-		  You can interpolate any javascript you'd like into the template including strings or numbers passed into the loadData callback.
+		  You can interpolate any JavaScript you'd like into the template including strings or numbers passed into the <span class="mono">loadData</span> callback.
 	  </p>
 
-	  <p>We need to add some logic to our view new-todo.erb, toss this in there:</p>
+	  <p>We need to add some logic to our view <span class="mono">new-todo.erb</span>, toss this in there:</p>
 <pre class="html"><code>
 &lt;h1&gt;&lt;%= heading %&gt;&lt;/h1&gt;
 &lt;form id="new_todo"&gt;
@@ -213,14 +213,14 @@ exports.onFinished = function(){
 &lt;/form&gt;
 </code></pre>
       <p>
-		You may have noticed in the controller code we had a call to a function called "Services.addTodo".
+		You may have noticed in the controller code we had a call to a function called <span class="mono">Services.addTodo</span>.
 		Sasquatch is backend agnostic, meaning you can structure your webservice calls anway you'd like.
-		Whether you are using jQuery's builtin ajax methods or Socket.IO, Sasquatch tries to let you do things anyway you'd like.
+		Whether you are using jQuery's built-in AJAX methods or Socket.IO, Sasquatch tries to let you do things anyway you'd like.
 	</p>
 	<p>
 		For this example, we're using a simple service interface available under the "Services" namespace.
-		Lets create the library file for this inside the "lib" directory.
-		Name the file "services.js" and add the following logic to manage the Todo model:
+		Let's create the library file for this inside the "lib" directory.
+		Name the file <span class="mono">services.js</span> and add the following logic to manage the Todo model:
 	 </p>
 <pre class="javascript"><code>
 Services = {
@@ -237,14 +237,14 @@ Services = {
 	}
 }
 </code></pre>
-        <p>Also in the new-todo.js controller there was another function used call $.goReplace. This function is used to make the webapp go to a new hash/route, while replacing the current hash in the history stack.
+        <p>Also in the <span class="mono">new-todo.js</span> controller there was another function used call <span class="mono">$.goReplace</span>. This function is used to make the webapp go to a new hash/route, while replacing the current hash in the history stack.
 				It takes two params, the first is the controller it should reroute to, and the second is the data it should pass along with that call. This currently does not work beacuse we need to to create the new view and controller that displays our newly created todo list</p>
 			</section>
 			<section>
 				<h2 id="create-todo-view">Create the todo view</h2>
 				<p>The last controller and view we are going to make is the todo view where we can add tasks to our todo list</p>
-				<pre class="no-num"><code>sasquatch create-view todo</code></pre>
-				<p>Adding the logic to the newly created todo.js</p>
+				<pre class="command"><code>$ sasquatch create-view todo</code></pre>
+				<p>Adding the logic to the newly created <span class="mono">todo.js</span></p>
 <pre class="javascript"><code>
 exports.loadData = function(data, callback){
 	Services.getTodo(data.name, function(tasks) {
@@ -287,12 +287,12 @@ exports.onFinished = function(){
     console.log("view exiting:todo");
 };
 </code></pre>
-        <p>Wooo, you say, thats alot of stuff. First we have a new Services function that we call in the loadData phase,
+        <p>"Wooo!" you say, that's a lot of stuff. First we have a new Services function that we call in the <span class="mono">loadData</span> phase,
 					this makes a call with the todo list name, fetching it and returning it in the callback function we passed.
-					This in turn calls the callback function to the loadData function letting the framework know we are done loading data and it can go ahead and render the template.</p>
-				<p>The code in the onLoad function is fairly straight forward, we create two events that use the "$.when" method which is exactly the same as jQuery's "$.on" method.
+					This in turn calls the callback function to the <span class="mono">loadData</span> function letting the framework know we are done loading data and it can go ahead and render the template.</p>
+				<p>The code in the onLoad function is fairly straight forward, we create two events that use the <span class="mono">$.when</span> method which is exactly the same as jQuery's <span class="mono">$.on</span> method.
 					The only difference is it automatically unbinds the event with jQuery's "off" method when the page changes.
-					In those two events we call the Services layer again, one to add a task to the todo list and another to remove a task from the todo list. To finish this code, lets add the three new Services.</p>
+					In those two events we call the Services layer again, one to add a task to the todo list and another to remove a task from the todo list. To finish this code, let's add the three new Services.</p>
 <pre class="javascript"><code>
 getTodo: function(todo_name, callback) {
   var todo = Services.todos[todo_name];
@@ -307,7 +307,7 @@ completeTask: function(todo, task, callback) {
   callback({success:true});
 }
 </code></pre>
-        <p>We also need to setup our new route, open routes.json and add a new route. This time we are going to use a special pattern that will add a required parameter to the route, which then can be used in the loadData function of the controller, (which we already setup the logic for)</p>
+        <p>We also need to setup our new route, open <span class="mono">routes.json</span> and add a new route. This time we are going to use a special pattern that will add a required parameter to the route, which then can be used in the <span class="mono">loadData</span> function of the controller, (which we already setup the logic for)</p>
 <pre class="javascript"><code>
 {
 	"" : {
@@ -321,8 +321,8 @@ completeTask: function(todo, task, callback) {
 	}
 }
 </code></pre>
-        <p>Adding the {name} makes the route need a parameter after the todo/ and it is stored in the data object of loadData in our controller.</p>
-				<p>To round things off we need to add the HTML to the view todo.erb</p>
+        <p>Adding the <span class="mono">{name}</span> makes the route need a parameter after the <span class="mono">todo/</span> and it is stored in the data object of <span class="mono">loadData</span> in our controller.</p>
+				<p>To round things off we need to add the HTML to the view <span class="mono">todo.erb</span></p>
 <pre class="html"><code>
 &lt;h1&gt;Todo: &lt;%= name %&gt;&lt;/h1&gt;
 &lt;ul class="task_list" todo="&lt;%= name %&gt;"&gt;
@@ -338,10 +338,10 @@ completeTask: function(todo, task, callback) {
 	&lt;button class="add_task" type="submit"&gt;Add Task&lt;/submit&gt;
 &lt;/form&gt;
 </code></pre>
-        <p>The great thing about sasquatch views is you can use any javascript you have in the lib folder</p>
-				<p>You may also see we used a new function you have never seen, the "$.partial" function. This allows you to call and render a partial in the /partial folder in the root of the project.
+        <p>The great thing about Sasquatch views is you can use any JavaScript you have in the <span class="mono">lib</span> folder</p>
+				<p>You may also see we used a new function you have never seen, the <span class="mono">$.partial</span> function. This allows you to call and render a partial in the <span class="mono">/partial</span> folder in the root of the project.
 					It takes two parameters, the first is the name of the partial and the second is a data object of local variables.
-					Create a new file called task.erb in the partial folder that looks like this.
+					Create a new file called <span class="mono">task.erb</span> in the partial folder that looks like this.
 				</p>
 <pre class="html"><code>
 &lt;li index="&lt;%= pos %&gt;">&lt;%= task %&gt;&lt;/li&gt;
@@ -349,7 +349,7 @@ completeTask: function(todo, task, callback) {
 			</section>
 			<section>
 				<h2 id="show-all-todo-lists">Showing All Todo Lists</h2>
-				<p>Lastly lets go back to index.erb and add some logic in to list all the todo lists made:</p>
+				<p>Lastly let's go back to <span class="mono">index.erb</span> and add some logic in to list all the todo lists made:</p>
 <pre class="javascript"><code>
 exports.loadData = function(data, callback){
 	Services.listTodos(function(todos) {
@@ -360,7 +360,7 @@ exports.loadData = function(data, callback){
 	});
 };
 </code></pre>
-       <p>We simply added a services call with a callback that returns all the todos, then added this to the local variables so we can get them in our view. Now add another function to Services.</p>
+       <p>We simply added a Services call with a callback that returns all the todos, then added this to the local variables so we can get them in our view. Now add another function to Services.</p>
 <pre class="javascript"><code>
 listTodos: function(callback) {
   callback(Services.todos);
