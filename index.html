@@ -8,6 +8,8 @@
 	<!-- Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic' rel='stylesheet' type='text/css'>
+
+	<link rel="shortcut icon" href="favicon.gif" type="image/x-icon" />
 </head>
 <body>
 	<div class="topbar"></div>
@@ -20,7 +22,14 @@
 		</div>
 		<div class="content-column">
 			<div class="menu">
-				<span class="drop_menu">Menu</span>
+				<select name="sections" id="drop_menu">
+					<option value="navigation">Navigation</option>
+					<option value="index.html">Home</option>
+					<option value="commandline.html">Commandline</option>
+					<option value="api.html">JS API</option>
+					<option value="gettingstarted.html">Get Started</option>
+					<option value="todo.html">Tutorial</option>
+				</select>
 				<ul>
 					<li><a href="index.html" class="active">Home</a></li>
 					<li>/</li>
@@ -89,8 +98,9 @@
 		</div>
 	</div>
 
-		<script src="http://nodejs.org/sh_main.js"></script>
- 	   <script src="http://nodejs.org/sh_javascript.min.js"></script>
-  	   <script>highlight(undefined, undefined, 'pre');</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
+	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
+	<script src="js/mobile-nav.js"></script>
 </body>
 </html>

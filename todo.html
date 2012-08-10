@@ -9,6 +9,8 @@
 	<!-- Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic' rel='stylesheet' type='text/css'>
+
+	<link rel="shortcut icon" href="favicon.gif" type="image/x-icon" />
 </head>
 <body>
 	<div class="topbar"></div>
@@ -32,6 +34,14 @@
 		</div>
 		<div class="content-column">
 			<div class="menu">
+				<select name="sections" id="drop_menu">
+					<option value="navigation">Navigation</option>
+					<option value="index.html">Home</option>
+					<option value="commandline.html">Commandline</option>
+					<option value="api.html">JS API</option>
+					<option value="gettingstarted.html">Get Started</option>
+					<option value="todo.html">Tutorial</option>
+				</select>
 				<ul>
 					<li><a href="index.html">Home</a></li>
 					<li>/</li>
@@ -389,5 +399,6 @@ listTodos: function(callback) {
 	<script src="http://thoughtleadr.github.com/Sasquatch/js/highlight.js"></script>
 	<script src="http://thoughtleadr.github.com/Sasquatch/js/script.js"></script>
 	<script src="js/submenu.js"></script>
+	<script src="js/mobile-nav.js"></script>
 </body>
 </html>
