@@ -1022,6 +1022,12 @@ h1, h2, h3 {
 		box-shadow: none;
 		border: 1px solid #ccc;
 		border-left: 40px solid #2a2a3d;
+
+		-moz-border-top-colors: #ccc;
+		-moz-border-bottom-colors: #ccc;
+		-moz-border-right-colors: #ccc;
+		-moz-border-left-colors: rgba(42, 42, 61, 1);
+
 		overflow: visible;
 	}
 	.sh_emacs pre.sh_sourcecode {
