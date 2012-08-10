@@ -989,6 +989,14 @@ td { vertical-align: top; }
 	}
 }
 
+/* iPhone 4 ----------- */
+@media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {
+	.wrap {
+		background: red;
+	}
+}
+
+
 
 /* Common Styles
 ========================================================= */
